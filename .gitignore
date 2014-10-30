@@ -1,0 +1,8 @@
+*.rar
+*.exe
+/garrysmod/*
+/books/*
+/downloads/*
+/xcache/*
+/resource/*
+/dbcon.php
