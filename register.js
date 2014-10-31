@@ -157,7 +157,7 @@ function runReg()
 						break;
 					case "S":
 						datToDisplay = "<b>Success! You will be redirected to the home page.</b>";
-						$('head').append('<meta http-equiv="refresh" content="3; url=http://vadweb.us/" />');
+						$('head').append('<meta http-equiv="refresh" content="3; url=http://www.vadweb.us/" />');
 						noWriteClose = true;
 						success = true;
 						break;
@@ -174,7 +174,7 @@ function runReg()
 		error:
 			function()
 			{
-				$('#ajax-panel').html('<p class="error"><strong>Oops! Registration failed! Potential server issue.</strong> Try that again in a few moments.</p>');
+				$('#ajax-panel').html('<p class="error"><strong>Oops! Registration failed! Potential serious server issue.</strong> Try that again in a few moments. <br>If issues persist contact us.</p>');
 			}
 	});
 	

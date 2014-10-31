@@ -34,7 +34,10 @@ define("VIEW_PHP", 2);
 //TODO Add filesize tracking in mysql? or at least print it in files.php
 //TODO name randomization
 //TODO display file permissions in files.php
-
+//TODO track source of clicks by using SERVER["HTML SOURCE OR WHATEVER IT IS"]
+//TODO Fix issue of redirects from loggin in; make sure its obvious that registration/login was successful
+//TODO if server accessed without www, redirect to www?
+//TODO Add file alt tags for search engine, in general improve search engine apprearance
 class File
 {
     public $name, $nameNoEXT, $extension, $type, $size, $absPath;
