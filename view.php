@@ -60,11 +60,32 @@
 
     logFileView($result[0]["File_ID"], NULL, NULL, VIEW_PHP);
 
+    $nameArray = explode(".", $filename);
+    $extension = strtolower(end($nameArray));
+
     if ($result[0]["Type"] == File::$types["PICTURE"])
     {
-        echo "<a href='file.php?name=".$filename."'>";
-        echo "<img src='file.php?name=".$filename."' style='width: 100%;'></img>"; 
+        if (isset($_GET["r"]))
+            echo "<a href='file.php?name=".$filename."&r'>";
+        else
+            echo "<a href='file.php?name=".$filename."'>";
+
+        if (isset($_GET["r"]))
+            echo "<img src='file.php?name=".$filename."&r' style='width: 100%;' alt='vadweb image upload creation user " . getUsername($result[0]["User_ID"]) . " quality'></img>"; 
+        else
+            echo "<img src='file.php?name=".$filename."' style='width: 100%;' alt='vadweb image upload creation user " . getUsername($result[0]["User_ID"]) . " quality'></img>"; 
         echo "</a>";
+    }
+    else if ($result[0]["Type"] == File::$types["MOVIE"])
+    {
+        echo '<video id="movie" src="file.php?name='.$filename.'" controls></video>';
+        //first figure out what file extension
+        //then base on that to embed as different things
+        /*if ($extension == "mov")
+        {
+            echo '<video id="sampleMovie" src="file.php?name='.$filename.'" controls></video>';
+        }*/
+
     }
     else if ($result[0]["Type"] == File::$types["FLASH"])
     {

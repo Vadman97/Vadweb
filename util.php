@@ -35,9 +35,20 @@ define("VIEW_PHP", 2);
 //TODO name randomization
 //TODO display file permissions in files.php
 //TODO track source of clicks by using SERVER["HTML SOURCE OR WHATEVER IT IS"]
-//TODO Fix issue of redirects from loggin in; make sure its obvious that registration/login was successful
+//TODO Fix issue of redirects from loggin in; make sure its obvious that registration/login was successful (especially when loggin in)
 //TODO if server accessed without www, redirect to www?
 //TODO Add file alt tags for search engine, in general improve search engine apprearance
+//TODO After uploading redirect user to file he uploaded
+//TODO get ssl
+//TODO improve about page photo alt tags
+
+//TODO upload timeout for files, only x per hour per account/IP
+//TODO specific user blocking
+//TODO NSFW tags/blocking
+//TODO user filtration
+//TODO User share / block when uploading
+//TODO User settings for filtering certain users/innapropriate files
+//TODO Read files.php in pages of n files
 class File
 {
     public $name, $nameNoEXT, $extension, $type, $size, $absPath;
@@ -110,16 +121,12 @@ class UploadedFile extends File
     }
     public function validateFileForErrors()
     {
-        if (strlen($this->name) > 100)
-            $this->uploadError = 20;
         if ($this->size > FILE_SIZE_LIMIT)
             $this->uploadError = 21;
-        if (sizeof(explode(".", $this->name)) > 2)
-            $this->uploadError = 22;
         if ($this->size == 0)
-            $this->uploadError = 23;
-        if (sizeof(explode("'", $this->name)) > 1)
-            $this->uploadError = 24;
+            $this->uploadError = 22;
+        if (strlen($this->name) > 100 || sizeof(explode(".", $this->name)) > 2 || sizeof(explode("'", $this->name)) > 1)
+            $this->nameNoEXT = generateRandomLetterString(8);
     }
     public function evaluatePerms()
     {
@@ -178,6 +185,33 @@ class UploadedFile extends File
     }
 }
 
+function getExtension($name)
+{
+    $nameArray = explode(".", $name);
+    $extension = strtolower(end($nameArray));
+    return $extension;
+}
+
+function generateRandomString($length = 10) 
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $randomString;
+}
+
+function generateRandomLetterString($length = 10) 
+{
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $randomString;
+}
+
 function printNavBarForms($fileToRedir = NULL)
 {
     if (isset($fileToRedir) and !empty($fileToRedir))
@@ -223,7 +257,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     /*if (!isLoggedIn())
         return false;
     else
-        return true;*/
+    return true;*/
 
     $sql = SQLCon::getSQL();
     if ($filename == NULL || empty($filename))
@@ -237,17 +271,17 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     
     //if (getCurrentUserID() == $uploadUID) return true; //allows one to see his own posts, cant blcks oneself from seeing own posts
     $minGroup = substr($perm, strpos($perm, "+G(") + 3, 1);
-    $unlisted = strpos($perm, "-&");
+        $unlisted = strpos($perm, "-&");
 
-    if ($action == LISTING_MODE)
-    {
-        if ($unlisted == true)
-            return false;
-    }
-    if (currentLogin() >= $minGroup)
-        return true;
+        if ($action == LISTING_MODE)
+        {
+            if ($unlisted == true)
+                return false;
+        }
+        if (currentLogin() >= $minGroup)
+            return true;
 
-    return false;
+        return false;
 
     /*
 
@@ -530,7 +564,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         }
         else
         {
-            logLogin($username, $unhashedPassword, false);
+            logLogin($username, $password, false);
         }
         return false;
     }

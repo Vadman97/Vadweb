@@ -144,10 +144,10 @@ function runReg()
 						datToDisplay += "Password too long! Limit 50 characters.";
 						break;
 					case "E10":
-						datToDisplay += "Username too short! Must be greater than 3 characters long.";
+						datToDisplay += "Username too short! Must be greater than 2 characters long.";
 						break;
 					case "E11":
-						datToDisplay += "Password too short! Must be greater than 7 characters long.";
+						datToDisplay += "Password too short! Must be greater than 5 characters long.";
 						break;
 					case "E12":
 						datToDisplay += "Passwords do not match!";

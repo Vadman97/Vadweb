@@ -94,7 +94,7 @@ require_once("util.php");
  <hr>
 
  <footer>
-  <p>Please be aware that some features are in beta testing or in development, and may not be available for all users</p>
+  <p>Please be aware that some features are in beta testing or in development, and may not be available for <u>all</u> users</p>
   <p><b>© Vadweb 2014-2015</b></p>
 </footer>
 </div> <!-- /container -->

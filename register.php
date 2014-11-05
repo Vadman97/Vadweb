@@ -48,9 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    echo "E8";
  else if (strlen($pass1) >= 50)
    echo "E9";
- else if (strlen($username)< 4)
+ else if (strlen($username)< 3)
    echo "E10";
- else if (strlen($pass1) < 8)
+ else if (strlen($pass1) < 6)
    echo "E11";
  else if ($pass1 != $pass2)
    echo "E12";

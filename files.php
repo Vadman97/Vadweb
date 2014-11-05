@@ -58,190 +58,204 @@
     </div>
 </div>
 
-<div class="main">
-  <h1 class="page-header" hidden="hidden">Dashboard</h1>
+    <div class="main">
+      <h1 class="page-header" hidden="hidden">Dashboard</h1>
 
-  <div class="row placeholders" hidden="hidden">
-    <div class="col-xs-6 col-sm-3 placeholder">
-      <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBEOEZEQiIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojZmZmO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
-      <h4>Label</h4>
-      <span class="text-muted">Something else</span>
-  </div>
-  <div class="col-xs-6 col-sm-3 placeholder">
-      <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojMUUyOTJDO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
-      <h4>Label</h4>
-      <span class="text-muted">Something else</span>
-  </div>
-  <div class="col-xs-6 col-sm-3 placeholder">
-      <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBEOEZEQiIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojZmZmO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
-      <h4>Label</h4>
-      <span class="text-muted">Something else</span>
-  </div>
-  <div class="col-xs-6 col-sm-3 placeholder">
-      <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojMUUyOTJDO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
-      <h4>Label</h4>
-      <span class="text-muted">Something else</span>
-  </div>
-</div>
+      <div class="row placeholders" hidden="hidden">
+        <div class="col-xs-6 col-sm-3 placeholder">
+          <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBEOEZEQiIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojZmZmO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
+          <h4>Label</h4>
+          <span class="text-muted">Something else</span>
+      </div>
+      <div class="col-xs-6 col-sm-3 placeholder">
+          <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojMUUyOTJDO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
+          <h4>Label</h4>
+          <span class="text-muted">Something else</span>
+      </div>
+      <div class="col-xs-6 col-sm-3 placeholder">
+          <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBEOEZEQiIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojZmZmO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
+          <h4>Label</h4>
+          <span class="text-muted">Something else</span>
+      </div>
+      <div class="col-xs-6 col-sm-3 placeholder">
+          <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEwMCIgeT0iMTAwIiBzdHlsZT0iZmlsbDojMUUyOTJDO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjEzcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MjAweDIwMDwvdGV4dD48L3N2Zz4=">
+          <h4>Label</h4>
+          <span class="text-muted">Something else</span>
+      </div>
+    </div>
 
-<h2 class="sub-header">View Files! <span <?php if (isLoggedIn()) echo 'hidden="hidden"'; ?> style='color:red; font-family: Comic Sans MS'> Warning - Not signed in. You might be missing out...</span></h2>
-<div class="table-responsive">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>File #</th>
-          <th>File Name</th>
-          <th>User</th>
-          <th>File Type</th>
-          <th>Timestamp</th>
-      </tr>
-  </thead>
-  <tbody>
-    <?php
-    $sql = SQLCon::getSQL();
-    $stmt = $sql->prepStmt("SELECT File_ID, FilePath, User_ID, Type, CreatedTime FROM Files WHERE File_ID = :id");
-    for ($i = highestUploadID(); $i >= 0; $i--)
-    {
-        $sql->bindParam($stmt, ":id", $i);
-        $stmt->execute();
-        $result = $stmt->fetchAll();
-        if (!$result)
-            continue;
-        echo "<tr>";
-                                        for ($j = 0; $j < 5; $j++) //j here is less than 5 because 5 column, 5 details from mysql
-                                        {
-                                            if (!canViewFileByName($result[0][1], LISTING_MODE))
-                                                continue;
-                                            $refOpen = "<a href='view.php?name=".$result[0][1]."'>";
-                                            $refClose = "</a>";
+    <h2 class="sub-header">View Files! <span <?php if (isLoggedIn()) echo 'hidden="hidden"'; ?> style='color:red; font-family: Comic Sans MS'> Warning - Not signed in. You might be missing out...</span></h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>File #</th>
+                        <th>File Name</th>
+                        <th>Preview</th>
+                        <th>User</th>
+                        <th>File Type</th>
+                        <th>File Size</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $time_start = microtime(true); 
+                        $sql = SQLCon::getSQL();
+                        $stmt = $sql->prepStmt("SELECT File_ID, FilePath, User_ID, Type, CreatedTime FROM Files WHERE File_ID = :id");
+                        for ($i = highestUploadID(); $i >= 0; $i--)
+                        {
+                            $sql->bindParam($stmt, ":id", $i);
+                            $stmt->execute();
+                            $result = $stmt->fetchAll();
+                            if (!$result)
+                                continue;
+                            echo "<tr>";
+                            for ($j = 0; $j < 7; $j++) //j here is less than 5 because 5 column, 5 details from mysql 
+                            {
+                                if (!canViewFileByName($result[0][1], LISTING_MODE))
+                                    continue;
+                                $refOpen = "<a href='view.php?name=".$result[0][1]."'>";
+                                $refClose = "</a>";
 
-                                            echo "<td>";
-                                            if ($j == 1)
-                                                echo $refOpen;
-                                            if ($j == 2) //this is to replace User_ID with the username from ID <<TODO FIND BETTER WAY TO DO THIS
-                                            echo getUsername($result[0][$j]);
-                                            else
-                                                echo $result[0][$j];
-                                            if ($j == 1)
-                                                echo $refClose;
-                                            echo "</td>";
-                                        }
-                                        echo "</tr>";
+                                echo "<td>";
+                                    if ($j == 0)
+                                        echo $result[0][0];
+                                    else if ($j == 1)
+                                        echo $refOpen . $result[0][$j] . $refClose;
+                                    else if ($j == 2)
+                                    {
+                                        if (in_array(getExtension($result[0][1]), File::$pictureEXTs))
+                                            echo $refOpen . "<img src='file.php?name=".$result[0][1]."&t' style='' alt='thumbnail'></img>" . $refClose;
                                     }
+                                    else if ($j == 3) //this is to replace User_ID with the username from ID <<TODO FIND BETTER WAY TO DO THIS
+                                        echo getUsername($result[0][2]);
+                                    else if ($j == 4)
+                                        echo $result[0][3];
+                                    else if ($j == 5)
+                                        echo "";
+                                    else if ($j == 6)
+                                        echo $result[0][4];
 
-                                    ?>
+                                echo "</td>";
+                            }   
+                            echo "</tr>";
+                        }
+                        $time_end = microtime(true);
+                        $execution_time = ($time_end - $time_start);
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <?php 
+            echo '<p><b>Total Execution Time:</b> '.$execution_time.' Sec</p>';
+        ?>
+    </div>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
+    <div class="modal fade" id="upload-single" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel2">Upload a single file</h4>
                 </div>
-            </div>
-
-
-            <div class="modal fade" id="upload-single" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title" id="myModalLabel2">Upload a single file</h4>
-                        </div>
-                        <div class="modal-body">
-                            <h5> This feature works for all registered users. </h5>
-                            <h5> Maximum file size is 4 GB. </h5>
-                            <form method="post"  enctype="multipart/form-data" action="fileUpload.php">
+                <div class="modal-body">
+                    <h5> This feature works for all registered users. </h5>
+                    <h5> Maximum file size is 4 GB. </h5>
+                    <form method="post"  enctype="multipart/form-data" action="fileUpload.php">
+                        <div class="form-group">
+                            <label for="fileSingle">Single File:</label>
+                            <input type="file" name="fileSingle" required>
+                        </div> 
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="fileSingle">Single File:</label>
-                                    <input type="file" name="fileSingle" required>
-                                </div> 
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <b><span class="col-sm-6 control-label">Who can view?</span></b><br>
-                                            <div class="col-sm-6 pull-left">
-                                                <input type="radio" id="perm" name="perm" value="<?php echo GROUP_NONE; ?>" checked="checked"> Everyone<br>
-                                                <input type="radio" id="perm" name="perm" value="<?php echo GROUP_REGISTERED; ?>"> Registered<br>
-                                                <input type="radio" id="perm" name="perm" value="<?php echo GROUP_FRIENDS; ?>"> VIP Friends<br>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <b><span class="col-sm-6 control-label">User specific:</span></b><br>
-                                            <b><span class="col-sm-6 control-label">Coming soon</span></b><br>
-                                        </div>
+                                    <b><span class="col-sm-6 control-label">Who can view?</span></b><br>
+                                    <div class="col-sm-6 pull-left">
+                                        <input type="radio" id="perm" name="perm" value="<?php echo GROUP_NONE; ?>" checked="checked"> Everyone<br>
+                                        <input type="radio" id="perm" name="perm" value="<?php echo GROUP_REGISTERED; ?>"> Registered<br>
+                                        <input type="radio" id="perm" name="perm" value="<?php echo GROUP_FRIENDS; ?>"> VIP Friends<br>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="upload-submit"></label><br><br><br>
-                                    <input id="upload-submit" class="btn btn-default" type="submit" value="Submit File" style="margin-top:5px;"> 
+                                    <b><span class="col-sm-6 control-label">User specific:</span></b><br>
+                                    <b><span class="col-sm-6 control-label">Coming soon</span></b><br>
                                 </div>
-                            </form>                        
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <div class="form-group">
+                            <label for="upload-submit"></label><br><br><br>
+                            <input id="upload-submit" class="btn btn-default" type="submit" value="Submit File" style="margin-top:5px;"> 
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal fade -->
+                    </form>                        
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal fade -->
 
-            <div class="modal fade" id="upload-multi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title" id="myModalLabel2">Upload multiple files</h4>
-                        </div>
+    <div class="modal fade" id="upload-multi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel2">Upload multiple files</h4>
+                </div>
 
-                        <div class="modal-body">
-                            <h5> This feature is only accessible to admins.</h5>
-                            <h5> You may only upload 10 files at a time.</h5>
-                            <h5> Just use CTRL or drag with mouse to select multiple files in the selection box. </h5>
-                            <h5> Maximum file size is 4 GB. </h5>
-                            <h5> Coming soon... </h5>
+                <div class="modal-body">
+                    <h5> This feature is only accessible to admins.</h5>
+                    <h5> You may only upload 10 files at a time.</h5>
+                    <h5> Just use CTRL or drag with mouse to select multiple files in the selection box. </h5>
+                    <h5> Maximum file size is 4 GB. </h5>
+                    <h5> Coming soon... </h5>
 
-                            <form method="post"  enctype="multipart/form-data" action="fileUpload.php">
+                    <form method="post"  enctype="multipart/form-data" action="fileUpload.php">
+                        <div class="form-group">
+                            <label>Multiple Files:</label>
+                            <input type="file" name="fileMulti[]" id="fileMulti" multiple required>
+                        </div>  
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label>Multiple Files:</label>
-                                    <input type="file" name="fileMulti[]" id="fileMulti" multiple required>
-                                </div>  
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <b><span class="col-sm-6 control-label">Who can view?</span></b><br>
-                                            <div class="col-sm-6 pull-left">
-                                                <input type="radio" id="perm" name="perm" value="<?php echo GROUP_NONE; ?>" checked="checked"> Everyone<br>
-                                                <input type="radio" id="perm" name="perm" value="<?php echo GROUP_REGISTERED; ?>"> Registered<br>
-                                                <input type="radio" id="perm" name="perm" value="<?php echo GROUP_FRIENDS; ?>"> VIP Friends<br>
-                                                <?php //TODO here add way to specify custom group number?>
-                                            </div>
-                                        </div>
+                                    <b><span class="col-sm-6 control-label">Who can view?</span></b><br>
+                                    <div class="col-sm-6 pull-left">
+                                        <input type="radio" id="perm" name="perm" value="<?php echo GROUP_NONE; ?>" checked="checked"> Everyone<br>
+                                        <input type="radio" id="perm" name="perm" value="<?php echo GROUP_REGISTERED; ?>"> Registered<br>
+                                        <input type="radio" id="perm" name="perm" value="<?php echo GROUP_FRIENDS; ?>"> VIP Friends<br>
+                                        <?php //TODO here add way to specify custom group number?>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <b><span class="col-sm-6 control-label">User specific:</span></b><br>
-                                            <b><span class="col-sm-6 control-label">Coming soon</span></b><br>
-                                        </div>
-                                    </div>
                                 </div>
+                            </div>
+                            <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="upload-submit"></label><br><br><br>
-                                    <input id="upload-submit" class="btn btn-default" type="submit" value="Submit Files" style="margin-top:5px;"> 
+                                    <b><span class="col-sm-6 control-label">User specific:</span></b><br>
+                                    <b><span class="col-sm-6 control-label">Coming soon</span></b><br>
                                 </div>
-                            </form>
-
+                            </div>
                         </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <div class="form-group">
+                            <label for="upload-submit"></label><br><br><br>
+                            <input id="upload-submit" class="btn btn-default" type="submit" value="Submit Files" style="margin-top:5px;"> 
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal fade -->
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal fade -->
 
 
 
-        </div><!-- /.container -->
+</div><!-- /.container -->
 
 
     <!-- Bootstrap core JavaScript
