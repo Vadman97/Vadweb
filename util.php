@@ -296,6 +296,14 @@ function emailVerified()
         return true;
     return false;
 }
+function verifyEmail()
+{
+    $sql = SQLCon::getSQL();
+    if (!isLoggedIn())
+        return -1;
+    $id = getCurrentUserID();
+    return $sql->sQuery("UPDATE UserData SET Verified=1 WHERE ID='$id'");
+}
 function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 {
     /*if (!isLoggedIn())

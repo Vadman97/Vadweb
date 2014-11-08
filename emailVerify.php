@@ -48,38 +48,50 @@ require_once("util.php");
     </div>
   </div>
   <div class="container-fluid">
-    <?php
-
-    if ($_SERVER['REQUEST_METHOD'] == "GET")
-    {
-      $code = $_GET["c"];
-      if ($code == $_SESSION['emailCode'])
+    <div class="starter-template" >
+      <h1>Email Verification</h1>
+      <p class="lead" style="overflow:auto; overflow-style:marquee-block">You must verify your email before continuing<br><br><br></p>
+      <span style='color:red; font-family: Comic Sans MS'>
+      <?php
+      if (emailVerified())
       {
-        echo "<p><h1> Success: you have successfully validated. You will now be redirected.</h1></p>";
-            //validate
+        echo "<h1>You are already verified...</h1>";
+        header("Refresh:3; URL=http://www.vadweb.us/");
         exit();
       }
-    }
-    if (!isLoggedIn())
-    {
-      echo "<h1>ERROR: You are not logged in... </h1>";
-      exit();
-    }
-    if (!isset($_SESSION['emailCode']))
-    {
-      $_SESSION['emailCode'] = generateRandomLetterString(20);
-      emailString($_SESSION['emailCode']);
-      echo "<p><h2>Your email verification code has been emailed. Please follow the instructions in the email.</h2><br>You will be able to access site features once you click the link in the email.</p>";
-    }
-    else
-    {
-        //click here to request another email
-        //button to change email if it is wrong
-        //timeouts for all this so cannot spam :(
-      emailString($_SESSION['emailCode']);
-      echo "<p><h2>Your email verification code has been emailed. Please follow the instructions in the email.</h2><br>You will be able to access site features once you click the link in the email.</p>";
-    }
-    ?>
+      if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_SESSION["emailCode"]))
+      {
+        $code = $_GET["c"];
+        if ($code == $_SESSION['emailCode'])
+        {
+          echo "<p><h1> Success: you have successfully validated your email. You will now be redirected.</h1></p>";
+          header("Refresh:2; URL=http://www.vadweb.us/");
+          verifyEmail();
+          exit();
+        }
+      }
+      if (!isLoggedIn())
+      {
+        echo "<h1>ERROR: You are not logged in... </h1>";
+        exit();
+      }
+      if (!isset($_SESSION['emailCode']))
+      {
+        $_SESSION['emailCode'] = generateRandomLetterString(20);
+        emailString($_SESSION['emailCode']);
+        echo "<p><h2>Your email verification code has been emailed. Please follow the instructions in the email.</h2><br>You will be able to access site features once you click the link in the email.</p>";
+      }
+      else
+      {
+          //click here to request another email
+          //button to change email if it is wrong
+          //timeouts for all this so cannot spam :(
+        emailString($_SESSION['emailCode']);
+        echo "<p><h2>Code already generated. Your email verification code has been emailed. Please follow the instructions in the email.</h2><br>You will be able to access site features once you click the link in the email.</p>";
+      }
+      ?>
+      </span>
+    </div>
   </div>
 </body>
 </html>
