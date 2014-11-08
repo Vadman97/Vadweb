@@ -1,7 +1,7 @@
 <?php
 require_once("dbcon.php");
 define("DEFAULT_FILE_STORAGE_PATH", "/home/vadwebData/");
-define("MULTI_FILE_UPLOAD_NUM_LIMIT", 20);
+define("MULTI_FILE_UPLOAD_NUM_LIMIT", 10);
 define("FILE_SIZE_LIMIT", 4999999999);
 define("LISTING_MODE", 1);
 define("VIEWING_MODE", 2);
@@ -48,7 +48,9 @@ define("VIEW_PHP", 2);
 //TODO user filtration
 //TODO User share / block when uploading
 //TODO User settings for filtering certain users/innapropriate files
-//TODO Read files.php in pages of n files
+//TODO Read files.php in pages of n files, maybe by caching or sql coding
+//TODO File size limits based on user group (maybe daily cap?)
+//TODO Make possible to view txt (all text code files) inline without downloading
 class File
 {
     public $name, $nameNoEXT, $extension, $type, $size, $absPath;
@@ -185,6 +187,26 @@ class UploadedFile extends File
     }
 }
 
+function emailString($str)
+{
+    $sql = SQLCon::getSQL();
+    if (!isLoggedIn())
+        return;
+    $id = getCurrentUserID();
+    $user = $sql->sQuery("SELECT * FROM UserData WHERE ID='$id'")->fetchAll();
+    $to      = $user[0][1] . '<' . $user[0][2] . '>';
+    $subject = 'Vadweb - Email Verification for your User Registration';
+    $message = 'Hello ' . $user[0][1] . ', ' . "please click this link to verify your email: http://www.vadweb.us/emailVerify.php?c=" . $str;
+    //$message = wordwrap($message, 70, "\r\n");
+
+    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $headers .= 'From: Vadweb Noreply Registration <vadwebnoreply@gmail.com>' . "\r\n";
+    $headers .= 'X-Mailer: PHP/' . phpversion();
+
+    mail($to, $subject, $message, $headers);
+}
+
 function getExtension($name)
 {
     $nameArray = explode(".", $name);
@@ -251,6 +273,28 @@ function mysqlFileWrite($absPath = NULL, $nameNoEXT = NULL, $ext = NULL, $type =
     $user_id = getID($username);
     $sql = SQLCon::getSQL();
     $stmt = $sql->sQuery("INSERT INTO Files (User_ID, FilePath, Permission, Type) VALUES ('$user_id', '$nameNoEXT.$ext', '$perms', '$type')");
+}
+function termsAgreed()
+{
+    $sql = SQLCon::getSQL();
+    if (!isLoggedIn())
+        return -1;
+    $id = getCurrentUserID();
+    $result = $sql->sQuery("SELECT TermsAgreed FROM UserData WHERE ID='$id'")->fetchAll();
+    if ($result[0][0] == 1)
+        return true;
+    return false;
+}
+function emailVerified()
+{
+    $sql = SQLCon::getSQL();
+    if (!isLoggedIn())
+        return -1;
+    $id = getCurrentUserID();
+    $result = $sql->sQuery("SELECT Verified FROM UserData WHERE ID='$id'")->fetchAll();
+    if ($result[0][0] == 1)
+        return true;
+    return false;
 }
 function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 {
@@ -344,6 +388,72 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         return false;
         */
     }
+    function getUserUploadLimit($type = "day")
+    {
+        if ($type == "day")
+        {
+            switch (currentLogin()) {
+                case 2:
+                    return 20;
+                    break;
+                case 3:
+                    return 30;
+                    break;
+                case 4:
+                    return 50;
+                    break;
+                case 5:
+                    return 999999;
+                    break;
+                
+                default:
+                    return 10;
+                    break;
+            }
+        }
+        else //per hour
+        {
+            switch (currentLogin()) {
+                case 2:
+                    return 5;
+                    break;
+                case 3:
+                    return 10;
+                    break;
+                case 4:
+                    return 20;
+                    break;
+                case 5:
+                    return 999999;
+                    break;
+                
+                default:
+                    return 3;
+                    break;
+            }
+        }
+    }
+    function uploadingCooldown()
+    {
+        //maybe cache when the user will next be able to upload more files in a separate var, check with that timestamp and only proceed if its blank (that will allow the following to set any large cooldown)
+        $sql = SQLCon::getSQL();
+        $id = getCurrentUserID();
+        $results1h = $sql->sQuery("SELECT File_ID, CreatedTime FROM Files WHERE User_ID='$id' AND CreatedTime >= (DATE_SUB(now(), INTERVAL 1 HOUR))")->fetchAll();
+        $results1d = $sql->sQuery("SELECT File_ID, CreatedTime FROM Files WHERE User_ID='$id' AND CreatedTime >= (DATE_SUB(now(), INTERVAL 1 DAY))")->fetchAll();
+        $numRes1h = count($results1h);
+        $numRes1d = count($results1d);
+        if ($numRes1h >= getUserUploadLimit("hour"))
+        {
+            $time = $results1h[getUserUploadLimit("hour") - 1][1];
+            return $sql->sQuery("SELECT SEC_TO_TIME(TIMESTAMPDIFF(SECOND, now(), TIMESTAMPADD(HOUR, 1, '$time')))")->fetchAll()[0][0];
+        }
+        else if ($numRes1d >= getUserUploadLimit("day"))
+        {
+            $time = $results1h[getUserUploadLimit("day") - 1][1];
+            return $sql->sQuery("SELECT SEC_TO_TIME(TIMESTAMPDIFF(SECOND, now(), TIMESTAMPADD(HOUR, 1, '$time')))")->fetchAll()[0][0];
+        }
+        return false; //not on cooldown
+    }
     function highestUploadID()
     {
         $sql = SQLCon::getSQL();
@@ -386,6 +496,48 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         if ($yob < 1900 or $yob >= (date("Y") - 6))
             return true;
         return false;
+    }
+
+    function initAccountSettings($all = true)
+    {
+        $start = microtime();
+        $sql = SQLCon::getSQL();
+        if ($all)
+        {
+            $users = $sql->sQuery("SELECT ID FROM UserData")->fetchAll();
+            $num = count($users);
+            for ($i = 0; $i < $num; $i++)
+            {
+                $val = $users[$i][0];
+                $settingHas = $sql->sQuery("SELECT ID FROM UserSettings WHERE ID='$val'")->fetchAll();
+                if (!$settingHas)
+                {
+                    $sql->sQuery("INSERT INTO UserSettings (ID) VALUES ('$val')");
+                }
+            }
+        }
+        else
+        {
+            $val = getCurrentUserID();
+            $settingHas = $sql->sQuery("SELECT ID FROM UserSettings WHERE ID='$val'")->fetchAll();
+            if (!$settingHas)
+            {
+                $sql->sQuery("INSERT INTO UserSettings (ID) VALUES ('$val')");
+            } 
+        }
+        $total = microtime() - $start;
+        //echo $total;
+    }
+
+    function getCurrentUserID()
+    {
+        return getID(getCurrentUsername());
+    }
+
+    function getNumUsers()
+    {
+        $sql = SQLCon::getSQL();
+        return count($sql->sQuery("SELECT ID FROM UserData")->fetchAll());
     }
     
     function custHash($text = null)
@@ -517,9 +669,9 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 
         $id = getID(getCurrentUsername());
         if (empty($id))
-            $stmt="INSERT INTO FileViews(File_ID, User_ID, IP, IPwithProxy, Device, ViewSource, Duration) VALUES ('$fileID', NULL, '$regIp','$proxIp','$devicetype', '$source', '$duration');";
+            $stmt="INSERT INTO FileViews(File_ID, User_ID, IP, IPwithProxy, Device, ViewSource) VALUES ('$fileID', NULL, '$regIp','$proxIp','$devicetype', '$source');";
         else
-            $stmt="INSERT INTO FileViews(File_ID, User_ID, IP, IPwithProxy, Device, ViewSource, Duration) VALUES ('$fileID', '$id', '$regIp','$proxIp','$devicetype', '$source', '$duration');";
+            $stmt="INSERT INTO FileViews(File_ID, User_ID, IP, IPwithProxy, Device, ViewSource) VALUES ('$fileID', '$id', '$regIp','$proxIp','$devicetype', '$source');";
 
         if ($sql->sQuery($stmt) != NULL)
             return true;

@@ -54,7 +54,10 @@ require_once("util.php");
     error_reporting(E_ALL);
     $sql = SQLCon::getSQL();
     $sql->configTables();
-    
+    echo termsAgreed();
+    echo emailVerified();
+
+      emailString(generateRandomLetterString(20));
     ?>
     
     <p>Need an account? Make one to upload files and improve your viewing experience!</p>

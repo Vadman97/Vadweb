@@ -9,7 +9,6 @@
 	$sql = SQLCon::getSQL();
     //$sql->sQuery("UPDATE Files SET ViewCount = ViewCount + 1 WHERE FilePath='$fileName'");
 	$result = $sql->sQuery("SELECT * FROM Files WHERE FilePath = '$fileName'")->fetchAll();
-	logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP);
 
 	$completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[0]["FilePath"];
     $extension = getExtension($result[0]["FilePath"]); 
@@ -43,7 +42,7 @@
 		  }
 		  default: $specialCompress=false;
 		}
-		if ($resize)
+		if ($resize) //for thumbnails
 		{
 			list($width, $height) = $imageinfo;
 			$widthMult = 128 / $width;
@@ -64,8 +63,9 @@
 		}
 		if ($specialCompress)
 		{
-			imagejpeg($img, NULL, 50);
+			imagejpeg($img, NULL, 50); //passes to stream
 			imagedestroy($img);
+			logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP);
 			exit();
 		}
 	}
@@ -96,13 +96,14 @@
 	{
 		header("Content-Type: application/pdf");
 	}
-	if ($result[0]["Type"] == File::$types["OTHER"]) //POTENTIALLY AMBIGUOUS NEEDS CLARIFICATION
+	if ($result[0]["Type"] == File::$types["OTHER"])
 	{
 		header("Cache-Control: no-cache, must-revalidate");
 		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 		header("Content-Type: application/octet-stream");
 		header('Content-Disposition: attachment; filename="' . $result[0]["FilePath"] . '"');
 	}
+	logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP); //for everything BUT thumbnails
 	$fp = fopen($completeFilePath, 'rb');
 	header("Content-Length: ".filesize($completeFilePath));
 	fpassthru($fp);

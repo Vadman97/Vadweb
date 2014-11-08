@@ -162,7 +162,7 @@
                 </div>
                 <div class="modal-body">
                     <h5> This feature works for all registered users. </h5>
-                    <h5> Maximum file size is 4 GB. </h5>
+                    <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
                     <form method="post"  enctype="multipart/form-data" action="fileUpload.php">
                         <div class="form-group">
                             <label for="fileSingle">Single File:</label>
@@ -209,9 +209,9 @@
 
                 <div class="modal-body">
                     <h5> This feature is only accessible to admins.</h5>
-                    <h5> You may only upload 10 files at a time.</h5>
+                    <h5> You may only upload <?php echo MULTI_FILE_UPLOAD_NUM_LIMIT; ?> files at a time.</h5>
                     <h5> Just use CTRL or drag with mouse to select multiple files in the selection box. </h5>
-                    <h5> Maximum file size is 4 GB. </h5>
+                    <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
                     <h5> Coming soon... </h5>
 
                     <form method="post"  enctype="multipart/form-data" action="fileUpload.php">

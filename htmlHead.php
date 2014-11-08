@@ -1,5 +1,14 @@
 <?php
 	//TODO Make the OG tags right everywhere
+	require_once("util.php");
+	if (!termsAgreed())
+	{
+		//header("Location: http://www.vadweb.us/terms.php");
+	}
+	if (!emailVerified())
+	{
+		//header("Location: http://www.vadweb.us/emailVerify.php");
+	}
 	echo
 	'
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

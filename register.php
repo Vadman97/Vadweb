@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    echo "E8";
  else if (strlen($pass1) >= 50)
    echo "E9";
- else if (strlen($username)< 3)
+ else if (strlen($username) < 3)
    echo "E10";
  else if (strlen($pass1) < 6)
    echo "E11";
@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     {
 				//echo "<strong>SUCCESS</strong>";
         login($username, $pass1, false);
+        initAccountSettings(false);
         echo "S";
     }
   else
@@ -153,7 +154,7 @@ exit();
           <label class="col-md-4 control-label" for="password">Password</label>
           <div class="col-md-4">
             <input id="password" name="password" type="password" min="8" max="50" placeholder="Password" class="form-control input-md" required>
-            <span class="help-block">Enter your desired password, at least 8 characters long.</span>
+            <span class="help-block">Enter your desired password, at least 6 characters long.</span>
           </div>
         </div>
         

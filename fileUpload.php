@@ -26,7 +26,14 @@ function rearrange( $arr )
 	{
 		if (!canUpload())
 		{
-			echo "E:UP_PERM";
+			echo "E:UP_PERM<br>";
+			echo "LOOKS LIKE YOU NEED TO LOG IN OR REGISTER TO UPLOAD!";
+			return false;
+		}
+		if (uploadingCooldown() !== false)
+		{
+			echo "E:COOLDOWN<br>";
+			echo "You've uploaded too many files recently!!! Please wait for " . uploadingCooldown() . " (H:M:S) before trying again...";
 			return false;
 		}
 		$fileArr = array();
