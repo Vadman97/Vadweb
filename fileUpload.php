@@ -46,13 +46,13 @@ function rearrange( $arr )
 			{
 				//echo "Printing file data <br>";
 				//print_r($file);
-				$upFile = new UploadedFile($file['name'], $file['tmp_name'], $file['size'], $file['error'], $_POST["perm"]."|".$_POST["addUsers"]); //here also pass POST[perm]
+				$upFile = new UploadedFile($file['name'], $file['tmp_name'], $file['size'], $file['error'], $_POST["perm"], $_POST["otherPermData"]); //here also pass POST[perm]
 				array_push($fileArr, $upFile);
 			}
 		}
 		else
 		{
-			$upFile = new UploadedFile($_FILES["fileSingle"]['name'], $_FILES["fileSingle"]['tmp_name'], $_FILES["fileSingle"]["size"], $_FILES["fileSingle"]['error'], $_POST["perm"]."|".$_POST["addUsers"]);
+			$upFile = new UploadedFile($_FILES["fileSingle"]['name'], $_FILES["fileSingle"]['tmp_name'], $_FILES["fileSingle"]["size"], $_FILES["fileSingle"]['error'], $_POST["perm"], $_POST["otherPermData"]);
 			array_push($fileArr, $upFile);
 		}
 

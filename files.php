@@ -102,39 +102,33 @@
                     <?php
                         $time_start = microtime(true); 
                         $sql = SQLCon::getSQL();
-                        $stmt = $sql->prepStmt("SELECT File_ID, FilePath, User_ID, Type, CreatedTime FROM Files WHERE File_ID = :id");
-                        for ($i = highestUploadID(); $i >= 0; $i--)
+                        $userGroup = currentLogin();
+                        $result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0")->fetchAll();
+                        for ($i = count($result) - 1; $i >= 0; $i--)
                         {
-                            $sql->bindParam($stmt, ":id", $i);
-                            $stmt->execute();
-                            $result = $stmt->fetchAll();
-                            if (!$result)
-                                continue;
                             echo "<tr>";
                             for ($j = 0; $j < 7; $j++) //j here is less than 5 because 5 column, 5 details from mysql 
                             {
-                                if (!canViewFileByName($result[0][1], LISTING_MODE))
-                                    continue;
-                                $refOpen = "<a href='view.php?name=".$result[0][1]."'>";
+                                $refOpen = "<a href='view.php?name=".$result[$i][1]."'>";
                                 $refClose = "</a>";
 
                                 echo "<td>";
                                     if ($j == 0)
-                                        echo $result[0][0];
+                                        echo $result[$i][0];
                                     else if ($j == 1)
-                                        echo $refOpen . $result[0][$j] . $refClose;
+                                        echo $refOpen . $result[$i][$j] . $refClose;
                                     else if ($j == 2)
                                     {
-                                        if (in_array(getExtension($result[0][1]), File::$pictureEXTs))
-                                            echo $refOpen . "<img src='file.php?name=".$result[0][1]."&t' style='' alt='thumbnail'></img>" . $refClose;
+                                        if (in_array(getExtension($result[$i][1]), File::$pictureEXTs))
+                                            echo $refOpen . "<img src='file.php?name=".$result[$i][1]."&t' style='' alt='thumbnail'></img>" . $refClose;
                                     }
                                     else if ($j == 3) //this is to replace User_ID with the username from ID <<TODO FIND BETTER WAY TO DO THIS
-                                        echo getUsername($result[0][2]);
+                                        echo getUsername($result[$i][2]);
                                     else if ($j == 4)
-                                        echo $result[0][3];
+                                        echo $result[$i][3];
                                     else if ($j == 5)
                                     {
-                                        $completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[0]["FilePath"];
+                                        $completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[$i]["FilePath"];
                                         $bytes = filesize($completeFilePath);
                                         $decimals = 2;
                                         $sz = 'BKMGTP';
@@ -142,7 +136,7 @@
                                         echo sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
                                     }
                                     else if ($j == 6)
-                                        echo $result[0][4];
+                                        echo $result[$i][4];
 
                                 echo "</td>";
                             }   

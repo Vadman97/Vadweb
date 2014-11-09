@@ -99,15 +99,16 @@ class File
 
 class UploadedFile extends File
 {
-    public $tmpUploadName, $uploadError, $permissions;
+    public $tmpUploadName, $uploadError, $minGroup, $unlisted, $otherPerms;
     
-    public function __construct($nameWithEXT, $tmpUploadName, $size, $uploadError, $perms)
+    public function __construct($nameWithEXT, $tmpUploadName, $size, $uploadError, $minGroup, $otherPerms)
     {
         parent::__construct($nameWithEXT);
         $this->tmpUploadName = $tmpUploadName;
         $this->uploadError = $uploadError;
         $this->size = $size;
-        $this->permissions = $perms;
+        $this->minGroup = $minGroup;
+        $this->otherPerms = $otherPerms;
     }
     public function isError()
     {
@@ -126,10 +127,14 @@ class UploadedFile extends File
     }
     public function evaluatePerms()
     {
-        $group = substr($this->permissions, 0, 1);
+        /*$group = substr($this->permissions, 0, 1);
         $userPlusPart = substr($this->permissions, strpos($this->permissions, '|')+1);
         $userMinusPart = "";
-        $this->permissions = "+G(".$group.")".$userPlusPart.$userMinusPart;
+        $this->permissions = "+G(".$group.")".$userPlusPart.$userMinusPart;*/
+        if (strpos($this->otherPerms, "-&"))
+            $this->unlisted = 1;
+        else
+            $this->unlisted = 0;
     }
     public function prepFile()
     {
@@ -145,7 +150,7 @@ class UploadedFile extends File
     }
     public function writeToMySQL()
     {
-        mysqlFileWrite($this->absPath, $this->nameNoEXT, $this->extension, $this->type, $this->permissions, getCurrentUsername());
+        mysqlFileWrite($this->absPath, $this->nameNoEXT, $this->extension, $this->type, $this->minGroup, $this->unlisted, $this->otherPerms, getCurrentUsername());
         return true;
     }
     public function storeFile()
@@ -262,11 +267,11 @@ function readFileList($sort="CreatedTime", $order="") {
     $result = $sql->sQuery($query)->fetchAll();
     return $result;
 }
-function mysqlFileWrite($absPath = NULL, $nameNoEXT = NULL, $ext = NULL, $type = NULL, $perms = NULL, $username = NULL)
+function mysqlFileWrite($absPath = NULL, $nameNoEXT = NULL, $ext = NULL, $type = NULL, $minGroup = NULL, $unlisted = NULL, $otherPerms = NULL, $username = NULL)
 {
     $user_id = getID($username);
     $sql = SQLCon::getSQL();
-    $stmt = $sql->sQuery("INSERT INTO Files (User_ID, FilePath, Permission, Type) VALUES ('$user_id', '$nameNoEXT.$ext', '$perms', '$type')");
+    $stmt = $sql->sQuery("INSERT INTO Files (User_ID, FilePath, MinGroup, Unlisted, OtherPerms, Type) VALUES ('$user_id', '$nameNoEXT.$ext', '$minGroup', '$unlisted', '$otherPerms', '$type')");
 }
 function termsAgreed()
 {
@@ -315,25 +320,35 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     if ($filename == NULL || empty($filename))
         return false;
     
-    $result = $sql->sQuery("SELECT User_ID, Permission from Files where FilePath='$filename'")->fetchAll();
+    $result = $sql->sQuery("SELECT User_ID, MinGroup, Unlisted, OtherPerms from Files where FilePath='$filename'")->fetchAll()[0];
 
-    $perm = $result[0]["Permission"];
+    /*$perm = $result[0]["Permission"];
     $uploadUID = $result[0]["User_ID"];
     $currentUserID = getID(getCurrentUsername());
     
     //if (getCurrentUserID() == $uploadUID) return true; //allows one to see his own posts, cant blcks oneself from seeing own posts
     $minGroup = substr($perm, strpos($perm, "+G(") + 3, 1);
-        $unlisted = strpos($perm, "-&");
+    $unlisted = strpos($perm, "-&");*/
 
-        if ($action == LISTING_MODE)
-        {
-            if ($unlisted == true)
-                return false;
-        }
-        if (currentLogin() >= $minGroup)
-            return true;
+    /*if ($action == LISTING_MODE)
+    {
+        if ($unlisted == true)
+            return false;
+    }
+    if (currentLogin() >= $minGroup)
+        return true;
 
-        return false;
+    return false;*/
+
+    if ($action == LISTING_MODE)
+    {
+        if ($result[2] == true)
+            return false;
+    }
+    if (currentLogin() >= $result[1])
+        return true;
+
+    return false;
 
     /*
 
