@@ -1,8 +1,39 @@
 <?php
+  require_once("util.php");
+  if ($_SERVER['REQUEST_METHOD'] == "POST")
+  {
+    if (!isLoggedIn())
+    {
+      header("Location: " . $_SERVER["HTTP_REFERER"]);
+      exit();
+    }
+    $sql = SQLCon::getSQL();
+    if (isset($_POST["email"]))
+    {
+      $id = getCurrentUserID();
+      $newEmail = $_POST["email"];
+      if (invalidEmail($newEmail))
+      {
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
+        exit();
+      }
+      if (emailVerified() === true)
+      {
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
+        exit();
+      }
+      if ($sql->sQuery("UPDATE UserData SET Email='$newEmail' WHERE ID='$id'"))
+      {
+        ob_clean();
+        header("Location: " . $_SERVER["HTTP_REFERER"]);
+      }
+    }
+    header("Location: " . $_SERVER["HTTP_REFERER"]);
+    exit();
+  }
 	require_once("htmlHead.php");
-	require_once("util.php");
 	//RIGHT HERE IS PROBABLY THE LINE TO DELETE
-	header("Refresh:2; URL=http://www.vadweb.us/troll.html");
+	//header("Refresh:2; URL=http://www.vadweb.us/troll.html");
 ?>
 <head>
 	<link href="/resource/bootstrap/css/simpleTemp.css" rel="stylesheet">
@@ -37,7 +68,7 @@
       <div class="starter-template" >
         <h1>Account Settings</h1>
         <p class="lead" style="overflow:auto; overflow-style:marquee-block">Modify your account settings here.</p><br><br><br>
-	<h1 style='color:red; font-family: Comic Sans MS;'> much troll lolol no account settings </h1>
+      	<h1 style='color:red; font-family: Comic Sans MS;'> much troll lolol no account settings yet sorry </h1>
       </div>
 
     </div><!-- /.container -->

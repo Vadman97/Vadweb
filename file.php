@@ -9,7 +9,8 @@
 	$sql = SQLCon::getSQL();
     //$sql->sQuery("UPDATE Files SET ViewCount = ViewCount + 1 WHERE FilePath='$fileName'");
 	$result = $sql->sQuery("SELECT * FROM Files WHERE FilePath = '$fileName'")->fetchAll();
-
+	if (!$result)
+		exit();
 	$completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[0]["FilePath"];
     $extension = getExtension($result[0]["FilePath"]); 
 

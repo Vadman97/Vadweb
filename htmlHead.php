@@ -7,7 +7,7 @@
 	}
 	if (!emailVerified())
 	{
-		//header("Location: http://www.vadweb.us/emailVerify.php");
+		header("Location: http://www.vadweb.us/emailVerify.php");
 	}
 	echo
 	'

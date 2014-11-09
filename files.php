@@ -133,7 +133,14 @@
                                     else if ($j == 4)
                                         echo $result[0][3];
                                     else if ($j == 5)
-                                        echo "";
+                                    {
+                                        $completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[0]["FilePath"];
+                                        $bytes = filesize($completeFilePath);
+                                        $decimals = 2;
+                                        $sz = 'BKMGTP';
+                                        $factor = floor((strlen($bytes) - 1) / 3);
+                                        echo sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
+                                    }
                                     else if ($j == 6)
                                         echo $result[0][4];
 

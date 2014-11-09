@@ -53,7 +53,7 @@ require_once("util.php");
       <p class="lead" style="overflow:auto; overflow-style:marquee-block">You must verify your email before continuing<br><br><br></p>
       <span style='color:red; font-family: Comic Sans MS'>
       <?php
-      if (emailVerified())
+      if (emailVerified() === true)
       {
         echo "<h1>You are already verified...</h1>";
         header("Refresh:3; URL=http://www.vadweb.us/");
@@ -65,7 +65,7 @@ require_once("util.php");
         if ($code == $_SESSION['emailCode'])
         {
           echo "<p><h1> Success: you have successfully validated your email. You will now be redirected.</h1></p>";
-          header("Refresh:2; URL=http://www.vadweb.us/");
+          header("Refresh:3; URL=http://www.vadweb.us/");
           verifyEmail();
           exit();
         }
@@ -80,14 +80,64 @@ require_once("util.php");
         $_SESSION['emailCode'] = generateRandomLetterString(20);
         emailString($_SESSION['emailCode']);
         echo "<p><h2>Your email verification code has been emailed. Please follow the instructions in the email.</h2><br>You will be able to access site features once you click the link in the email.</p>";
+        echo "
+          <p>
+            <form class='navbar-form' role='form' action='/account.php' method='post'>
+              Current Email: " . getUserInfo()[2] . " <br>
+              <div class='form-group'>
+                <input type='text' placeholder='Your new email' id='email' name='email' class='form-control'>
+              </div>
+              <button type='submit' class='btn btn-success'>Change Email</button>
+            </form>
+          </p>
+          ";
       }
       else
       {
           //click here to request another email
           //button to change email if it is wrong
           //timeouts for all this so cannot spam :(
-        emailString($_SESSION['emailCode']);
-        echo "<p><h2>Code already generated. Your email verification code has been emailed. Please follow the instructions in the email.</h2><br>You will be able to access site features once you click the link in the email.</p>";
+        emailSending2:
+        if (!isset($_SESSION["emailResent"]))
+        {
+          emailString($_SESSION['emailCode']);
+          $_SESSION["emailResent"] = time();
+          echo "<p><h2>Code already generated. Your email verification code has been emailed. Please follow the instructions in the email.</h2><br>You will be able to access site features once you click the link in the email.
+          <br>If you have not received an email, check your spam.<br><br></p>";
+          echo "
+          <p>
+            <form class='navbar-form' role='form' action='/account.php' method='post'>
+              Current Email: " . getUserInfo()[2] . " <br>
+              <div class='form-group'>
+                <input type='text' placeholder='Your new email' id='email' name='email' class='form-control'>
+              </div>
+              <button type='submit' class='btn btn-success'>Change Email</button>
+            </form>
+          </p>
+          ";
+        }
+        else
+        {
+          if (time() > ($_SESSION["emailResent"] + 180))
+          {
+            unset($_SESSION["emailResent"]);
+            goto emailSending2;
+          }
+          echo "<p><h2>Warning, you just requested another email. You cannot do this too often...<br><br> Please wait " . (($_SESSION["emailResent"] + 180) - time()) . 
+          " seconds and then refresh this page. <br> Meanwhile please double check your email (and spam).<br><br></h2></p>";
+          echo "
+          <p>
+            You can still change your email here: <br>
+            <form class='navbar-form' role='form' action='/account.php' method='post'>
+              Current Email: " . getUserInfo()[2] . "<br>
+              <div class='form-group'>
+                <input type='text' placeholder='Your new email' id='email' name='email' class='form-control'>
+              </div>
+              <button type='submit' class='btn btn-success'>Change Email</button>
+            </form>
+          </p>
+          ";
+        }
       }
       ?>
       </span>

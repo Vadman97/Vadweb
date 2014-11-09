@@ -52,7 +52,7 @@ require_once("util.php");
     	</ol>
     	<div class="carousel-inner">
     		<div class="item">
-    			<img src="/file.php?name=IMG_1836.jpg" alt="First slide">
+    			<img src="/file.php?name=IMG_1836.jpg" alt="tahoe lake vadweb motivational ocean sky mountain beautiful">
     			<div class="container">
     				<div class="carousel-caption">
     					<h1>The author.</h1>
@@ -63,7 +63,7 @@ require_once("util.php");
     			</div>
     		</div>
     		<div class="item active">
-    			<img src="/file.php?name=vadwebCode.png" alt="Second slide">
+    			<img src="/file.php?name=vadwebCode.png" alt="vadweb code picture">
     			<div class="container">
     				<div class="carousel-caption">
     					<h1>About the Vadweb project.</h1>
@@ -75,7 +75,7 @@ require_once("util.php");
     			</div>
     		</div>
     		<div class="item">
-    			<img src="/file.php?name=vadwebFTP.png" alt="Third slide">
+    			<img src="/file.php?name=vadwebFTP.png" alt="ftp client filezilla mysql">
     			<div class="container">
     				<div class="carousel-caption" style="color:black">
     					<h1>The planning, design, technology, and motivation.</h1>

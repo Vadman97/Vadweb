@@ -2,7 +2,7 @@
 require_once("dbcon.php");
 define("DEFAULT_FILE_STORAGE_PATH", "/home/vadwebData/");
 define("MULTI_FILE_UPLOAD_NUM_LIMIT", 10);
-define("FILE_SIZE_LIMIT", 4999999999);
+define("FILE_SIZE_LIMIT", getUserUploadSizeLimit());
 define("LISTING_MODE", 1);
 define("VIEWING_MODE", 2);
 
@@ -31,25 +31,19 @@ define("VIEW_PHP", 2);
 //TODO load files in pages
 //TODO improve view counting tracking, add view count to file view page (also other details about file, user)
 //TODO Ajax file uploading and turn error codes into useable things
-//TODO Add filesize tracking in mysql? or at least print it in files.php
-//TODO name randomization
 //TODO display file permissions in files.php
 //TODO track source of clicks by using SERVER["HTML SOURCE OR WHATEVER IT IS"]
 //TODO Fix issue of redirects from loggin in; make sure its obvious that registration/login was successful (especially when loggin in)
-//TODO if server accessed without www, redirect to www?
 //TODO Add file alt tags for search engine, in general improve search engine apprearance
-//TODO After uploading redirect user to file he uploaded
 //TODO get ssl
 //TODO improve about page photo alt tags
 
-//TODO upload timeout for files, only x per hour per account/IP
 //TODO specific user blocking
 //TODO NSFW tags/blocking
 //TODO user filtration
 //TODO User share / block when uploading
 //TODO User settings for filtering certain users/innapropriate files
 //TODO Read files.php in pages of n files, maybe by caching or sql coding
-//TODO File size limits based on user group (maybe daily cap?)
 //TODO Make possible to view txt (all text code files) inline without downloading
 class File
 {
@@ -304,6 +298,12 @@ function verifyEmail()
     $id = getCurrentUserID();
     return $sql->sQuery("UPDATE UserData SET Verified=1 WHERE ID='$id'");
 }
+function getUserInfo()
+{
+    $sql = SQLCon::getSQL();
+    $id = getCurrentUserID();
+    return $sql->sQuery("SELECT * FROM UserData WHERE ID='$id'")->fetchAll()[0];
+}
 function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 {
     /*if (!isLoggedIn())
@@ -440,6 +440,13 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
                     break;
             }
         }
+    }
+    function getUserUploadSizeLimit()
+    {
+        if (currentLogin() >= 2)
+            return 5000000000;
+        else
+            return 100000000;
     }
     function uploadingCooldown()
     {
