@@ -19,12 +19,15 @@
       }
       if (emailVerified() === true)
       {
+        //TODO ACTUALLY ALLOW EMAIL CHANGES, JUST MAKE IT SO YOU HAVE TO REVERIFY NEW EMAIL
         header("Location: " . $_SERVER["HTTP_REFERER"]);
         exit();
       }
       if ($sql->sQuery("UPDATE UserData SET Email='$newEmail' WHERE ID='$id'"))
       {
         ob_clean();
+        unset($_SESSION['emailCode']);
+        unset($_SESSION["emailResent"]);
         header("Location: " . $_SERVER["HTTP_REFERER"]);
       }
     }
