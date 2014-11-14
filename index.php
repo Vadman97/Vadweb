@@ -54,6 +54,7 @@ require_once("util.php");
     error_reporting(E_ALL);
     $sql = SQLCon::getSQL();
     $sql->configTables();
+    //echo fibonacci(30) / fibonacci(29);
     //emailString(generateRandomLetterString(20));
     ?>
     

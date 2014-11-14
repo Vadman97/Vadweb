@@ -5,6 +5,8 @@
     $filename = $_GET["name"];
     if (empty($filename))
         exit();
+    if (strpos($filename, "'"))
+        exit();
     if (canViewFileByName($filename, VIEWING_MODE)) 
     {
         $sql = SQLCon::getSQL();
@@ -62,7 +64,8 @@
 
     $nameArray = explode(".", $filename);
     $extension = strtolower(end($nameArray));
-
+    $fileid = getFileID($filename);
+    echo "<h3>View Count: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
     if ($result[0]["Type"] == File::$types["PICTURE"])
     {
         if (isset($_GET["r"]))
@@ -78,7 +81,7 @@
     }
     else if ($result[0]["Type"] == File::$types["MOVIE"])
     {
-        echo '<video id="movie" src="file.php?name='.$filename.'" controls></video>';
+        echo '<video id="movie" src="file.php?name='.$filename.'" controls width="90%"></video>';
         //first figure out what file extension
         //then base on that to embed as different things
         /*if ($extension == "mov")
@@ -98,8 +101,9 @@
                 </object>";
     }
     else
-        echo "<h1>Loading files other than images is currently being implemented.</h1>";
-    echo "<br><br><p><a href='file.php?name=".$filename."'>Click here for direct link.</a></p>";
+        echo "<h2>Loading files other than images is currently being implemented.</h2>";
+    echo "<h1>" . $filename . "</h1>";
+    echo "<br><br><p><a href='file.php?name=".$filename."'>Click here for direct link to file " . $filename . ".</a></p>";
     ?>
 </div>
 </body>

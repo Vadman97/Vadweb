@@ -15,7 +15,6 @@ define("FILE_PHP", 1);
 define("VIEW_PHP", 2);
 //TODO Figure out what is wrong with logins and why it logs out (cookie expires at random times).
 //TODO add file renaming feature built in, or in case error in file name
-//TODO Figure out what happens if the file has special characters in name
 //TODO Figure out what happens if the file requested to be viewed is not found
 //TODO Add better view tracking, with separate view from javascript and for the file from php
 //TODO Work on about page
@@ -23,7 +22,7 @@ define("VIEW_PHP", 2);
 //TODO Add file management for admins
 //TODO improve data collection
 //TODO to views, add html origin of link
-//TODO add uplisted viewing, figure that out in permissions and make sure the user can see own files?
+//TODO add unlisted viewing, figure that out in permissions and make sure the user can see own files?
 //TODO add the different highlights for your files etc
 //TODO add user search and user sharing
 //TODO add user settings
@@ -31,7 +30,7 @@ define("VIEW_PHP", 2);
 //TODO load files in pages
 //TODO improve view counting tracking, add view count to file view page (also other details about file, user)
 //TODO Ajax file uploading and turn error codes into useable things
-//TODO display file permissions in files.php
+//TODO display file permissions in files.php; only for admins
 //TODO track source of clicks by using SERVER["HTML SOURCE OR WHATEVER IT IS"]
 //TODO Fix issue of redirects from loggin in; make sure its obvious that registration/login was successful (especially when loggin in)
 //TODO Add file alt tags for search engine, in general improve search engine apprearance
@@ -45,6 +44,10 @@ define("VIEW_PHP", 2);
 //TODO User settings for filtering certain users/innapropriate files
 //TODO Read files.php in pages of n files, maybe by caching or sql coding
 //TODO Make possible to view txt (all text code files) inline without downloading
+//TODO MYSQL ERROR DISPLAYING
+//TODO FILE DELETION
+//TODO FILE COPYRIGHT REPORTING
+//TODO If file name not exists or invalid (for view or files.php) do something about that?
 class File
 {
     public $name, $nameNoEXT, $extension, $type, $size, $absPath;
@@ -259,6 +262,12 @@ echo '
 </form>'
 ;
 }
+function fibonacci($value)
+{
+    if ($value == 1 || $value == 2)
+        return 1;
+    return fibonacci($value - 1) + fibonacci($value - 2);
+}
 function readFileList($sort="CreatedTime", $order="") {
     if (!isLoggedIn())
         return;
@@ -308,6 +317,11 @@ function getUserInfo()
     $sql = SQLCon::getSQL();
     $id = getCurrentUserID();
     return $sql->sQuery("SELECT * FROM UserData WHERE ID='$id'")->fetchAll()[0];
+}
+function getFileID($filename = NULL)
+{
+    $sql = SQLCon::getSQL();
+    return $sql->sQuery("SELECT File_ID FROM Files WHERE FilePath='$filename'")->fetchAll()[0][0];
 }
 function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 {
@@ -423,7 +437,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
                     return 30;
                     break;
                 case 4:
-                    return 50;
+                    return 100;
                     break;
                 case 5:
                     return 999999;
@@ -441,10 +455,10 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
                     return 5;
                     break;
                 case 3:
-                    return 10;
+                    return 20;
                     break;
                 case 4:
-                    return 20;
+                    return 50;
                     break;
                 case 5:
                     return 999999;
@@ -687,7 +701,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         if ($fileID == NULL)
             return false;
         $sql = SQLCon::getSQL();
-
+	    $devicetype = $_SERVER['HTTP_USER_AGENT'];
         if (isset($_SERVER['REMOTE_ADDR']))
             $regIp = $_SERVER['REMOTE_ADDR'];
         else

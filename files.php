@@ -58,8 +58,8 @@
     </div>
 </div>
 
-    <div class="main">
-      <h1 class="page-header" hidden="hidden">Dashboard</h1>
+    <div class="main"><!--
+      <class="page-header" hidden="hidden">Dashboard</h1>
 
       <div class="row placeholders" hidden="hidden">
         <div class="col-xs-6 col-sm-3 placeholder">
@@ -82,7 +82,7 @@
           <h4>Label</h4>
           <span class="text-muted">Something else</span>
       </div>
-    </div>
+    </div>-->
 
     <h2 class="sub-header">View Files! <span <?php if (isLoggedIn()) echo 'hidden="hidden"'; ?> style='color:red; font-family: Comic Sans MS'> Warning - Not signed in. You might be missing out...</span></h2>
         <div class="table-responsive">
@@ -102,25 +102,28 @@
                     <?php
                         $time_start = microtime(true); 
                         $sql = SQLCon::getSQL();
+                        //$userGroup = currentLogin();
                         $userGroup = currentLogin();
-                        $result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0")->fetchAll();
-                        for ($i = count($result) - 1; $i >= 0; $i--)
+                        $result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 ORDER BY File_ID DESC")->fetchAll();
+                        for ($i = 0; $i <= count($result) - 1; $i++)
                         {
-                            echo "<tr>";
+                            echo "<tr>\n";
                             for ($j = 0; $j < 7; $j++) //j here is less than 5 because 5 column, 5 details from mysql 
                             {
-                                $refOpen = "<a href='view.php?name=".$result[$i][1]."'>";
+                                $refOpen = "<a href='http://www.vadweb.us/view.php?name=".$result[$i][1]."'>";
                                 $refClose = "</a>";
 
-                                echo "<td>";
+                                echo "\t\t\t<td>";
                                     if ($j == 0)
                                         echo $result[$i][0];
                                     else if ($j == 1)
                                         echo $refOpen . $result[$i][$j] . $refClose;
                                     else if ($j == 2)
                                     {
-                                        if (in_array(getExtension($result[$i][1]), File::$pictureEXTs))
-                                            echo $refOpen . "<img src='file.php?name=".$result[$i][1]."&t' style='' alt='thumbnail'></img>" . $refClose;
+                                        if (in_array(getExtension($result[$i][1]), File::$pictureEXTs) && $result[$i][8] != 1)
+                                            echo $refOpen . "<img src='http://www.vadweb.us/file.php?name=".$result[$i][1]."&amp;t' style='' alt='thumbnail'/>" . $refClose;
+                                        else if ($result[$i][8] == 1)
+                                            echo "Sp00ky NSFW";
                                     }
                                     else if ($j == 3) //this is to replace User_ID with the username from ID <<TODO FIND BETTER WAY TO DO THIS
                                         echo getUsername($result[$i][2]);
@@ -138,9 +141,9 @@
                                     else if ($j == 6)
                                         echo $result[$i][4];
 
-                                echo "</td>";
+                                echo "</td>\n";
                             }   
-                            echo "</tr>";
+                            echo "\t\t</tr>\n";
                         }
                         $time_end = microtime(true);
                         $execution_time = ($time_end - $time_start);
