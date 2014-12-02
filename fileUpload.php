@@ -46,13 +46,13 @@ function rearrange( $arr )
 			{
 				//echo "Printing file data <br>";
 				//print_r($file);
-				$upFile = new UploadedFile($file['name'], $file['tmp_name'], $file['size'], $file['error'], $_POST["perm"], $_POST["otherPermData"]); //here also pass POST[perm]
+				$upFile = new UploadedFile($file['name'], $file['tmp_name'], $file['size'], $file['error'], $_POST["perm"], $_POST["otherPermData"], NULL); //here also pass POST[perm]
 				array_push($fileArr, $upFile);
 			}
 		}
 		else
 		{
-			$upFile = new UploadedFile($_FILES["fileSingle"]['name'], $_FILES["fileSingle"]['tmp_name'], $_FILES["fileSingle"]["size"], $_FILES["fileSingle"]['error'], $_POST["perm"], $_POST["otherPermData"]);
+			$upFile = new UploadedFile($_FILES["fileSingle"]['name'], $_FILES["fileSingle"]['tmp_name'], $_FILES["fileSingle"]["size"], $_FILES["fileSingle"]['error'], $_POST["perm"], $_POST["otherPermData"], $_POST["fileDesc"]);
 			array_push($fileArr, $upFile);
 		}
 
@@ -74,9 +74,9 @@ function rearrange( $arr )
 			if ($result !== true)
 				$redirect = false;
 
-			header("Refresh:10; URL=http://www.vadweb.us/files.php");
+			//header("Refresh:30; URL=http://www.vadweb.us/files.php");
 			echo $result."<br>";
-			echo "<h1> ERROR: You will be redirected in 10 seconds </h1>";	
+			echo "<h1> ERROR!!! </h1>";	
 			echo "Printing info for " . $key . ": <br>";
 			echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $f->name . "<br>";
 			echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $f->nameNoEXT . "<br>";
@@ -101,6 +101,7 @@ function rearrange( $arr )
 			ob_clean();
 			header("Location: /files.php?s=t");
 		}
+		gc_enable();
 		
 	}
 	?>

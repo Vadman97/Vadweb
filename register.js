@@ -152,6 +152,12 @@ function runReg()
 					case "E12":
 						datToDisplay += "Passwords do not match!";
 						break;
+					case "E13":
+						datToDisplay += "Already Logged In! Please sign out before registering!";
+						break;
+					case "E14":
+						datToDisplay += "You did not validate the CAPTCHA!";
+						break;
 					case "F":
 						datToDisplay = "<b>Failed to write user.";
 						break;

@@ -13,6 +13,7 @@ define("GROUP_ADMIN", 4);
 
 define("FILE_PHP", 1);
 define("VIEW_PHP", 2);
+
 //TODO Figure out what is wrong with logins and why it logs out (cookie expires at random times).
 //TODO add file renaming feature built in, or in case error in file name
 //TODO Figure out what happens if the file requested to be viewed is not found
@@ -48,6 +49,16 @@ define("VIEW_PHP", 2);
 //TODO FILE DELETION
 //TODO FILE COPYRIGHT REPORTING
 //TODO If file name not exists or invalid (for view or files.php) do something about that?
+
+//TODO Switch from the default session management (settings ini calls session_start automatically everywhere)
+
+//TODO Google images link to the thumbnail; need to fix that
+//avconv -i <input.mov>  -c:v libx264 -profile:v main -crf 30 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart <output.mp4>
+//avconv -i MVI_2563.mov  -c:v libx264 -profile:v main -crf 30 -c:a aac -strict experimental -preset ultrafast -movflags +faststart MVI_2563.mp4
+//avconv -i <input.mov> -c:v libtheora -qscale:v 7 -c:a libvorbis -qscale:a 8 <output.ogg>
+//ffmpeg -i video.flv -ss 0 -vframes 1 shot.png
+
+
 class File
 {
     public $name, $nameNoEXT, $extension, $type, $size, $absPath;
@@ -102,9 +113,9 @@ class File
 
 class UploadedFile extends File
 {
-    public $tmpUploadName, $uploadError, $minGroup, $unlisted, $otherPerms;
+    public $tmpUploadName, $uploadError, $minGroup, $unlisted, $otherPerms, $description;
     
-    public function __construct($nameWithEXT, $tmpUploadName, $size, $uploadError, $minGroup, $otherPerms)
+    public function __construct($nameWithEXT, $tmpUploadName, $size, $uploadError, $minGroup, $otherPerms, $description)
     {
         parent::__construct($nameWithEXT);
         $this->tmpUploadName = $tmpUploadName;
@@ -112,6 +123,9 @@ class UploadedFile extends File
         $this->size = $size;
         $this->minGroup = $minGroup;
         $this->otherPerms = $otherPerms;
+        $this->description = $description;
+        if (empty($this->description))
+            $this->description = $this->nameWithEXT;
     }
     public function isError()
     {
@@ -127,6 +141,10 @@ class UploadedFile extends File
             $this->uploadError = 22;
         if (strlen($this->name) > 100 || sizeof(explode(".", $this->name)) > 2 || sizeof(explode("'", $this->name)) > 1)
             $this->nameNoEXT = generateRandomLetterString(8);
+        if (strlen($this->description) > 100)
+            $this->uploadError = 23;
+        if (strlen($this->description) < 3)
+            $this->uploadError = 24;
     }
     public function evaluatePerms()
     {
@@ -153,8 +171,7 @@ class UploadedFile extends File
     }
     public function writeToMySQL()
     {
-        mysqlFileWrite($this->absPath, $this->nameNoEXT, $this->extension, $this->type, $this->minGroup, $this->unlisted, $this->otherPerms, getCurrentUsername());
-        return true;
+        return mysqlFileWrite($this->absPath, $this->nameNoEXT, $this->extension, $this->type, $this->minGroup, $this->unlisted, $this->otherPerms, $this->description, getCurrentUsername());
     }
     public function storeFile()
     {
@@ -240,27 +257,23 @@ function printNavBarForms($fileToRedir = NULL)
 {
     if (isset($fileToRedir) and !empty($fileToRedir))
         $fileToRedir = "?redirLoc=".$fileToRedir;
-    echo
-    '<form class="navbar-form navbar-right" role="form" action="/login.php'. $fileToRedir .'" method="post"'; if (isLoggedIn()) echo 'hidden="hidden"';
-    echo'
-    >
-    <div class="form-group">
-      <input type="text" placeholder="Username" id="username" name="username" class="form-control">
-  </div>
-  <div class="form-group">
-      <input type="password" placeholder="Password" id="password" name="password" class="form-control">
-  </div>
-  <button type="submit" class="btn btn-success">Sign in</button>
-</form>
-';
-echo'
-<form class="navbar-form navbar-right" role="form" action="/logout.php" method="get"'; if (!isLoggedIn()) echo 'hidden="hidden"';
-
-echo '
->
-<button type="submit" class="btn btn-danger">Logout</button>
-</form>'
-;
+    
+    if (isLoggedIn())
+    {
+        echo'
+        <form class="navbar-form navbar-right" role="form" action="/logout.php" method="get">
+            <button type="submit" class="btn btn-danger" style="display:inline;">Logout</button>
+        </form>';
+    }
+    else
+    {
+        echo '
+        <form class="navbar-form navbar-right navbar-input-group" role="form" action="/login.php'. $fileToRedir .'" method="post">
+            <input type="text" placeholder="Username" id="username" name="username" class="form-control">
+            <input type="password" placeholder="Password" id="password" name="password" class="form-control">
+            <button type="submit" class="btn btn-success" style="display:inline;">Sign in</button>
+        </form>';
+    }
 }
 function fibonacci($value)
 {
@@ -276,11 +289,22 @@ function readFileList($sort="CreatedTime", $order="") {
     $result = $sql->sQuery($query)->fetchAll();
     return $result;
 }
-function mysqlFileWrite($absPath = NULL, $nameNoEXT = NULL, $ext = NULL, $type = NULL, $minGroup = NULL, $unlisted = NULL, $otherPerms = NULL, $username = NULL)
+function mysqlFileWrite($absPath = NULL, $nameNoEXT = NULL, $ext = NULL, $type = NULL, $minGroup = NULL, $unlisted = NULL, $otherPerms = NULL, $description = NULL, $username = NULL)
 {
     $user_id = getID($username);
     $sql = SQLCon::getSQL();
-    $stmt = $sql->sQuery("INSERT INTO Files (User_ID, FilePath, MinGroup, Unlisted, OtherPerms, Type) VALUES ('$user_id', '$nameNoEXT.$ext', '$minGroup', '$unlisted', '$otherPerms', '$type')");
+    if ($otherPerms == NULL)
+        $otherPerms = "";
+    //return $sql->sQuery("INSERT INTO Files (User_ID, FilePath, MinGroup, Unlisted, OtherPerms, Type, Description) VALUES ('$user_id', '$nameNoEXT.$ext', '$minGroup', '$unlisted', '$otherPerms', '$type', '$description')");
+    $stmt = $sql->prepStmt("INSERT INTO Files (User_ID, FilePath, MinGroup, Unlisted, OtherPerms, Type, Description) VALUES (:user_id, :filePath, :minGroup, :unlisted, :otherPerms, :type, :description)");
+    $sql->bindParam($stmt, ":user_id", $user_id);
+    $sql->bindParam($stmt, ":filePath", $nameNoEXT.".".$ext);
+    $sql->bindParam($stmt, ":minGroup", $minGroup);
+    $sql->bindParam($stmt, ":unlisted", $unlisted);
+    $sql->bindParam($stmt, ":otherPerms", $otherPerms);
+    $sql->bindParam($stmt, ":type", $type);
+    $sql->bindParam($stmt, ":description", $description);
+    return $sql->execute($stmt);
 }
 function termsAgreed()
 {
@@ -322,6 +346,10 @@ function getFileID($filename = NULL)
 {
     $sql = SQLCon::getSQL();
     return $sql->sQuery("SELECT File_ID FROM Files WHERE FilePath='$filename'")->fetchAll()[0][0];
+}
+function verifyCaptcha($gresponse)
+{
+    return true;
 }
 function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 {
@@ -742,18 +770,24 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     function login($username = NULL, $password = NULL, $alreadyHashed = true)
     {
         $sql = SQLCon::getSQL();
-        ini_set('session.use_only_cookies',1);
-        $cookieParams = session_get_cookie_params();
-        session_set_cookie_params($cookieParams["lifetime"], $cookieParams["path"], $cookieParams["domain"], false, true);
         session_regenerate_id();
         $unhashedPassword = $password;
         if (!$alreadyHashed)
             $password = custHash($password);
         
-        $result = $sql->sQuery("SELECT ID FROM UserData WHERE Username='$username' AND Password='$password'")->fetchAll();
+        //$result = $sql->sQuery("SELECT ID FROM UserData WHERE Username='$username' AND Password='$password'")->fetchAll();
+
+        $stmt = $sql->prepStmt("SELECT ID FROM UserData WHERE Username=:username AND Password=:password");
+        $sql->bindParam($stmt, ":username", $username);
+        $sql->bindParam($stmt, ":password", $password);
+        $result = $sql->execute($stmt);
+        if ($result)
+            $result = $result->fetchAll();
+        else
+            $result = null;
+
         if (count($result) == 1)
         {
-            //TODO fix logLogin so it saves username not id
             logLogin($username, $password, true);
             $_SESSION['loggedInUsername']=$username;
             return true;

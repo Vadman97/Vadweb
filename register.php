@@ -17,8 +17,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
   $encPassData2 = base64_decode($_POST['password2']);
   $iv = base64_decode($_POST['iv']);
   $key = base64_decode($_POST['k']);
+  $gresponse = $_POST["g-recaptcha-response"];
 
-        //$unencPass1 = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_128, $key, $encPassData1, MCRYPT_MODE_CBC, $iv ), "\t\0 " );
+    //$unencPass1 = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_128, $key, $encPassData1, MCRYPT_MODE_CBC, $iv ), "\t\0 " );
 		//$unencPass2 = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_128, $key, $encPassData2, MCRYPT_MODE_CBC, $iv ), "\t\0 " );
   
 		//echo $encPassData1 . "<br>" . $encPassData2;
@@ -56,9 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    echo "E12";
  else if (isLoggedIn())
    echo "E13";
+ else if (!verifyCaptcha($gresponse))
+   echo "E14";
  else
  {
-			//SECURIMAGE CHECK BEFORE HERE
    sleep(1.);
    
     if (writeUser($username, $email, $yob, $pass1))
@@ -166,6 +168,14 @@ exit();
             <span class="help-block">Enter your desired password again</span>
           </div>
         </div>
+
+        <!-- Captcha-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="password2">Enter the reCAPTCHA Text</label>
+          <div class="col-md-4">
+            <div class="g-recaptcha" data-sitekey="6LeTUf4SAAAAAJ6U9O9s0W6jcr9wPiJgqW60bwWh"></div>
+          </div>
+        </div>
         
         <!-- Button -->
         <div class="form-group">
@@ -195,6 +205,7 @@ exit();
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/pbkdf2.js"></script>
     <script src="register.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     
 
   </body>

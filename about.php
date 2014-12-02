@@ -100,17 +100,17 @@ require_once("util.php");
     	<!-- Three columns of text below the carousel -->
     	<div class="row">
     		<div class="col-lg-4">
-    			<img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    			<img class="img-circle" src="/images/html5.png" alt="HTML 5 Redesign Thumbnail" style="width: 140px; height: 140px;">
     			<h2>V2 - Complete Redesign</h2>
     			<p>The current website you are seeing is a complete redesign of the initial model that was created in 2013. The summer of 2014, I made the decision to restart the project from scratch to emphasize performance and scalability, the significant challenges I encountered with the previous design: problems that arose when over 1000 files were uploaded to the system.</p>
     		</div><!-- /.col-lg-4 -->
     		<div class="col-lg-4">
-    			<img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    			<img class="img-circle" src="images/sublime.png" alt="Sublime text editor thumbnail" style="width: 140px; height: 140px;">
     			<h2>A Project in Progress</h2>
     			<p>Unfortunately, because I decided to recently redesign the website from scratch, many of the features available in the previous version are still in development. However, I am working my hardest to present those features in a timely fashion by the end of 2014.</p>
     		</div><!-- /.col-lg-4 -->
     		<div class="col-lg-4">
-    			<img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" style="width: 140px; height: 140px;">
+    			<img class="img-circle" src="images/php.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
     			<h2>Overcoming Challenges</h2>
     			<p>One significant challenge with starting this project was figuring out howo to host my own website. While I knew that buying hosting would be easier and already set up for me, I many days before I started actually programming trying to set up the server, trying to get the different services working as I intended, setting up a PHP, MySQL, and Mail servers. Not only did I get a more complete experience of webdesigning, but I gained useful skills in server configuration and the back end of how website development works. And of course, it was free as the server is still hosted in the comfort of my home.</p>
     		</div><!-- /.col-lg-4 -->
@@ -176,5 +176,10 @@ require_once("util.php");
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/resource/jquery/jquery-2.1.1.min.js"></script>
     <script src="/resource/bootstrap/js/bootstrap.js"></script>
+    <script>
+      $('.carousel').carousel({
+       interval: 10000
+      });
+    </script> 
 
 </body>

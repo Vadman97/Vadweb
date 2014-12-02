@@ -7,10 +7,13 @@
 		exit;
 	}
 	$sql = SQLCon::getSQL();
-    //$sql->sQuery("UPDATE Files SET ViewCount = ViewCount + 1 WHERE FilePath='$fileName'");
-	$result = $sql->sQuery("SELECT * FROM Files WHERE FilePath = '$fileName'")->fetchAll();
-	if (!$result)
-		exit();
+	$stmt = $sql->prepStmt("SELECT * FROM Files WHERE FilePath = :file");
+    $sql->bindParam($stmt, ":file", $fileName);
+    $result = $sql->execute($stmt);
+    if (!$result)
+        exit();
+    $result = $result->fetchAll();
+    
 	$completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[0]["FilePath"];
     $extension = getExtension($result[0]["FilePath"]); 
 
@@ -33,11 +36,13 @@
 		{
 		  case IMAGETYPE_JPEG : 
 		  {
+		  	incrementPerfCount("JPEG");
 		  	$img = imagecreatefromjpeg($completeFilePath);  
 		  	break;
 		  }
 		  case IMAGETYPE_PNG  : 
 		  {
+		  	incrementPerfCount("PNG");
 		  	$img = imagecreatefrompng($completeFilePath);
 		  	break;
 		  }
@@ -46,26 +51,35 @@
 		if ($resize) //for thumbnails
 		{
 			list($width, $height) = $imageinfo;
-			$widthMult = 128 / $width;
+			$desiredRes = 512;
+			$widthMult = $desiredRes / $width;
 			//$heightMult = 256 / $height;
 			$newWidth = $width * $widthMult;
 			$newHeight = $height * $widthMult;
-			if ($width < 128 || $height < 128)
+			if ($width < $desiredRes)
 			{
 				$newWidth = $width;
 				$newHeight = $height;
 			}
 			$newImg = imagecreatetruecolor($newWidth, $newHeight);
+			imagefill($newImg, 0, 0, imagecolorallocate($newImg, 255, 255, 255));
+			imagealphablending($newImg, true);
 			imagecopyresized($newImg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-			imagejpeg($newImg, NULL, 100);
+			imagejpeg($newImg, NULL, 50);
 			imagedestroy($img);
 			imagedestroy($newImg);
 			exit();
 		}
 		if ($specialCompress)
 		{
-			imagejpeg($img, NULL, 50); //passes to stream
+			$bg = imagecreatetruecolor(imagesx($img), imagesy($img));
+			imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
+			imagealphablending($bg, TRUE);
+			imagecopy($bg, $img, 0, 0, 0, 0, imagesx($img), imagesy($img));
+
+			imagejpeg($bg, NULL, 50); //passes to stream
 			imagedestroy($img);
+			imagedestroy($bg);
 			logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP);
 			exit();
 		}
@@ -80,6 +94,9 @@
 	}
 	if ($result[0]["Type"] == File::$types["MOVIE"]) //AMBIGUOUS NEEDS CLARIFICATION
 	{
+		if (isset($_GET["t"]))
+			$thumbnail = true;
+		
 		if ($extension == "mov")
 			header("Content-Type: video/quicktime");
 		else if ($extension == "ogg" || $extension == "ogv")
@@ -107,6 +124,7 @@
 	logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP); //for everything BUT thumbnails
 	$fp = fopen($completeFilePath, 'rb');
 	header("Content-Length: ".filesize($completeFilePath));
+	header('filename="' . $result[0]["FilePath"] . '"');
 	fpassthru($fp);
 	exit();
 ?>

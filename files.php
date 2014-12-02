@@ -52,7 +52,7 @@
             </button>
             <ul class="dropdown-menu" style="margin-left:0px;" data-toggle="modal">
                 <li><a href="#" data-toggle="modal" data-target="#upload-single">Upload Single File</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#upload-multi">Upload Multiple Files</a></li>
+                <!--<li><a href="#" data-toggle="modal" data-target="#upload-multi">Upload Multiple Files</a></li>-->
             </ul>
         </div>
     </div>
@@ -104,7 +104,7 @@
                         $sql = SQLCon::getSQL();
                         //$userGroup = currentLogin();
                         $userGroup = currentLogin();
-                        $result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 ORDER BY File_ID DESC")->fetchAll();
+                        $result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 ORDER BY File_ID DESC")->fetchAll();
                         for ($i = 0; $i <= count($result) - 1; $i++)
                         {
                             echo "<tr>\n";
@@ -117,11 +117,11 @@
                                     if ($j == 0)
                                         echo $result[$i][0];
                                     else if ($j == 1)
-                                        echo $refOpen . $result[$i][$j] . $refClose;
+                                        echo $refOpen . $result[$i][9] . $refClose;
                                     else if ($j == 2)
                                     {
                                         if (in_array(getExtension($result[$i][1]), File::$pictureEXTs) && $result[$i][8] != 1)
-                                            echo $refOpen . "<img src='http://www.vadweb.us/file.php?name=".$result[$i][1]."&amp;t' style='' alt='thumbnail'/>" . $refClose;
+                                            echo $refOpen . "<img src='http://www.vadweb.us/file.php?name=".htmlspecialchars($result[$i][1], ENT_QUOTES)."&amp;t' style='max-width:128px' alt='".htmlspecialchars($result[$i][9], ENT_QUOTES)." thumbnail'/>" . $refClose;
                                         else if ($result[$i][8] == 1)
                                             echo "Sp00ky NSFW";
                                     }
@@ -169,9 +169,13 @@
                     <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
                     <form method="post"  enctype="multipart/form-data" action="fileUpload.php">
                         <div class="form-group">
-                            <label for="fileSingle">Single File:</label>
+                            <label for="fileSingle">Single File:</label><br>
                             <input type="file" name="fileSingle" required>
                         </div> 
+                        <div class="form-group">
+                            <label for="fileDesc">File Description / Title:</label><br>
+                            <input type="text" name="fileDesc" placeholder="Description" maxlength=100 required>
+                        </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -267,5 +271,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/resource/jquery/jquery-2.1.1.min.js"></script>
     <script src="/resource/bootstrap/js/bootstrap.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </body>
 </html>
