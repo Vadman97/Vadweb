@@ -110,7 +110,7 @@
                             echo "<tr>\n";
                             for ($j = 0; $j < 7; $j++) //j here is less than 5 because 5 column, 5 details from mysql 
                             {
-                                $refOpen = "<a href='http://www.vadweb.us/view.php?name=".$result[$i][1]."'>";
+                                $refOpen = "<a href='/view.php?name=".$result[$i][1]."'>";
                                 $refClose = "</a>";
 
                                 echo "\t\t\t<td>";
@@ -121,7 +121,7 @@
                                     else if ($j == 2)
                                     {
                                         if (in_array(getExtension($result[$i][1]), File::$pictureEXTs) && $result[$i][8] != 1)
-                                            echo $refOpen . "<img src='http://www.vadweb.us/file.php?name=".htmlspecialchars($result[$i][1], ENT_QUOTES)."&amp;t' style='max-width:128px' alt='".htmlspecialchars($result[$i][9], ENT_QUOTES)." thumbnail'/>" . $refClose;
+                                            echo $refOpen . "<img src='file.php?name=".htmlspecialchars($result[$i][1], ENT_QUOTES)."&amp;t' style='max-width:128px' alt='".htmlspecialchars($result[$i][9], ENT_QUOTES)." thumbnail'/>" . $refClose;
                                         else if ($result[$i][8] == 1)
                                             echo "Sp00ky NSFW";
                                     }
