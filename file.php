@@ -65,7 +65,7 @@
 			imagefill($newImg, 0, 0, imagecolorallocate($newImg, 255, 255, 255));
 			imagealphablending($newImg, true);
 			imagecopyresized($newImg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-			imagejpeg($newImg, NULL, 50);
+			imagejpeg($newImg, NULL, 20);
 			imagedestroy($img);
 			imagedestroy($newImg);
 			exit();

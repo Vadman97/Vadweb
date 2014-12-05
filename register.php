@@ -171,7 +171,7 @@ exit();
 
         <!-- Captcha-->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="password2">Enter the reCAPTCHA Text</label>
+          <label class="col-md-4 control-label">Enter the reCAPTCHA</label>
           <div class="col-md-4">
             <div class="g-recaptcha" data-sitekey="6LeTUf4SAAAAAJ6U9O9s0W6jcr9wPiJgqW60bwWh"></div>
           </div>

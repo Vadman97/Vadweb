@@ -49,7 +49,9 @@ define("VIEW_PHP", 2);
 //TODO FILE DELETION
 //TODO FILE COPYRIGHT REPORTING
 //TODO If file name not exists or invalid (for view or files.php) do something about that?
-
+//TODO CAPTCHA VERIFICATION FOR REGISTERING/UPLOADING
+//TODO Captcha if uploading cooldown, for login if too many attempts, for email changing?
+//TODO TERMS AND CONDITIONS
 //TODO Switch from the default session management (settings ini calls session_start automatically everywhere)
 
 //TODO Google images link to the thumbnail; need to fix that
@@ -349,7 +351,22 @@ function getFileID($filename = NULL)
 }
 function verifyCaptcha($gresponse)
 {
-    return true;
+    $secret = "6LeTUf4SAAAAAD3yTZuzqJagfsZTEf7ml5FUKAx-";
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $gresponse . '&remoteip=' . $_SERVER["REMOTE_ADDR"]);
+    curl_setopt($curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4 );
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    // Send the request & save response to $resp
+    $resp = curl_exec($curl);
+    // Close request to clear up some resources
+    curl_close($curl);
+    $results = json_decode($resp, true);
+    //print_r($results);
+    //echo $resp;
+    if ($results["success"])
+        return true;
+    return false;
 }
 function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 {

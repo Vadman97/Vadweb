@@ -50,7 +50,8 @@ require_once("util.php");
   <div class="container-fluid">
     <div class="starter-template" >
       <h1>Email Verification</h1>
-      <p class="lead" style="overflow:auto; overflow-style:marquee-block">You must verify your email before continuing<br><br><br></p>
+      <p class="lead" style="overflow:auto; overflow-style:marquee-block">You must verify your email before continuing</p>
+      <p>Due to a large number of emails used for registration being fake, we have added this step to make the user experience more secure.</p><br><br><br>
       <span style='color:red; font-family: Comic Sans MS'>
       <?php
       if (emailVerified() === true)

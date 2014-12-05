@@ -117,8 +117,8 @@
                 <?php
                 echo "<h1>" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . "</h1>";
                 echo "<h2>" . $filename . "</h2>";
-                echo "<h3>View Count: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
-                echo "<p><a href='file.php?name=".$filename."'>Click here for direct link to file " . $filename . ".</a></p><br>";
+                echo "<h3>Views: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
+                echo "<p><a href='file.php?name=".$filename."&r'>Click here for direct link to file " . $filename . ".</a></p><br>";
 
                 function openMessage($message)
                 {
@@ -165,7 +165,6 @@
                 }
 
                 $result = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf IS NULL")->fetchAll();
-                $totalComm = count($sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid'")->fetchAll());
                 $rootComm = count($result);
                 for ($i = 0; $i < $rootComm; $i++)
                 {

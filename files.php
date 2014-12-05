@@ -168,29 +168,46 @@
                     <h5> This feature works for all registered users. </h5>
                     <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
                     <form method="post"  enctype="multipart/form-data" action="fileUpload.php">
-                        <div class="form-group">
-                            <label for="fileSingle">Single File:</label><br>
-                            <input type="file" name="fileSingle" required>
-                        </div> 
-                        <div class="form-group">
-                            <label for="fileDesc">File Description / Title:</label><br>
-                            <input type="text" name="fileDesc" placeholder="Description" maxlength=100 required>
-                        </div>
+                    <div class="container-fluid">
                         <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="fileSingle">Single File:</label><br>
+                                    <input type="file" name="fileSingle" required>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="row" >
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="fileDesc">File Description / Title:</label><br>
+                                    <input type="text" name="fileDesc" placeholder="Description" maxlength=100 required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" >
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <b><span class="col-sm-6 control-label">Who can view?</span></b><br>
-                                    <div class="col-sm-6 pull-left">
-                                        <input type="radio" id="perm" name="perm" value="<?php echo GROUP_NONE; ?>" checked="checked"> Everyone<br>
-                                        <input type="radio" id="perm" name="perm" value="<?php echo GROUP_REGISTERED; ?>"> Registered<br>
-                                        <input type="radio" id="perm" name="perm" value="<?php echo GROUP_FRIENDS; ?>"> VIP Friends<br>
-                                    </div>
+                                    <b><span class="control-label">Who can view?</span></b><br>
+                                    <input type="radio" id="perm" name="perm" value="<?php echo GROUP_NONE; ?>" checked="checked"> Everyone<br>
+                                    <input type="radio" id="perm" name="perm" value="<?php echo GROUP_REGISTERED; ?>"> Registered<br>
+                                    <input type="radio" id="perm" name="perm" value="<?php echo GROUP_FRIENDS; ?>"> VIP Friends<br>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <b><span class="col-sm-6 control-label">User specific:</span></b><br>
-                                    <b><span class="col-sm-6 control-label">Coming soon</span></b><br>
+                                    <b><span class="control-label">User specific:</span></b><br>
+                                    <b><span class="control-label">Coming soon</span></b><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:50px" hidden>
+                            <!-- Captcha-->
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                  <div class="col-md-4">
+                                    <div class="g-recaptcha" data-sitekey="6LeTUf4SAAAAAJ6U9O9s0W6jcr9wPiJgqW60bwWh"></div>
+                                  </div>
                                 </div>
                             </div>
                         </div>
@@ -198,6 +215,7 @@
                             <label for="upload-submit"></label><br><br><br>
                             <input id="upload-submit" class="btn btn-default" type="submit" value="Submit File" style="margin-top:5px;"> 
                         </div>
+                    </div>
                     </form>                        
                 </div>
                 <div class="modal-footer">

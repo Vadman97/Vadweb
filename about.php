@@ -70,7 +70,7 @@ require_once("util.php");
     					<p>The Vadweb project was meant as a way for people to interact and share images in a secure setting, to allow friends to share ideas with highly customizeable permissions
     					settings.</p>
     					<p>Vadweb meant to be an upgrade from websites such as <code>Facebook.com</code> or <code>Imgur.com</code> to aid productivity while providing the security and customizeability needed,
-    					with only one author dedicated to earning the trust of his users.</p>
+    					with only one author (me!) dedicated to earning the trust of his users.</p>
     				</div>
     			</div>
     		</div>
@@ -105,7 +105,8 @@ require_once("util.php");
     			<p>The current website you are seeing is a complete redesign of the initial model that was created in 2013. The summer of 2014, I made the decision to restart the project from scratch to emphasize performance and scalability, the significant challenges I encountered with the previous design: problems that arose when over 1000 files were uploaded to the system.</p>
     		</div><!-- /.col-lg-4 -->
     		<div class="col-lg-4">
-    			<img class="img-circle" src="images/sublime.png" alt="Sublime text editor thumbnail" style="width: 140px; height: 140px;">
+    			<!--<img class="img-circle" src="images/sublime.png" alt="Sublime text editor thumbnail" style="width: 140px; height: 140px;">-->
+                <img class="img-circle" src="file.php?name=1926055_788629631165459_1938656591_o.jpg" alt="vadim photo" style="width: 150px; height: 140px;">
     			<h2>A Project in Progress</h2>
     			<p>Unfortunately, because I decided to recently redesign the website from scratch, many of the features available in the previous version are still in development. However, I am working my hardest to present those features in a timely fashion by the end of 2014.</p>
     		</div><!-- /.col-lg-4 -->
