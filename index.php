@@ -4,7 +4,7 @@ require_once("dbcon.php");
 require_once("util.php");
 ?>
 <head>
-  <title>Vadweb Overview Home Page</title>
+  <title>Vadweb File Sharing Home Page</title>
   <meta name="robots" content="index"/>
   <link href="resource/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
   <?php

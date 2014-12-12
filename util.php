@@ -54,12 +54,37 @@ define("VIEW_PHP", 2);
 //TODO TERMS AND CONDITIONS
 //TODO Switch from the default session management (settings ini calls session_start automatically everywhere)
 
+//TODO ORGANIZE PRIORITIES
+//TODO Add lost username help, improve login to be ajax?
+//TODO improve the way images are displayed; css
+
 //TODO Google images link to the thumbnail; need to fix that
 //avconv -i <input.mov>  -c:v libx264 -profile:v main -crf 30 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart <output.mp4>
 //avconv -i MVI_2563.mov  -c:v libx264 -profile:v main -crf 30 -c:a aac -strict experimental -preset ultrafast -movflags +faststart MVI_2563.mp4
 //avconv -i <input.mov> -c:v libtheora -qscale:v 7 -c:a libvorbis -qscale:a 8 <output.ogg>
 //ffmpeg -i video.flv -ss 0 -vframes 1 shot.png
 
+/*---- Prioritized TODO List -----
+*Get commenting implemented- add frontend and backend for adding comments
+*Improve uploads modal to include permissions for unlisted (checkbox)
+*Add permissions management for user specific settings
+*Admin file management: viewing use permissions
+*Terms and conditions, validation
+*Paginate views.php
+*Add lost username help
+*Improve number of file types supported for embedding
+*Add tracking of sources for link views, more information
+*Add management of your uploads, file renaming, deleting, NSFW, moderation for admins
+*Make uploading dialog AJAX using bootstrap loading bars
+*Add file search or sorting by user etc
+*Organize account settings page, add user pictures
+*File copyright reporting
+*Uploading videos: using php with avconv to convert for web formats
+*CAPTCHA verification for uploads and whatnot
+*Improve photo alt tags: make sure thumbnails don't show up on google but regular images do
+*Improve frontend of the view.php
+*Improve session management 
+*/
 
 class File
 {
@@ -262,19 +287,21 @@ function printNavBarForms($fileToRedir = NULL)
     
     if (isLoggedIn())
     {
-        echo'
+        echo '
         <form class="navbar-form navbar-right" role="form" action="/logout.php" method="get">
-            <button type="submit" class="btn btn-danger" style="display:inline;">Logout</button>
-        </form>';
+            <div class="row">
+		<button type="submit" class="btn btn-danger" style="display:inline;">Logout</button>
+     	    </div>
+	</form>';
     }
     else
     {
         echo '
         <form class="navbar-form navbar-right navbar-input-group" role="form" action="/login.php'. $fileToRedir .'" method="post">
-            <input type="text" placeholder="Username" id="username" name="username" class="form-control">
-            <input type="password" placeholder="Password" id="password" name="password" class="form-control">
-            <button type="submit" class="btn btn-success" style="display:inline;">Sign in</button>
-        </form>';
+		<input type="text" placeholder="Username" id="username" name="username" class="form-control">
+		<input type="password" placeholder="Password" id="password" name="password" class="form-control">
+		 <button type="submit" class="btn btn-success" style="display:inline;">Sign in</button>
+	</form>';
     }
 }
 function fibonacci($value)

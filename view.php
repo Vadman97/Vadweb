@@ -60,7 +60,7 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-7" name="fileBody" id="fileBody">
                 <?php
                 if (!canViewFileByName($filename, VIEWING_MODE)) 
                 {
@@ -88,6 +88,10 @@
                         echo "<img src='file.php?name=".$filename."' style='width: 100%;' alt='" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . " image upload creation user " . htmlspecialchars(getUsername($result[0]["User_ID"]), ENT_QUOTES) . " quality'></img>"; 
                     echo "</a>";
                 }
+		else if ($result[0]["Type"] == File::$types["PDF"])
+		{
+			echo '<iframe src="file.php?name=' . $filename  . '" style="width:100%;" frameborder="0"></iframe>';
+		}
                 else if ($result[0]["Type"] == File::$types["MOVIE"])
                 {
                     echo '<video id="movie" src="file.php?name='.$filename.'" controls width="100%"></video>';
@@ -110,7 +114,20 @@
                             </object>";
                 }
                 else
-                    echo "<p><font size='6'>Loading files other than images is currently being implemented.</font></p>";
+                {
+                    if ($extension == "txt")
+                    {
+                        echo "<script>";
+                        echo "
+
+                        ";
+                        echo "</script>";
+                    }
+                    else
+                    {
+                        echo "<p><font size='6'>File cannot be previewed. Please click the 'direct link' to download.</font></p>";
+                    }
+                }
                 ?>
             </div>
             <div class="col-md-5">

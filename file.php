@@ -116,10 +116,17 @@
 	}
 	if ($result[0]["Type"] == File::$types["OTHER"])
 	{
-		header("Cache-Control: no-cache, must-revalidate");
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-		header("Content-Type: application/octet-stream");
-		header('Content-Disposition: attachment; filename="' . $result[0]["FilePath"] . '"');
+		if ($extension == "txt")
+		{
+			header("Content-Type: text/plain");
+		}
+		else
+		{
+			header("Cache-Control: no-cache, must-revalidate");
+			header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+			header("Content-Type: application/octet-stream");
+			header('Content-Disposition: attachment; filename="' . $result[0]["FilePath"] . '"');
+		}
 	}
 	logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP); //for everything BUT thumbnails
 	$fp = fopen($completeFilePath, 'rb');
