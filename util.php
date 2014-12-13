@@ -66,7 +66,7 @@ define("VIEW_PHP", 2);
 
 /*---- Prioritized TODO List -----
 *Get commenting implemented- add frontend and backend for adding comments
-*Improve uploads modal to include permissions for unlisted (checkbox)
+*Improve uploads modal to include permissions for unlisted (checkbox) settings, make sure looks good, prepare for ajax uploads
 *Add permissions management for user specific settings
 *Admin file management: viewing use permissions
 *Terms and conditions, validation
