@@ -59,18 +59,24 @@ define("VIEW_PHP", 2);
 //TODO improve the way images are displayed; css
 
 //TODO Google images link to the thumbnail; need to fix that
+//TODO The following is for video conversion
 //avconv -i <input.mov>  -c:v libx264 -profile:v main -crf 30 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart <output.mp4>
 //avconv -i MVI_2563.mov  -c:v libx264 -profile:v main -crf 30 -c:a aac -strict experimental -preset ultrafast -movflags +faststart MVI_2563.mp4
 //avconv -i <input.mov> -c:v libtheora -qscale:v 7 -c:a libvorbis -qscale:a 8 <output.ogg>
 //ffmpeg -i video.flv -ss 0 -vframes 1 shot.png
 
 /*---- Prioritized TODO List -----
+*Fix login bar not fitting on a medium sized screen, iphone compatability
 *Get commenting implemented- add frontend and backend for adding comments
+*Display owner next to comments, add ratomgs for comments, prevent comment spam
 *Improve uploads modal to include permissions for unlisted (checkbox) settings, make sure looks good, prepare for ajax uploads
 *Add permissions management for user specific settings
 *Admin file management: viewing use permissions
 *Terms and conditions, validation
 *Paginate views.php
+*Readd multi-file uploads
+*Ajax file view loading/updating
+*Cache compressed images?
 *Add lost username help
 *Improve number of file types supported for embedding
 *Add tracking of sources for link views, more information
@@ -84,6 +90,8 @@ define("VIEW_PHP", 2);
 *Improve photo alt tags: make sure thumbnails don't show up on google but regular images do
 *Improve frontend of the view.php
 *Improve session management 
+*Redo email verification; add age verification based on certain things like trying to upload a ton or email looks fake, not just for everyone after registering
+*   Also maybe make it so if you didn't verify email you can still do things like read posts but not upload?
 */
 
 class File
@@ -288,20 +296,47 @@ function printNavBarForms($fileToRedir = NULL)
     if (isLoggedIn())
     {
         echo '
-        <form class="navbar-form navbar-right" role="form" action="/logout.php" method="get">
-            <div class="row">
+        <form class="navbar-form" role="form" action="/logout.php" method="get">
+            <div class="row navbar-right">
 		<button type="submit" class="btn btn-danger" style="display:inline;">Logout</button>
      	    </div>
 	</form>';
     }
     else
     {
-        echo '
+        /*echo '
         <form class="navbar-form navbar-right navbar-input-group" role="form" action="/login.php'. $fileToRedir .'" method="post">
 		<input type="text" placeholder="Username" id="username" name="username" class="form-control">
 		<input type="password" placeholder="Password" id="password" name="password" class="form-control">
 		 <button type="submit" class="btn btn-success" style="display:inline;">Sign in</button>
-	</form>';
+	</form>';*/
+        /*
+        <div class="row">
+          <div class="col-xs-2">
+            <input type="text" class="form-control" placeholder=".col-xs-2">
+          </div>
+          <div class="col-xs-3">
+            <input type="text" class="form-control" placeholder=".col-xs-3">
+          </div>
+          <div class="col-xs-4">
+            <input type="text" class="form-control" placeholder=".col-xs-4">
+          </div>
+        </div>
+        */
+        echo '
+          <form class="" role="form" action="/login.php'. $fileToRedir .'" method="post">
+            <div class="row navbar-form">
+                <div class="col-xs-2">
+                  <input type="text" placeholder="Username" id="username" name="username" class="form-control">
+                </div>
+                <div class="col-xs-2">
+                  <input type="password" placeholder="Password" id="password" name="password" class="form-control">
+                </div>
+                <div class="col-xs-1">
+                  <button type="submit" class="btn btn-success">Sign in</button>
+                </div>
+            </div>
+          </form>';
     }
 }
 function fibonacci($value)
@@ -644,6 +679,29 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         $total = microtime() - $start;
         //echo $total;
     }
+    function submitComment($comment, $filename, $supercomment = NULL)
+    {
+    	if (empty($comment) || empty($filename))
+    	    return false;
+    	$sql = SQLCon::getSQL();
+    	$userID = getCurrentUserID();
+    	$fileID = getFileID($filename);
+    	if ($supercomment == NULL)
+    	{
+    	    if ($sql->sQuery("INSERT INTO Comments (File_ID, User_ID, Comment, SubCommentOf, Rating) VALUES ('$fileID', '$userID', '$comment', NULL, 1)") != false)
+    		return true;
+    	}
+    }
+
+    function commentTimeout($filename = NULL)
+    {
+        return false;
+    }
+
+    function commentSafe($commentText)
+    {
+        return true;
+    }
 
     function getCurrentUserID()
     {
@@ -688,6 +746,13 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         $sql->sQuery("UPDATE PerformanceDebug SET Value=Value+1 WHERE  Type='$name'");
     }
 
+    function canComment()
+    {
+        if (currentLogin() >= GROUP_REGISTERED)
+            return true;
+        return false;
+    }
+
     function canUpload()
     {
         if (currentLogin() >= GROUP_REGISTERED)
@@ -704,24 +769,24 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         $result = $sql->sQuery("select Username, GroupVal from UserData where Username='$user_check'")->fetchAll(); //todo fix< bad
         //incrementPerfCount("CurrentLogin");
         if (!isset($result) or empty($result))
-            return GROUP_NONE;
+            return 'GROUP_NONE';
         
         $login_session_username = $result[0]["Username"]; //this is the username that we looked up.
         
         if (empty($login_session_username) or !isset($login_session_username))
-            return GROUP_NONE;
+            return 'GROUP_NONE';
         else
         {
             $_SESSION['cachedUserGroup'] = $result[0]["GroupVal"];
             return $result[0]["GroupVal"];
         }
         
-        return GROUP_NONE;
+        return 'GROUP_NONE';
     }
 
     function isLoggedIn()
     {
-        if (currentLogin() == GROUP_NONE)
+        if (currentLogin() == 'GROUP_NONE')
             return false;
         else
             return true;

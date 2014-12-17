@@ -26,6 +26,57 @@
         $result = null;
         $title = "Vadweb File Sharing View";
     }
+
+    function echoMessage($message)
+    {
+        echo $message;
+        echo '<div class="row-fluid" style="padding-top:5px">';
+        echo '<button class="btn btn-xs btn-primary">Reply</button>';
+        echo '</div>';
+    }
+    function openMessage($message)
+    {
+        echo '
+        <div class="container-fluid" style="padding-top:10px;">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-11">
+                    <div class="well well-sm">
+        ';
+        echoMessage($message);
+    }
+    function closeMessage()
+    {
+        echo '
+                    </div>
+                </div>
+            </div>
+        </div>
+        ';
+    }
+    function openRootMessage($message)
+    {
+        echo '<div class="well well-sm">';
+        echoMessage($message);
+    }
+    function closeRootMessage()
+    {
+        echo '</div>';
+    }
+    function runSublayer($superComment, $fileid)
+    {
+        $sql = SQLCon::getSQL();
+        $result = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf=$superComment")->fetchAll();
+        $resultNum = count($result);
+        if ($resultNum == 0)
+            return;
+        for ($i = 0; $i < $resultNum; $i++)
+        {
+            openMessage($result[$i]["Comment"]);
+            runSublayer($result[$i]["ID"], $fileid);
+            closeMessage();
+        }
+    }
 ?>
 <head>
     <title><?php echo $title; ?></title>
@@ -36,8 +87,34 @@
 
 <body style='padding-top:65px;'>
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
+    <!--
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="form">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
               <div class="navbar-header">
                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -47,17 +124,16 @@
                 </button>
                 <a class="navbar-brand" href="#">Vadweb</a>
             </div>             
-            <div class="navbar-collapse collapse">
-
+            <div id="navbar" class="navbar-collapse navbar-responsive-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a style="color:#FFF" href="/register.php">Register</a></li>
                     <li><a style="color:#FFF" href="/files.php">File Uploads</a></li>
                     <li><a style="color:#FFF" href="/account.php">Account Settings</a></li>
                 </ul>
-                <?php printNavBarForms("register.php"); ?>
+                <?php printNavBarForms("view.php"); ?>
             </div>
         </div><!--/.navbar-collapse -->
-    </div>
+    </nav>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-7" name="fileBody" id="fileBody">
@@ -88,10 +164,10 @@
                         echo "<img src='file.php?name=".$filename."' style='width: 100%;' alt='" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . " image upload creation user " . htmlspecialchars(getUsername($result[0]["User_ID"]), ENT_QUOTES) . " quality'></img>"; 
                     echo "</a>";
                 }
-		else if ($result[0]["Type"] == File::$types["PDF"])
-		{
-			echo '<iframe src="file.php?name=' . $filename  . '" style="width:100%;" frameborder="0"></iframe>';
-		}
+        		else if ($result[0]["Type"] == File::$types["PDF"])
+        		{
+        			echo '<iframe src="file.php?name=' . $filename  . '" style="width:100%;" frameborder="0"></iframe>';
+        		}
                 else if ($result[0]["Type"] == File::$types["MOVIE"])
                 {
                     echo '<video id="movie" src="file.php?name='.$filename.'" controls width="100%"></video>';
@@ -137,50 +213,6 @@
                 echo "<h3>Views: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
                 echo "<p><a href='file.php?name=".$filename."&r'>Click here for direct link to file " . $filename . ".</a></p><br>";
 
-                function openMessage($message)
-                {
-                    echo '
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-11">
-                                <div class="well well-sm">
-                    ';
-                    echo $message;
-                }
-                function closeMessage()
-                {
-                    echo '
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    ';
-                }
-                function openRootMessage($message)
-                {
-                    echo '<div class="well well-sm">';
-                    echo $message;
-                }
-                function closeRootMessage()
-                {
-                    echo '</div>';
-                }
-                function runSublayer($superComment, $fileid)
-                {
-                    $sql = SQLCon::getSQL();
-                    $result = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf=$superComment")->fetchAll();
-                    $resultNum = count($result);
-                    if ($resultNum == 0)
-                        return;
-                    for ($i = 0; $i < $resultNum; $i++)
-                    {
-                        openMessage($result[$i]["Comment"]);
-                        runSublayer($result[$i]["ID"], $fileid);
-                        closeMessage();
-                    }
-                }
-
                 $result = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf IS NULL")->fetchAll();
                 $rootComm = count($result);
                 for ($i = 0; $i < $rootComm; $i++)
@@ -196,47 +228,29 @@
                 $time_end = microtime(true);
                 $execution_time = ($time_end - $time_start);
                 gc_enable();
-                echo '<p><b>Total Execution Time:</b> '.$execution_time.' Sec</p>';
+                echo '<p><b>Total Execution Time:</b> '.$execution_time.' Sec</p><br><br>';
                 ?>
 
-                <!--<ul class="media-list">
+
+                <ul class="media-list">
                   <li class="media">
                     <a class="media-left" href="#">
                       <img data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE0LjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true" style="width: 64px; height: 64px;">
                     </a>
-                    <div class="media-body">
-                      <h4 class="media-heading">Media heading</h4>
-                      <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-                      <div class="media">
-                        <a class="media-left" href="#">
-                          <img data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE0LjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true" style="width: 64px; height: 64px;">
-                        </a>
-                        <div class="media-body">
-                          <h4 class="media-heading">Nested media heading</h4>
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-                          <div class="media">
-                            <a class="media-left" href="#">
-                              <img data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE0LjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true" style="width: 64px; height: 64px;">
-                            </a>
-                            <div class="media-body">
-                              <h4 class="media-heading">Nested media heading</h4>
-                              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="media">
-                        <a class="media-left" href="#">
-                          <img data-src="holder.js/64x64" alt="64x64" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnMvPjxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE0LjUiIHk9IjMyIiBzdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NjR4NjQ8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true" style="width: 64px; height: 64px;">
-                        </a>
-                        <div class="media-body">
-                          <h4 class="media-heading">Nested media heading</h4>
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-                        </div>
-                      </div>
+                    <div class="media-body" style="width:100%">
+                      <h4 class="media-heading">Post a comment</h4>
+        		     	<form role="form" method="post" enctype="multipart/form-data" action="submitComment.php">
+        				  <div class="form-group"> 
+        		   		    <input type="text" id="comment" name="comment" class="form-control" placeholder="Comment here" style="width:100%">
+                   	 	  </div>
+        				  <input type="text" id="filename" name="filename" hidden="hidden" value="<?php echo $filename; ?>">
+        			      <button type="submit" class="btn btn-default">Submit</button>
+                        </form>
                     </div>
                   </li>
-                </ul>-->
+                </ul>
+
+
             </div>
         </div>
     </div>
