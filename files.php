@@ -181,7 +181,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="fileDesc">File Description / Title:</label><br>
-                                    <input type="text" name="fileDesc" placeholder="Description" maxlength=100 required>
+                                    <input type="text" name="fileDesc" placeholder="Description" maxlength=300 required>
                                 </div>
                             </div>
                         </div>

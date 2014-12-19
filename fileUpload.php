@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $f->name . "<br>";
 		echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $f->nameNoEXT . "<br>";
 		echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $f->extension . "<br>";
-		echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $f->uploadError . "<br>";
+		echo "&nbsp&nbsp&nbsp&nbsp&nbsp<h2> Please note this error code: " . $f->uploadError . "</h2><br>";
 		echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $f->type . "<br>";
 		echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $f->size . "<br>";
 		echo "&nbsp&nbsp&nbsp&nbsp&nbsp" . $f->absPath . "<br>";

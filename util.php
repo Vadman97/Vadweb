@@ -96,7 +96,7 @@ class UploadedFile extends File
             $this->uploadError = 22;
         if (strlen($this->name) > 100 || sizeof(explode(".", $this->name)) > 2 || sizeof(explode("'", $this->name)) > 1)
             $this->nameNoEXT = generateRandomLetterString(8);
-        if (strlen($this->description) > 100)
+        if (strlen($this->description) > 300)
             $this->uploadError = 23;
         if (strlen($this->description) < 3)
             $this->uploadError = 24;
@@ -729,24 +729,24 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         $result = $sql->sQuery("select Username, GroupVal from UserData where Username='$user_check'")->fetchAll(); //todo fix< bad //WHAT IS THIS COMMENT I LEFT?!?!?! WHY IS IT BAD
         //incrementPerfCount("CurrentLogin");
         if (!isset($result) or empty($result))
-            return 'GROUP_NONE';
+            return GROUP_NONE;
         
         $login_session_username = $result[0]["Username"]; //this is the username that we looked up.
         
         if (empty($login_session_username) or !isset($login_session_username))
-            return 'GROUP_NONE';
+            return GROUP_NONE;
         else
         {
             $_SESSION['cachedUserGroup'] = $result[0]["GroupVal"];
             $_SESSION['userGroupCachingTime'] = time();
             return $_SESSION['cachedUserGroup'];
         }
-        return 'GROUP_NONE';
+        return GROUP_NONE;
     }
 
     function isLoggedIn()
     {
-        if (currentLogin() == 'GROUP_NONE')
+        if (currentLogin() == GROUP_NONE)
             return false;
         else
             return true;
@@ -754,7 +754,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     
     function isAdmin()
     {
-        if (currentLogin() >= 'GROUP_ADMIN')
+        if (currentLogin() >= GROUP_ADMIN)
             return true;
         return false;
     }

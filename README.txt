@@ -6,10 +6,17 @@ Mostly just a TODO list for now:
 
 
 /*---- Prioritized TODO List -----
+*Redo what I accidentally undid:
+*	Displaying username
+*	Overflow of large comments
+*	Comment timeout
+*	Backend of comment safety
 *BUG: Figure out something to do with email verification letting you change email: make it so you can't change email to that of other people (other users); double check email verification/account.php
 *BUG: Fix session expiration, new potential cause: if you do something (logout, click a file) while view.php is still loading...
 *IMPORTANT: Viewing comments only for registered users?
 *IMPORTANT: Go through my code and look for random todos cuz some of them are actually strangely important
+*FEATURE: Email me when there is an issue in file uploads or something; just implement emailing for errors
+*IMPORTANT: Make it so the upload titles are all the same length, eg they are packed into a tighter box (css frontend mostly)
 *
 *Paginate views.php
 *Make login bar look better

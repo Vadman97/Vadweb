@@ -6,17 +6,17 @@ require_once("util.php");
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
+	if (!canComment())
+	{
+		echo "E:COM_PERM<br>";
+		echo "LOOKS LIKE YOU NEED TO LOG IN OR REGISTER TO COMMENT!";
+	}
 	$comment = $_POST["comment"];
 	$filename = $_POST["filename"];
 	if (isset($_POST["subCommentOf"]))
 		$superID = $_POST["subCommentOf"];
 	else
 		$superID = NULL;
-	if (!canComment())
-	{
-		echo "E:COM_PERM<br>";
-		echo "LOOKS LIKE YOU NEED TO LOG IN OR REGISTER TO COMMENT!";
-	}
 	if (commentTimeout($filename))
 	{
 		echo "E:COM_TIMEOUT<br>";
