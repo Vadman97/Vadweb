@@ -8,6 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
 	$comment = $_POST["comment"];
 	$filename = $_POST["filename"];
+	if (isset($_POST["subCommentOf"]))
+		$superID = $_POST["subCommentOf"];
+	else
+		$superID = NULL;
 	if (!canComment())
 	{
 		echo "E:COM_PERM<br>";
@@ -18,13 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		echo "E:COM_TIMEOUT<br>";
 		echo "LOOKS LIKE YOU COMMENTED TOO MUCH! Please wait...";
 	}
-	if (!commentSafe($comment))
+	$comment = safeComment($comment);
+	if (submitComment($comment, $filename, $superID))
 	{
-		echo "E:COM_UNSAFE<br>";
-		echo "WOW MAJ0R H4X0R Stop trying to comment dangerous things... change your comment text please!";
-	}
-	if (submitComment($comment, $filename))
-	{
+		echo "S";
 		ob_clean();
 		header("Location: " . $_SERVER["HTTP_REFERER"]);
 	}

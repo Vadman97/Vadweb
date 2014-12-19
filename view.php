@@ -18,6 +18,7 @@
             exit();
         }
         $result = $result->fetchAll();
+        $uploadedBy = $result[0]["User_ID"];
         headForView($result);
         $title = $result[0]["Description"] . " - Vadweb File Sharing View";
     }
@@ -27,14 +28,25 @@
         $title = "Vadweb File Sharing View";
     }
 
-    function echoMessage($message)
+    function echoMessage($message, $commentAsReplyForCommentID)
     {
         echo $message;
-        echo '<div class="row-fluid" style="padding-top:5px">';
-        echo '<button class="btn btn-xs btn-primary">Reply</button>';
+        echo '<div class="row" style="padding-top:5px">';
+        //echo '<button class="btn btn-xs btn-primary" data-index-number="' . $commentAsReplyForCommentID . '" id="inRespToCom_' . $commentAsReplyForCommentID . '" name="inRespToCom_' . $commentAsReplyForCommentID . '">Reply</button>';
+        echo '<div class="col-md-2"><button class="btn btn-xs btn-primary replyButton" data-index-number="' . $commentAsReplyForCommentID . '">Reply</button></div>';
+        echo '<div class="col-md-10">';
+        echo '<form role="form" method="post" class="replyForm" enctype="multipart/form-data" action="submitComment.php" hidden>
+          <div class="form-group"> 
+            <input type="text" id="comment" name="comment" class="form-control" placeholder="Reply">
+          </div>
+          <input type="text" id="filename" name="filename" hidden="hidden" value="' . $_GET["name"] . '">
+          <input type="text" id="subCommentOf" name="subCommentOf" hidden="hidden" value="' . $commentAsReplyForCommentID . '">
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>';
+        echo "</div>";
         echo '</div>';
     }
-    function openMessage($message)
+    function openMessage($message, $commentID)
     {
         echo '
         <div class="container-fluid" style="padding-top:10px;">
@@ -43,7 +55,7 @@
                 <div class="col-md-11">
                     <div class="well well-sm">
         ';
-        echoMessage($message);
+        echoMessage($message, $commentID);
     }
     function closeMessage()
     {
@@ -54,25 +66,25 @@
         </div>
         ';
     }
-    function openRootMessage($message)
+    function openRootMessage($message, $commentID)
     {
         echo '<div class="well well-sm">';
-        echoMessage($message);
+        echoMessage($message, $commentID);
     }
     function closeRootMessage()
     {
         echo '</div>';
     }
-    function runSublayer($superComment, $fileid)
+    function runSublayer($superCommentID, $fileid)
     {
         $sql = SQLCon::getSQL();
-        $result = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf=$superComment")->fetchAll();
+        $result = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf=$superCommentID")->fetchAll();
         $resultNum = count($result);
         if ($resultNum == 0)
             return;
         for ($i = 0; $i < $resultNum; $i++)
         {
-            openMessage($result[$i]["Comment"]);
+            openMessage($result[$i]["Comment"], $result[$i]["ID"]);
             runSublayer($result[$i]["ID"], $fileid);
             closeMessage();
         }
@@ -210,6 +222,7 @@
                 <?php
                 echo "<h1>" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . "</h1>";
                 echo "<h2>" . $filename . "</h2>";
+                echo "<div class='well well-sm'>Uploaded by: " . getUsername($uploadedBy) . "</div>";
                 echo "<h3>Views: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
                 echo "<p><a href='file.php?name=".$filename."&r'>Click here for direct link to file " . $filename . ".</a></p><br>";
 
@@ -217,7 +230,7 @@
                 $rootComm = count($result);
                 for ($i = 0; $i < $rootComm; $i++)
                 {
-                    openRootMessage($result[$i]["Comment"]);
+                    openRootMessage($result[$i]["Comment"], $result[$i]["ID"]);
                     runSublayer($result[$i]["ID"], $fileid);
                     closeRootMessage();
                     //$subCommentTested = $result[$i][0];
@@ -256,4 +269,5 @@
     </div>
     <script src="/resource/jquery/jquery-2.1.1.min.js"></script>
     <script src="/resource/bootstrap/js/bootstrap.js"></script>
+    <script src="view.js"></script>
 </body>

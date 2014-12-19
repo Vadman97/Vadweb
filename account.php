@@ -29,6 +29,7 @@
         unset($_SESSION['emailCode']);
         unset($_SESSION["emailResent"]);
         header("Location: " . $_SERVER["HTTP_REFERER"]);
+        exit();
       }
     }
     header("Location: " . $_SERVER["HTTP_REFERER"]);

@@ -8,6 +8,10 @@ require_once("util.php");
   <meta name="robots" content="index"/>
   <link href="resource/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
   <?php
+    if (isset($_GET["i"]))
+    {
+      incrementPerfCount("specialVisit");
+    }
     logGenericPageView("index.php");
   ?>
 </head>

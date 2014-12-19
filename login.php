@@ -1,6 +1,6 @@
 <?php
 	ob_clean();
-	require_once("htmlHead.php");
+	//require_once("htmlHead.php");
 	require_once("util.php");
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);
@@ -28,5 +28,6 @@
 		}
 		
 		header("Location: " . $_SERVER["HTTP_REFERER"]);
+		exit();
 	}
 ?>

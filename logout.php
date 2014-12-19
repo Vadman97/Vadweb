@@ -1,7 +1,10 @@
 <?php
 	require_once("dbcon.php");
-	$_SESSION[] = array();
+	//$_SESSION[] = array();
 	// get session parameters 
+
+	$_SESSION = array();
+
 	$params = session_get_cookie_params();
 	 
 	// Delete the actual cookie. 
@@ -16,4 +19,5 @@
 	session_destroy();
 	ob_clean();
 	header("Location: " . $_SERVER["HTTP_REFERER"]);
+	exit();
 ?>

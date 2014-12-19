@@ -14,86 +14,6 @@ define("GROUP_ADMIN", 4);
 define("FILE_PHP", 1);
 define("VIEW_PHP", 2);
 
-//TODO Figure out what is wrong with logins and why it logs out (cookie expires at random times).
-//TODO add file renaming feature built in, or in case error in file name
-//TODO Figure out what happens if the file requested to be viewed is not found
-//TODO Add better view tracking, with separate view from javascript and for the file from php
-//TODO Work on about page
-//TODO Allow modification of uploaded files
-//TODO Add file management for admins
-//TODO improve data collection
-//TODO to views, add html origin of link
-//TODO add unlisted viewing, figure that out in permissions and make sure the user can see own files?
-//TODO add the different highlights for your files etc
-//TODO add user search and user sharing
-//TODO add user settings
-//TODO add file search, sorting
-//TODO load files in pages
-//TODO improve view counting tracking, add view count to file view page (also other details about file, user)
-//TODO Ajax file uploading and turn error codes into useable things
-//TODO display file permissions in files.php; only for admins
-//TODO track source of clicks by using SERVER["HTML SOURCE OR WHATEVER IT IS"]
-//TODO Fix issue of redirects from loggin in; make sure its obvious that registration/login was successful (especially when loggin in)
-//TODO Add file alt tags for search engine, in general improve search engine apprearance
-//TODO get ssl
-//TODO improve about page photo alt tags
-
-//TODO specific user blocking
-//TODO NSFW tags/blocking
-//TODO user filtration
-//TODO User share / block when uploading
-//TODO User settings for filtering certain users/innapropriate files
-//TODO Read files.php in pages of n files, maybe by caching or sql coding
-//TODO Make possible to view txt (all text code files) inline without downloading
-//TODO MYSQL ERROR DISPLAYING
-//TODO FILE DELETION
-//TODO FILE COPYRIGHT REPORTING
-//TODO If file name not exists or invalid (for view or files.php) do something about that?
-//TODO CAPTCHA VERIFICATION FOR REGISTERING/UPLOADING
-//TODO Captcha if uploading cooldown, for login if too many attempts, for email changing?
-//TODO TERMS AND CONDITIONS
-//TODO Switch from the default session management (settings ini calls session_start automatically everywhere)
-
-//TODO ORGANIZE PRIORITIES
-//TODO Add lost username help, improve login to be ajax?
-//TODO improve the way images are displayed; css
-
-//TODO Google images link to the thumbnail; need to fix that
-//TODO The following is for video conversion
-//avconv -i <input.mov>  -c:v libx264 -profile:v main -crf 30 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart <output.mp4>
-//avconv -i MVI_2563.mov  -c:v libx264 -profile:v main -crf 30 -c:a aac -strict experimental -preset ultrafast -movflags +faststart MVI_2563.mp4
-//avconv -i <input.mov> -c:v libtheora -qscale:v 7 -c:a libvorbis -qscale:a 8 <output.ogg>
-//ffmpeg -i video.flv -ss 0 -vframes 1 shot.png
-
-/*---- Prioritized TODO List -----
-*Fix login bar not fitting on a medium sized screen, iphone compatability
-*Get commenting implemented- add frontend and backend for adding comments
-*Display owner next to comments, add ratomgs for comments, prevent comment spam
-*Improve uploads modal to include permissions for unlisted (checkbox) settings, make sure looks good, prepare for ajax uploads
-*Add permissions management for user specific settings
-*Admin file management: viewing use permissions
-*Terms and conditions, validation
-*Paginate views.php
-*Readd multi-file uploads
-*Ajax file view loading/updating
-*Cache compressed images?
-*Add lost username help
-*Improve number of file types supported for embedding
-*Add tracking of sources for link views, more information
-*Add management of your uploads, file renaming, deleting, NSFW, moderation for admins
-*Make uploading dialog AJAX using bootstrap loading bars
-*Add file search or sorting by user etc
-*Organize account settings page, add user pictures
-*File copyright reporting
-*Uploading videos: using php with avconv to convert for web formats
-*CAPTCHA verification for uploads and whatnot
-*Improve photo alt tags: make sure thumbnails don't show up on google but regular images do
-*Improve frontend of the view.php
-*Improve session management 
-*Redo email verification; add age verification based on certain things like trying to upload a ton or email looks fake, not just for everyone after registering
-*   Also maybe make it so if you didn't verify email you can still do things like read posts but not upload?
-*/
-
 class File
 {
     public $name, $nameNoEXT, $extension, $type, $size, $absPath;
@@ -679,18 +599,25 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         $total = microtime() - $start;
         //echo $total;
     }
-    function submitComment($comment, $filename, $supercomment = NULL)
+    function submitComment($comment, $filename, $superID = NULL)
     {
+        //echo $comment . " " . $filename . " " . $superID;
+        //die();
     	if (empty($comment) || empty($filename))
     	    return false;
     	$sql = SQLCon::getSQL();
     	$userID = getCurrentUserID();
     	$fileID = getFileID($filename);
-    	if ($supercomment == NULL)
+    	if ($superID == NULL)
     	{
     	    if ($sql->sQuery("INSERT INTO Comments (File_ID, User_ID, Comment, SubCommentOf, Rating) VALUES ('$fileID', '$userID', '$comment', NULL, 1)") != false)
     		return true;
     	}
+        else
+        {
+            if ($sql->sQuery("INSERT INTO Comments (File_ID, User_ID, Comment, SubCommentOf, Rating) VALUES ('$fileID', '$userID', '$comment', $superID, 1)") != false)
+            return true;
+        }
     }
 
     function commentTimeout($filename = NULL)
@@ -698,9 +625,38 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         return false;
     }
 
-    function commentSafe($commentText)
+    function safeComment($comment)
     {
-        return true;
+        //detect urls, auto make them links, html processing whatnot
+        $safeComment = htmlspecialchars($comment);
+        //$firstDotLocation = strpos($safeComment, ".");
+        //$safeComment = makeLink($safeComment);
+        return $safeComment;
+    }
+
+    function makeLink($string)
+    {
+
+        $matches = array();
+        $replacementURLs = array();
+        preg_match_all("[a-z]+[:.].*?(?=\s)", $string, $matches);
+
+        foreach ($maches as $url) 
+        {
+            
+        }
+
+        //$string = preg_replace("(http|ftp|https):\/\/([\w\-_]+(?:(?:\.[\w\-_]+)+))([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?", replacement, subject);
+
+        /*** make sure there is an http:// on all URLs ***/
+        $string = preg_replace("/([^\w\/])(www\.[a-z0-9\-]+\.[a-z0-9\-]+)/i", "$1http://$2",$string);
+        /*** make all URLs links ***/
+        $string = preg_replace("/([\w]+:\/\/[\w-?&;#~=\.\/\@]+[\w\/])/i","<a target=\"_blank\" href=\"$1\">$1</a>",$string);
+        /*** make all emails hot links ***/
+        $string = preg_replace("/([\w-?&;#~=\.\/]+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?))/i","<a href=\"mailto:$1\">$1</a>",$string);
+
+        return $string;
+
     }
 
     function getCurrentUserID()
@@ -760,13 +716,17 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         return false;
     }
     
+    /*
+    *All this function does is if the user is logged in (as determined by the getCurrentUsername), we search for him in database to get his group.
+    *But this also caches the group value so we dont have to go looking for it in the database again every time
+    */
     function currentLogin()
     {
         if (isset($_SESSION['cachedUserGroup']) and !empty($_SESSION['cachedUserGroup']))
             return $_SESSION['cachedUserGroup'];
         $sql = SQLCon::getSQL();
         $user_check = getCurrentUsername();
-        $result = $sql->sQuery("select Username, GroupVal from UserData where Username='$user_check'")->fetchAll(); //todo fix< bad
+        $result = $sql->sQuery("select Username, GroupVal from UserData where Username='$user_check'")->fetchAll(); //todo fix< bad //WHAT IS THIS COMMENT I LEFT?!?!?! WHY IS IT BAD
         //incrementPerfCount("CurrentLogin");
         if (!isset($result) or empty($result))
             return 'GROUP_NONE';
@@ -778,9 +738,9 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         else
         {
             $_SESSION['cachedUserGroup'] = $result[0]["GroupVal"];
-            return $result[0]["GroupVal"];
+            $_SESSION['userGroupCachingTime'] = time();
+            return $_SESSION['cachedUserGroup'];
         }
-        
         return 'GROUP_NONE';
     }
 
@@ -794,7 +754,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     
     function isAdmin()
     {
-        if (currentLogin() >= GROUP_ADMIN)
+        if (currentLogin() >= 'GROUP_ADMIN')
             return true;
         return false;
     }
@@ -879,7 +839,6 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     function login($username = NULL, $password = NULL, $alreadyHashed = true)
     {
         $sql = SQLCon::getSQL();
-        session_regenerate_id();
         $unhashedPassword = $password;
         if (!$alreadyHashed)
             $password = custHash($password);
@@ -898,7 +857,8 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         if (count($result) == 1)
         {
             logLogin($username, $password, true);
-            $_SESSION['loggedInUsername']=$username;
+            $_SESSION['loggedInUsername'] = $username;
+            $_SESSION['logInTime'] = time();
             return true;
         }
         else

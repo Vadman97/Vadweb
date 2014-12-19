@@ -6,15 +6,31 @@ Mostly just a TODO list for now:
 
 
 /*---- Prioritized TODO List -----
-*Get commenting implemented- add frontend and backend for adding comments
+*BUG: Figure out something to do with email verification letting you change email: make it so you can't change email to that of other people (other users); double check email verification/account.php
+*BUG: Fix session expiration, new potential cause: if you do something (logout, click a file) while view.php is still loading...
+*IMPORTANT: Viewing comments only for registered users?
+*IMPORTANT: Go through my code and look for random todos cuz some of them are actually strangely important
+*
+*Paginate views.php
+*Make login bar look better
+*Finish commenting safety/html url parsing and html markup
+*Improve comments display for google crawling
+*Display owner next to comments, add ratomgs for comments
+*Ajax everytthing
+*	Make sure all errors are grabbed from php and shown through javascript (might need backend change for this)
 *Improve uploads modal to include permissions for unlisted (checkbox) settings, make sure looks good, prepare for ajax uploads
 *Add permissions management for user specific settings
+*	Add unlisted viewing, figure that out in permissions and make sure the user can see own files?
+*	Add the different highlights for your files etc
 *Admin file management: viewing use permissions
 *Terms and conditions, validation
-*Paginate views.php
+*Readd multi-file uploads
+*Ajax file view loading/updating
+*Cache compressed images?
 *Add lost username help
 *Improve number of file types supported for embedding
-*Add tracking of sources for link views, more information
+*Add tracking of sources for link views, more information, improve data collection
+*	Add stat graph generators?
 *Add management of your uploads, file renaming, deleting, NSFW, moderation for admins
 *Make uploading dialog AJAX using bootstrap loading bars
 *Add file search or sorting by user etc
@@ -25,19 +41,17 @@ Mostly just a TODO list for now:
 *Improve photo alt tags: make sure thumbnails don't show up on google but regular images do
 *Improve frontend of the view.php
 *Improve session management 
+*Redo email verification; add age verification based on certain things like trying to upload a ton or email looks fake, not just for everyone after registering
+*   Also maybe make it so if you didn't verify email you can still do things like read posts but not upload?
 */
 
-//TODO Figure out what is wrong with logins and why it logs out (cookie expires at random times).
+RANDOM TODO NOTES
+
 //TODO add file renaming feature built in, or in case error in file name
 //TODO Figure out what happens if the file requested to be viewed is not found
 //TODO Add better view tracking, with separate view from javascript and for the file from php
 //TODO Work on about page
-//TODO Allow modification of uploaded files
-//TODO Add file management for admins
-//TODO improve data collection
 //TODO to views, add html origin of link
-//TODO add unlisted viewing, figure that out in permissions and make sure the user can see own files?
-//TODO add the different highlights for your files etc
 //TODO add user search and user sharing
 //TODO add user settings
 //TODO add file search, sorting
@@ -72,7 +86,8 @@ Mostly just a TODO list for now:
 //TODO improve the way images are displayed; css
 
 //TODO Google images link to the thumbnail; need to fix that
-//avconv -i <input.mov>  -c:v libx264 -profile:v main -crf 30 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart <output.mp4>
+//TODO The following is for video conversion
+//avconv -i <input.mov>  -c:v libx264 -profile:v main -crf 30 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart <output.mp4>  <<<THIS IS WHAT WORKS WITH GCHROME
 //avconv -i MVI_2563.mov  -c:v libx264 -profile:v main -crf 30 -c:a aac -strict experimental -preset ultrafast -movflags +faststart MVI_2563.mp4
 //avconv -i <input.mov> -c:v libtheora -qscale:v 7 -c:a libvorbis -qscale:a 8 <output.ogg>
 //ffmpeg -i video.flv -ss 0 -vframes 1 shot.png
