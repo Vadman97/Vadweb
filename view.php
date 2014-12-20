@@ -31,11 +31,11 @@
     function echoMessage($message, $commentAsReplyForCommentID, $userID)
     {
         echo '<div class="row" style="padding-top:5px">';
-                echo '<div class="col-md-2">';
+                echo '<div class="col-md-3" style="overflow:auto; text-overflow:ellipsis"><b>';
                 echo getUsername($userID);
-                echo '</div>';
-            echo '<div class="col-md-10">';
-                echo $message;
+                echo '</b></div>';
+            echo '<div class="col-md-9">';
+                echo '<span style="overflow:auto; text-overflow:ellipsis">' . $message . '</span>';
                 echo '<div class="row">';
                 //echo '<button class="btn btn-xs btn-primary" data-index-number="' . $commentAsReplyForCommentID . '" id="inRespToCom_' . $commentAsReplyForCommentID . '" name="inRespToCom_' . $commentAsReplyForCommentID . '">Reply</button>';
                     echo '<div class="col-md-2"><button class="btn btn-xs btn-primary replyButton" data-index-number="' . $commentAsReplyForCommentID . '">Reply</button></div>';

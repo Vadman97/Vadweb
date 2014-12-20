@@ -383,10 +383,10 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 
     if ($action == LISTING_MODE)
     {
-        if ($result[2] == true)
+        if ($result["Unlisted"] == true)
             return false;
     }
-    if (currentLogin() >= $result[1])
+    if (currentLogin() >= $result["MinGroup"])
         return true;
 
     return false;
@@ -620,9 +620,24 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         }
     }
 
+    function getCommentLimit()
+    {
+        return 3; //per 10 minutes per file
+    }
+
     function commentTimeout($filename = NULL)
     {
-        return false;
+        $sql = SQLCon::getSQL();
+        $id = getCurrentUserID();
+        $fileID = getFileID($filename);
+        $results = $sql->sQuery("SELECT Timestamp FROM Comments WHERE User_ID='$id' AND File_ID='$fileID' AND Timestamp >= (DATE_SUB(now(), INTERVAL 10 MINUTE))")->fetchAll();
+        $numRes = count($results);
+        if ($numRes >= getCommentLimit())
+        {
+            $time = $results[getCommentLimit() - 1][0];
+            return $sql->sQuery("SELECT SEC_TO_TIME(TIMESTAMPDIFF(SECOND, now(), TIMESTAMPADD(MINUTE, 10, '$time')))")->fetchAll()[0][0];
+        }
+        return false; //not on cooldown
     }
 
     function safeComment($comment)
@@ -712,6 +727,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     {
         if (isset($_SESSION['cachedUserGroup']) and !empty($_SESSION['cachedUserGroup']))
             return $_SESSION['cachedUserGroup'];
+        incrementPerfCount("Need to cache current login value");
         $sql = SQLCon::getSQL();
         $user_check = getCurrentUsername();
         $result = $sql->sQuery("select Username, GroupVal from UserData where Username='$user_check'")->fetchAll(); //todo fix< bad //WHAT IS THIS COMMENT I LEFT?!?!?! WHY IS IT BAD

@@ -7,9 +7,6 @@ Mostly just a TODO list for now:
 
 /*---- Prioritized TODO List -----
 *Redo what I accidentally undid:
-*	Displaying username
-*	Overflow of large comments
-*	Comment timeout
 *	Backend of comment safety
 *BUG: Figure out something to do with email verification letting you change email: make it so you can't change email to that of other people (other users); double check email verification/account.php
 *BUG: Fix session expiration, new potential cause: if you do something (logout, click a file) while view.php is still loading...
@@ -41,6 +38,7 @@ Mostly just a TODO list for now:
 *Cache compressed images?
 *Add lost username help
 *Improve number of file types supported for embedding
+*Improve frontend: make usernames/comments look better
 *Add tracking of sources for link views, more information, improve data collection
 *	Add stat graph generators?
 *Add management of your uploads, file renaming, deleting, NSFW, moderation for admins

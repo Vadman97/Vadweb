@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		$superID = $_POST["subCommentOf"];
 	else
 		$superID = NULL;
-	if (commentTimeout($filename))
+	if (($timeout = commentTimeout($filename)) !== false)
 	{
 		echo "E:COM_TIMEOUT<br>";
-		echo "LOOKS LIKE YOU COMMENTED TOO MUCH! Please wait...";
+		echo "LOOKS LIKE YOU COMMENTED TOO MUCH! Please wait: " . $timeout . " (H:M:S)";
 		exit();
 	}
 	$comment = safeComment($comment);
