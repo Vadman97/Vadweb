@@ -2,20 +2,22 @@
 	ob_clean();
 	require_once "util.php";
 	$fileName = $_GET["name"];
+
 	if (!canViewFileByName($fileName, VIEWING_MODE)) {
 		//echo "<h1 style='color: red; font-family: Comic Sans MS;'> major h4x0r </h1>";
-		exit;
+		exit();
 	}
+	
 	$sql = SQLCon::getSQL();
 	$stmt = $sql->prepStmt("SELECT * FROM Files WHERE FilePath = :file");
-    $sql->bindParam($stmt, ":file", $fileName);
-    $result = $sql->execute($stmt);
-    if (!$result)
-        exit();
-    $result = $result->fetchAll();
+ 	$sql->bindParam($stmt, ":file", $fileName);
+   	$result = $sql->execute($stmt);
+   	if (!$result)
+		exit();
+  	$result = $result->fetchAll();
     
 	$completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[0]["FilePath"];
-    $extension = getExtension($result[0]["FilePath"]); 
+    	$extension = getExtension($result[0]["FilePath"]); 
 
 	if ($result[0]["Type"] == File::$types["PICTURE"])
 	{

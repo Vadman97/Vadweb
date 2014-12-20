@@ -689,18 +689,6 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         else
             return true;
     }
-    
-    function incrementPerfCount($name = NULL)
-    {
-        if ($name == NULL)
-            return;
-        $sql = SQLCon::getSQL();    
-        $count = count($sql->sQuery("select * from PerformanceDebug where Type='$name'")->fetchAll());
-        if ($count == 0)
-            $sql->sQuery("insert into PerformanceDebug (Type, Value) values ('$name', 0)");
-        
-        $sql->sQuery("UPDATE PerformanceDebug SET Value=Value+1 WHERE  Type='$name'");
-    }
 
     function canComment()
     {

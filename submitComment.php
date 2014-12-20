@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 	{
 		echo "E:COM_PERM<br>";
 		echo "LOOKS LIKE YOU NEED TO LOG IN OR REGISTER TO COMMENT!";
+		exit();
 	}
 	$comment = $_POST["comment"];
 	$filename = $_POST["filename"];
@@ -21,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 	{
 		echo "E:COM_TIMEOUT<br>";
 		echo "LOOKS LIKE YOU COMMENTED TOO MUCH! Please wait...";
+		exit();
 	}
 	$comment = safeComment($comment);
 	if (submitComment($comment, $filename, $superID))
@@ -28,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		echo "S";
 		ob_clean();
 		header("Location: " . $_SERVER["HTTP_REFERER"]);
+		exit();
 	}
 }
 ?>

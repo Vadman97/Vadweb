@@ -28,25 +28,32 @@
         $title = "Vadweb File Sharing View";
     }
 
-    function echoMessage($message, $commentAsReplyForCommentID)
+    function echoMessage($message, $commentAsReplyForCommentID, $userID)
     {
-        echo $message;
         echo '<div class="row" style="padding-top:5px">';
-        //echo '<button class="btn btn-xs btn-primary" data-index-number="' . $commentAsReplyForCommentID . '" id="inRespToCom_' . $commentAsReplyForCommentID . '" name="inRespToCom_' . $commentAsReplyForCommentID . '">Reply</button>';
-        echo '<div class="col-md-2"><button class="btn btn-xs btn-primary replyButton" data-index-number="' . $commentAsReplyForCommentID . '">Reply</button></div>';
-        echo '<div class="col-md-10">';
-        echo '<form role="form" method="post" class="replyForm" enctype="multipart/form-data" action="submitComment.php" hidden>
-          <div class="form-group"> 
-            <input type="text" id="comment" name="comment" class="form-control" placeholder="Reply">
-          </div>
-          <input type="text" id="filename" name="filename" hidden="hidden" value="' . $_GET["name"] . '">
-          <input type="text" id="subCommentOf" name="subCommentOf" hidden="hidden" value="' . $commentAsReplyForCommentID . '">
-          <button type="submit" class="btn btn-default">Submit</button>
-        </form>';
-        echo "</div>";
-        echo '</div>';
+                echo '<div class="col-md-2">';
+                echo getUsername($userID);
+                echo '</div>';
+            echo '<div class="col-md-10">';
+                echo $message;
+                echo '<div class="row">';
+                //echo '<button class="btn btn-xs btn-primary" data-index-number="' . $commentAsReplyForCommentID . '" id="inRespToCom_' . $commentAsReplyForCommentID . '" name="inRespToCom_' . $commentAsReplyForCommentID . '">Reply</button>';
+                    echo '<div class="col-md-2"><button class="btn btn-xs btn-primary replyButton" data-index-number="' . $commentAsReplyForCommentID . '">Reply</button></div>';
+                        echo '<div class="col-md-10">';
+                            echo '<form role="form" method="post" class="replyForm" enctype="multipart/form-data" action="submitComment.php" hidden>
+                              <div class="form-group"> 
+                                <input type="text" id="comment" name="comment" class="form-control" placeholder="Reply">
+                              </div>
+                              <input type="text" id="filename" name="filename" hidden="hidden" value="' . $_GET["name"] . '">
+                              <input type="text" id="subCommentOf" name="subCommentOf" hidden="hidden" value="' . $commentAsReplyForCommentID . '">
+                              <button type="submit" class="btn btn-default">Submit</button>
+                            </form>';
+                        echo "</div>";
+                    echo '</div>';
+                echo '</div>';
+            echo '</div>';
     }
-    function openMessage($message, $commentID)
+    function openMessage($message, $commentID, $userID)
     {
         echo '
         <div class="container-fluid" style="padding-top:10px;">
@@ -55,7 +62,7 @@
                 <div class="col-md-11">
                     <div class="well well-sm">
         ';
-        echoMessage($message, $commentID);
+        echoMessage($message, $commentID, $userID);
     }
     function closeMessage()
     {
@@ -66,10 +73,10 @@
         </div>
         ';
     }
-    function openRootMessage($message, $commentID)
+    function openRootMessage($message, $commentID, $userID)
     {
         echo '<div class="well well-sm">';
-        echoMessage($message, $commentID);
+        echoMessage($message, $commentID, $userID);
     }
     function closeRootMessage()
     {
@@ -84,8 +91,8 @@
             return;
         for ($i = 0; $i < $resultNum; $i++)
         {
-            openMessage($result[$i]["Comment"], $result[$i]["ID"]);
-            runSublayer($result[$i]["ID"], $fileid);
+            openMessage($result[$i]["Comment"], $result[$i]["ID"], $result[$i]["User_ID"]);
+            runSublayer($result[$i]["ID"], $fileid, $result[$i]["User_ID"]);
             closeMessage();
         }
     }
@@ -220,27 +227,27 @@
             </div>
             <div class="col-md-5">
                 <?php
-                echo "<h1>" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . "</h1>";
-                echo "<h2>" . $filename . "</h2>";
-                echo "<div class='well well-sm'>Uploaded by: " . getUsername($uploadedBy) . "</div>";
-                echo "<h3>Views: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
-                echo "<p><a href='file.php?name=".$filename."&r'>Click here for direct link to file " . $filename . ".</a></p><br>";
+                    echo "<h1>" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . "</h1>";
+                    echo "<h2>" . $filename . "</h2>";
+                    echo "<div class='well well-sm'>Uploaded by: " . getUsername($uploadedBy) . "</div>";
+                    echo "<h3>Views: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
+                    echo "<p><a href='file.php?name=".$filename."&r'>Click here for direct link to file " . $filename . ".</a></p><br>";
 
-                $result = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf IS NULL")->fetchAll();
-                $rootComm = count($result);
-                for ($i = 0; $i < $rootComm; $i++)
-                {
-                    openRootMessage($result[$i]["Comment"], $result[$i]["ID"]);
-                    runSublayer($result[$i]["ID"], $fileid);
-                    closeRootMessage();
-                    //$subCommentTested = $result[$i][0];
-                    //$result2 = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf = '$subCommentTested'")->fetchAll();
-                    //this would have another nested loop for number of count above, do the same thing where subCommentOf = result2[$i][0];
-                    //problem with this is you don't know how deep to go overall...
-                }
-                $time_end = microtime(true);
-                $execution_time = ($time_end - $time_start);
-                gc_enable();
+                    $result = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf IS NULL")->fetchAll();
+                    $rootComm = count($result);
+                    for ($i = 0; $i < $rootComm; $i++)
+                    {
+                        openRootMessage($result[$i]["Comment"], $result[$i]["ID"], $result[$i]["User_ID"]);
+                        runSublayer($result[$i]["ID"], $fileid, $result[$i]["User_ID"]);
+                        closeRootMessage();
+                        //$subCommentTested = $result[$i][0];
+                        //$result2 = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf = '$subCommentTested'")->fetchAll();
+                        //this would have another nested loop for number of count above, do the same thing where subCommentOf = result2[$i][0];
+                        //problem with this is you don't know how deep to go overall...
+                    }
+                    $time_end = microtime(true);
+                    $execution_time = ($time_end - $time_start);
+                    gc_enable();
                 echo '<p><b>Total Execution Time:</b> '.$execution_time.' Sec</p><br><br>';
                 ?>
 
