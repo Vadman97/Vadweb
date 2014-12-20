@@ -23,6 +23,7 @@ Mostly just a TODO list for now:
 *	Limit file requests per minute
 *Make login bar look better
 *Finish commenting safety/html url parsing and html markup
+*	Preg replace, preg_match_all, reg expressions, htmlspecialchars
 *Improve comments display for google crawling
 *Display owner next to comments, add ratomgs for comments
 *Ajax everytthing

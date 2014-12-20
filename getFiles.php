@@ -15,6 +15,12 @@
     $userGroup = currentLogin();
     $result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description 
     	FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 ORDER BY File_ID DESC LIMIT " . $offset . "," . $numFiles)->fetchAll();
+    if (count($result) == 0)
+    {
+    	ob_clean();
+    	echo "-1";
+    	exit();
+    }
     $files = array();
     for ($i = 0; $i < count($result); $i++)
     {
@@ -56,7 +62,7 @@
     }
     $time_end = microtime(true);
     $execution_time = ($time_end - $time_start);
-    array_push($files, $execution_time);
+    //array_push($files, $execution_time);
 
     $json = json_encode($files, JSON_PRETTY_PRINT);
     ob_clean();

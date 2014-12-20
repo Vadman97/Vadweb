@@ -43,7 +43,7 @@
   <div class="starter-template" >
     <h1>File Uploads</h1>
     <p class="lead" style="overflow:auto; overflow-style:marquee-block">View and upload files here! <br><br> <span hidden>Warning: Some features may be innaccessible as the website <br> is in the state of rewriting, or if you are not an approved user. <br><br></span>
-    <span style='color:red; font-family: Comic Sans MS'> Notice: You may experience issues with logging in. Vadweb is currently being modified with a major fix for the issue. <br> Thank you for your patience and understanding!</span>
+    <span style='color:red; font-family: Comic Sans MS' hidden> Notice: You may experience issues with logging in. Vadweb is currently being modified with a major fix for the issue. <br> Thank you for your patience and understanding!</span>
     </p>
 
     <div class="col-md-12" style="padding-left:0px;">
@@ -100,9 +100,9 @@
                         <th>Timestamp</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="fileTable">
                     <?php
-                        $time_start = microtime(true); 
+                        /*$time_start = microtime(true); 
                         $sql = SQLCon::getSQL();
                         //$userGroup = currentLogin();
                         $userGroup = currentLogin();
@@ -148,7 +148,7 @@
                             echo "\t\t</tr>\n";
                         }
                         $time_end = microtime(true);
-                        $execution_time = ($time_end - $time_start);
+                        $execution_time = ($time_end - $time_start);*/
                     ?>
                 </tbody>
             </table>
@@ -291,6 +291,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/resource/jquery/jquery-2.1.1.min.js"></script>
     <script src="/resource/bootstrap/js/bootstrap.js"></script>
+    <script src="files.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </body>
 </html>
