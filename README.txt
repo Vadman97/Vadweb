@@ -19,7 +19,7 @@ Mostly just a TODO list for now:
 *IMPORTANT: Make it so the upload titles are all the same length, eg they are packed into a tighter box (css frontend mostly)
 *
 *NEXT THING TO DO: Paginate views.php
-*	Cache using a session array, which file IDs the user can view (at least for the thumbnails)
+*	Cache using a session array, which file IDs the user can view (at least for the thumbnails); look at APC_STORE()
 *	Limit file requests per minute
 *Make login bar look better
 *Finish commenting safety/html url parsing and html markup
