@@ -154,8 +154,9 @@
             </table>
         </div>
         <?php 
-            echo '<p><b>Total Execution Time:</b> '.$execution_time.' Sec</p>';
+            echo '<p><b>Total Execution Time:</b> '.$execution_time.'</p>';
         ?>
+        <p>Interested in how this page loads? Click here: <a href="getFiles.php?page=0" > http://vadweb.us/getFiles.php?page=0 </a></p>
     </div>
 
 

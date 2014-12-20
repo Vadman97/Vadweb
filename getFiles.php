@@ -13,7 +13,11 @@
     $sql = SQLCon::getSQL();
     //$userGroup = currentLogin();
     $userGroup = currentLogin();
-    $result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description 
+
+    if ($page == -1)
+    	$result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 ORDER BY File_ID DESC")->fetchAll();
+    else
+    	$result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description 
     	FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 ORDER BY File_ID DESC LIMIT " . $offset . "," . $numFiles)->fetchAll();
     if (count($result) == 0)
     {
