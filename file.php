@@ -79,7 +79,7 @@
 			imagealphablending($bg, TRUE);
 			imagecopy($bg, $img, 0, 0, 0, 0, imagesx($img), imagesy($img));
 
-			imagejpeg($bg, NULL, 50); //passes to stream
+			imagejpeg($bg, NULL, 30); //passes to stream
 			imagedestroy($img);
 			imagedestroy($bg);
 			logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP);

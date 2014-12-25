@@ -175,7 +175,7 @@
                     if (isset($_GET["r"]))
                         echo "<a href='file.php?name=".$filename."&r'>";
                     else
-                        echo "<a href='file.php?name=".$filename."'>";
+                        echo "<a href='file.php?name=".$filename."&r'>";
 
                     if (isset($_GET["r"]))
                         echo "<img src='file.php?name=".$filename."&r' style='width: 100%;' alt='" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . " image upload creation user " . htmlspecialchars(getUsername($result[0]["User_ID"]), ENT_QUOTES) . " quality'></img>"; 

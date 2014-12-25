@@ -45,6 +45,29 @@ function getAllFiles()
 		});
 }
 
+function loadMore()
+{
+        $.ajax(
+                {
+                        type: "GET",
+                        url: "getFiles.php",
+                        data: "page=" + page,
+                        async: true,
+                        success:
+                                function(response)
+                                {
+                                        if (response == "-1")
+                                        {
+                                                //console.log("Done!");
+                                                return;
+                                        }
+                                        displayFiles(response);
+                                }
+                });
+	page++;
+	console.log("Loading another page: " + page);
+}
+
 function displayFiles(data)
 {
 	var table = $("#fileTable");
@@ -75,6 +98,14 @@ function displayFiles(data)
 
 $(document).ready(function ()
 {
-	//filesGet(0);
-	getAllFiles();
+	$("#fileTable").html("");
+	filesGet(1);
+	page++;
+	//getAllFiles();
+});
+
+$(window).scroll(function() {
+    if($(window).scrollTop() == $(document).height() - $(window).height()) {
+	loadMore();	    
+    }
 });
