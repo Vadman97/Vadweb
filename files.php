@@ -101,6 +101,9 @@
                     </tr>
                 </thead>
                 <tbody id="fileTable">
+					<tr><td><b>
+						Loading...
+					</b></td></tr>
                     <?php
                         /*$time_start = microtime(true); 
                         $sql = SQLCon::getSQL();
@@ -154,7 +157,7 @@
             </table>
         </div>
         <?php 
-            echo '<p><b>Total Execution Time:</b> '.$execution_time.'</p>';
+            echo '<p id="execTime"><b>Total Execution Time:</b> '.$execution_time.'</p>';
         ?>
         <p>Interested in how this page loads? Click here: <a href="getFiles.php?page=0" > http://vadweb.us/getFiles.php?page=0 </a></p>
     </div>
@@ -170,7 +173,7 @@
                 <div class="modal-body">
                     <h5> This feature works for all registered users. </h5>
                     <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
-                    <form method="post"  enctype="multipart/form-data" action="fileUpload.php">
+                    <form method="post"  enctype="multipart/form-data" action="fileUpload.php" autocomplete="off">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-12">
@@ -243,7 +246,7 @@
                     <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
                     <h5> Coming soon... </h5>
 
-                    <form method="post"  enctype="multipart/form-data" action="fileUpload.php">
+                    <form method="post"  enctype="multipart/form-data" action="fileUpload.php" autocomplete="off">
                         <div class="form-group">
                             <label>Multiple Files:</label>
                             <input type="file" name="fileMulti[]" id="fileMulti" multiple required>

@@ -6,13 +6,14 @@ Mostly just a TODO list for now:
 
 
 /*---- Prioritized TODO List -----
-*Redo what I accidentally undid:
-*	Backend of comment safety
 *BUG: Figure out something to do with email verification letting you change email: make it so you can't change email to that of other people (other users); double check email verification/account.php
 *BUG: Fix session expiration, new potential cause: if you do something (logout, click a file) while view.php is still loading...
 *		Looks like this is caused by sessions overloaded by the file listing or by the pictures being too slow to compress via php
 *		Paginate/Ajax loading
 *		Save compressed version of file
+*		USE DELAYS WHEN LOADING FILES?
+*		LOOK AT HOW THE THUMBNAILS ARE GENERATED AND IMPROVE? CACHE?
+*		Occurs when clicking/going back while loading files.php
 *IMPORTANT: Viewing comments only for registered users?
 *IMPORTANT: Go through my code and look for random todos cuz some of them are actually strangely important
 *FEATURE: Email me when there is an issue in file uploads or something; just implement emailing for errors
@@ -28,6 +29,7 @@ Mostly just a TODO list for now:
 *Display owner next to comments, add ratomgs for comments
 *Ajax everytthing
 *	Make sure all errors are grabbed from php and shown through javascript (might need backend change for this)
+*Voting for both comments and files
 *Improve uploads modal to include permissions for unlisted (checkbox) settings, make sure looks good, prepare for ajax uploads
 *Add permissions management for user specific settings
 *	Add unlisted viewing, figure that out in permissions and make sure the user can see own files?
@@ -47,7 +49,7 @@ Mostly just a TODO list for now:
 *Add file search or sorting by user etc
 *Organize account settings page, add user pictures
 *File copyright reporting
-*Uploading videos: using php with avconv to convert for web formats
+*Uploading videos: using php with avconv to convert for web formats *VIDEO CONVERSION
 *CAPTCHA verification for uploads and whatnot
 *Improve photo alt tags: make sure thumbnails don't show up on google but regular images do
 *Improve frontend of the view.php

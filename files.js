@@ -12,6 +12,7 @@ function filesGet(page)
 			success: 
 				function(response) 
 				{
+					$("#fileTable").html("");
 					filesList = response;
 					displayFiles(response);
 				}
@@ -81,7 +82,7 @@ function displayFiles(data)
 		else
 			var noPreview = false;
 
-	    string += "<tr>";
+	    string += '<tr>';
 	    for (j = 0; j < files[i].length; j++)
 	    {
 	    	if (j == 2 && noPreview)
@@ -98,7 +99,6 @@ function displayFiles(data)
 
 $(document).ready(function ()
 {
-	$("#fileTable").html("");
 	filesGet(1);
 	page++;
 	//getAllFiles();

@@ -16,6 +16,7 @@
 	        $params["httponly"]);
 	 
 	// Destroy session 
+	session_write_close();
 	session_destroy();
 	ob_clean();
 	header("Location: " . $_SERVER["HTTP_REFERER"]);

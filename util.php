@@ -610,13 +610,22 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     	$fileID = getFileID($filename);
     	if ($superID == NULL)
     	{
-    	    if ($sql->sQuery("INSERT INTO Comments (File_ID, User_ID, Comment, SubCommentOf, Rating) VALUES ('$fileID', '$userID', '$comment', NULL, 1)") != false)
-    		return true;
+			$stmt = $sql->prepStmt("INSERT INTO Comments (File_ID, User_ID, Comment, SubCommentOf, Rating) VALUES (:fileID, :userID, :comment, NULL, 1)");
+			$sql->bindParam($stmt, ":fileID", $fileID);
+			$sql->bindParam($stmt, ":userID", $userID);
+			$sql->bindParam($stmt, ":comment", $comment);
+    	    if ($sql->execute($stmt) != false)
+				return true;
     	}
         else
         {
-            if ($sql->sQuery("INSERT INTO Comments (File_ID, User_ID, Comment, SubCommentOf, Rating) VALUES ('$fileID', '$userID', '$comment', $superID, 1)") != false)
-            return true;
+			$stmt = $sql->prepStmt("INSERT INTO Comments (File_ID, User_ID, Comment, SubCommentOf, Rating) VALUES (:fileID, :userID, :comment, :superID, 1)");
+			$sql->bindParam($stmt, ":fileID", $fileID);
+			$sql->bindParam($stmt, ":userID", $userID);
+			$sql->bindParam($stmt, ":comment", $comment);
+			$sql->bindParam($stmt, ":superID", $superID);
+    	    if ($sql->execute($stmt) != false)
+				return true;
         }
     }
 
@@ -645,33 +654,52 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         //detect urls, auto make them links, html processing whatnot
         $safeComment = htmlspecialchars($comment);
         //$firstDotLocation = strpos($safeComment, ".");
-        //$safeComment = makeLink($safeComment);
+        $safeComment = makeLink($safeComment);
         return $safeComment;
+    }
+
+    function callback($match)
+    {
+        // Prepend http:// if no protocol specified
+        $completeUrl = $match[1] ? $match[0] : "http://{$match[0]}";
+
+        return '<a href="' . $completeUrl . '">'
+            . $match[2] . $match[3] . $match[4] . '</a>';
     }
 
     function makeLink($string)
     {
+        $rexProtocol = '(https?://)?';
+        $rexDomain   = '((?:[-a-zA-Z0-9]{1,63}\.)+[-a-zA-Z0-9]{2,63}|(?:[0-9]{1,3}\.){3}[0-9]{1,3})';
+        $rexPort     = '(:[0-9]{1,5})?';
+        $rexPath     = '(/[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]*?)?';
+        $rexQuery    = '(\?[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]+?)?';
+        $rexFragment = '(#[!$-/0-9:;=@_\':;!a-zA-Z\x7f-\xff]+?)?';
+        $newString = "";
 
-        $matches = array();
-        $replacementURLs = array();
-        preg_match_all("[a-z]+[:.].*?(?=\s)", $string, $matches);
+        $newString = $newString . preg_replace_callback("&\\b$rexProtocol$rexDomain$rexPort$rexPath$rexQuery$rexFragment(?=[?.!,;:\"]?(\s|$))&", 'callback', htmlspecialchars($string));
 
-        foreach ($maches as $url) 
+        //$matches = array();
+        //$replacementURLs = array();
+        //preg_match_all("/[a-z]+[:.].*?(?=\s)/i", $string, $matches);
+		//print_r($matches);
+		//$string = preg_replace("/([a-z]+[:.].*?(?=\s))/i", "<a target=\"_blank\" href=\"$1\">$1</a>", $string);
+		//echo "<br>" . $string;
+        /*foreach ($matches as $url) 
         {
             
         }
 
         //$string = preg_replace("(http|ftp|https):\/\/([\w\-_]+(?:(?:\.[\w\-_]+)+))([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?", replacement, subject);
 
-        /*** make sure there is an http:// on all URLs ***/
+        // make sure there is an http:// on all URLs
         $string = preg_replace("/([^\w\/])(www\.[a-z0-9\-]+\.[a-z0-9\-]+)/i", "$1http://$2",$string);
-        /*** make all URLs links ***/
+        // make all URLs links
         $string = preg_replace("/([\w]+:\/\/[\w-?&;#~=\.\/\@]+[\w\/])/i","<a target=\"_blank\" href=\"$1\">$1</a>",$string);
-        /*** make all emails hot links ***/
+        // make all emails hot links
         $string = preg_replace("/([\w-?&;#~=\.\/]+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?))/i","<a href=\"mailto:$1\">$1</a>",$string);
-
-        return $string;
-
+		*/
+        return $newString;
     }
 
     function getCurrentUserID()

@@ -40,7 +40,7 @@
                 //echo '<button class="btn btn-xs btn-primary" data-index-number="' . $commentAsReplyForCommentID . '" id="inRespToCom_' . $commentAsReplyForCommentID . '" name="inRespToCom_' . $commentAsReplyForCommentID . '">Reply</button>';
                     echo '<div class="col-md-2"><button class="btn btn-xs btn-primary replyButton" data-index-number="' . $commentAsReplyForCommentID . '">Reply</button></div>';
                         echo '<div class="col-md-10">';
-                            echo '<form role="form" method="post" class="replyForm" enctype="multipart/form-data" action="submitComment.php" hidden>
+                            echo '<form role="form" method="post" class="replyForm" enctype="multipart/form-data" action="submitComment.php" hidden autocomplete="off">
                               <div class="form-group"> 
                                 <input type="text" id="comment" name="comment" class="form-control" placeholder="Reply">
                               </div>

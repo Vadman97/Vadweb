@@ -26,5 +26,6 @@
 	if (!isset($_SESSION['salt']))
 		$_SESSION['salt'] = generateRandomLetterString(1024);//rand(1, 99999999999);
 	echo $_SESSION['salt'];
+	session_write_close();
 	//unset($_SESSION['salt']);
 ?>
