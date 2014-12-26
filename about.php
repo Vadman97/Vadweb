@@ -117,22 +117,23 @@ require_once("util.php");
     		</div><!-- /.col-lg-4 -->
     	</div><!-- /.row -->
 
-
     	<!-- START THE FEATURETTES -->
-    	<div hidden>
+    	<div>
 
 	    	<hr class="featurette-divider">
 
 	    	<div class="row featurette">
 	    		<div class="col-md-7">
-	    			<h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>
-	    			<p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+	    			<h2 class="featurette-heading">Open Source Code<br> <a href="https://github.com/Vadman97/Vadweb"><span class="text-muted">Learn more!</span></a></h2>
+	    			<p class="lead">Found this project interesting or want to learn more about PHP yourself? Check out this project on GitHub: <a href="https://github.com/Vadman97/Vadweb">Click here to learn more.</a></p>
 	    		</div>
 	    		<div class="col-md-5">
-	    			<img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="500x500" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI1MCIgeT0iMjUwIiBzdHlsZT0iZmlsbDojYWFhO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1zaXplOjMxcHg7Zm9udC1mYW1pbHk6QXJpYWwsSGVsdmV0aWNhLHNhbnMtc2VyaWY7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+NTAweDUwMDwvdGV4dD48L3N2Zz4=">
+	    			<a href="https://github.com/Vadman97/Vadweb"><img class="featurette-image img-responsive" alt="500x500" src="images/github-logo.png"></a>
 	    		</div>
 	    	</div>
-
+            <hr class="featurette-divider">
+        </div>
+        <div hidden>
 	    	<hr class="featurette-divider">
 
 	    	<div class="row featurette">

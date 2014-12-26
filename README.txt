@@ -11,6 +11,7 @@ Mostly just a TODO list for now:
 *IMPORTANT: Go through my code and look for random todos cuz some of them are actually strangely important
 *FEATURE: Email me when there is an issue in file uploads or something; just implement emailing for errors
 *IMPORTANT: Make it so the upload titles are all the same length, eg they are packed into a tighter box (css frontend mostly)
+*Make the files.php ajax loading slower
 *
 *NEXT THING TO DO: Paginate views.php
 *	Cache using a session array, which file IDs the user can view (at least for the thumbnails); look at APC_STORE()
