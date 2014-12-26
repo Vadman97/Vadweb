@@ -17,7 +17,7 @@
   	$result = $result->fetchAll();
     
 	$completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[0]["FilePath"];
-    	$extension = getExtension($result[0]["FilePath"]); 
+    $extension = getExtension($result[0]["FilePath"]); 
 
 	if ($result[0]["Type"] == File::$types["PICTURE"])
 	{
@@ -38,13 +38,11 @@
 		{
 		  case IMAGETYPE_JPEG : 
 		  {
-		  	incrementPerfCount("JPEG");
 		  	$img = imagecreatefromjpeg($completeFilePath);  
 		  	break;
 		  }
 		  case IMAGETYPE_PNG  : 
 		  {
-		  	incrementPerfCount("PNG");
 		  	$img = imagecreatefrompng($completeFilePath);
 		  	break;
 		  }

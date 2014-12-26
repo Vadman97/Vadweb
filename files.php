@@ -45,7 +45,10 @@
     <p class="lead" style="overflow:auto; overflow-style:marquee-block">View and upload files here! <br><br> <span hidden>Warning: Some features may be innaccessible as the website <br> is in the state of rewriting, or if you are not an approved user. <br><br></span>
     <span style='color:red; font-family: Comic Sans MS' hidden> Notice: You may experience issues with logging in. Vadweb is currently being modified with a major fix for the issue. <br> Thank you for your patience and understanding!</span>
     </p>
-
+    <?php
+        //echo apc_fetch("newSQLPointer") . "<br>";
+        //echo apc_fetch("cachedSQLPointer") . "<br>";
+    ?>
     <div class="col-md-12" style="padding-left:0px;">
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-left:0px;">
