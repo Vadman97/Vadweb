@@ -1,6 +1,6 @@
 <?php
-	ob_clean();
 	require_once "util.php";
+	ob_clean();
 	$fileName = $_GET["name"];
 
 	if (!canViewFileByName($fileName, VIEWING_MODE)) {
@@ -9,7 +9,7 @@
 	}
 	
 	$sql = SQLCon::getSQL();
-	$stmt = $sql->prepStmt("SELECT * FROM Files WHERE FilePath = :file");
+	$stmt = $sql->prepStmt("SELECT FilePath, File_ID, Type FROM Files WHERE FilePath = :file");
  	$sql->bindParam($stmt, ":file", $fileName);
    	$result = $sql->execute($stmt);
    	if (!$result)
@@ -34,44 +34,71 @@
 		if (filesize($completeFilePath) < 1000000)
 			$specialCompress = false;
 
-		switch ($imageinfo[2])
-		{
-		  case IMAGETYPE_JPEG : 
-		  {
-		  	$img = imagecreatefromjpeg($completeFilePath);  
-		  	break;
-		  }
-		  case IMAGETYPE_PNG  : 
-		  {
-		  	$img = imagecreatefrompng($completeFilePath);
-		  	break;
-		  }
-		  default: $specialCompress=false;
-		}
 		if ($resize) //for thumbnails
 		{
-			list($width, $height) = $imageinfo;
-			$desiredRes = 512;
-			$widthMult = $desiredRes / $width;
-			//$heightMult = 256 / $height;
-			$newWidth = $width * $widthMult;
-			$newHeight = $height * $widthMult;
-			if ($width < $desiredRes)
+			$completeCachedThumbnailPath = DEFAULT_FILE_STORAGE_PATH . "/thumbnails/" . $result[0]["FilePath"];
+			if (thumbnailCached($result[0]["File_ID"]))
 			{
-				$newWidth = $width;
-				$newHeight = $height;
+				$thumb = imagecreatefromjpeg($completeCachedThumbnailPath); 
+				imagejpeg($thumb, NULL, 100);
+				imagedestroy($thumb);
+				exit();
 			}
-			$newImg = imagecreatetruecolor($newWidth, $newHeight);
-			imagefill($newImg, 0, 0, imagecolorallocate($newImg, 255, 255, 255));
-			imagealphablending($newImg, true);
-			imagecopyresized($newImg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-			imagejpeg($newImg, NULL, 20);
-			imagedestroy($img);
-			imagedestroy($newImg);
-			exit();
+			else
+			{
+				switch ($imageinfo[2])
+				{
+				  case IMAGETYPE_JPEG : 
+				  {
+				  	$img = imagecreatefromjpeg($completeFilePath);  
+				  	break;
+				  }
+				  case IMAGETYPE_PNG  : 
+				  {
+				  	$img = imagecreatefrompng($completeFilePath);
+				  	break;
+				  }
+				  default: $specialCompress=false;
+				}
+				list($width, $height) = $imageinfo;
+				$desiredRes = 512;
+				$widthMult = $desiredRes / $width;
+				//$heightMult = 256 / $height;
+				$newWidth = $width * $widthMult;
+				$newHeight = $height * $widthMult;
+				if ($width < $desiredRes)
+				{
+					$newWidth = $width;
+					$newHeight = $height;
+				}
+				$newImg = imagecreatetruecolor($newWidth, $newHeight);
+				imagefill($newImg, 0, 0, imagecolorallocate($newImg, 255, 255, 255));
+				imagealphablending($newImg, true);
+				imagecopyresized($newImg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+				imagejpeg($newImg, $completeCachedThumbnailPath, 20);
+				imagejpeg($newImg, NULL, 20);
+				imagedestroy($img);
+				imagedestroy($newImg);
+				setThumbnailCached($result[0]["File_ID"]);
+				exit();
+			}
 		}
 		if ($specialCompress)
 		{
+			switch ($imageinfo[2])
+			{
+			  case IMAGETYPE_JPEG : 
+			  {
+			  	$img = imagecreatefromjpeg($completeFilePath);  
+			  	break;
+			  }
+			  case IMAGETYPE_PNG  : 
+			  {
+			  	$img = imagecreatefrompng($completeFilePath);
+			  	break;
+			  }
+			  default: $specialCompress=false;
+			}
 			$bg = imagecreatetruecolor(imagesx($img), imagesy($img));
 			imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
 			imagealphablending($bg, TRUE);

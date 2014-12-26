@@ -7,13 +7,6 @@ Mostly just a TODO list for now:
 
 /*---- Prioritized TODO List -----
 *BUG: Figure out something to do with email verification letting you change email: make it so you can't change email to that of other people (other users); double check email verification/account.php
-*BUG: Fix session expiration, new potential cause: if you do something (logout, click a file) while view.php is still loading...
-*		Looks like this is caused by sessions overloaded by the file listing or by the pictures being too slow to compress via php
-*		Paginate/Ajax loading
-*		Save compressed version of file
-*		USE DELAYS WHEN LOADING FILES?
-*		LOOK AT HOW THE THUMBNAILS ARE GENERATED AND IMPROVE? CACHE?
-*		Occurs when clicking/going back while loading files.php
 *IMPORTANT: Viewing comments only for registered users?
 *IMPORTANT: Go through my code and look for random todos cuz some of them are actually strangely important
 *FEATURE: Email me when there is an issue in file uploads or something; just implement emailing for errors
@@ -22,11 +15,10 @@ Mostly just a TODO list for now:
 *NEXT THING TO DO: Paginate views.php
 *	Cache using a session array, which file IDs the user can view (at least for the thumbnails); look at APC_STORE()
 *	Limit file requests per minute
+*Make sure thumbnails can only be generated for real pictures, not gifs etc
 *Make login bar look better
-*Finish commenting safety/html url parsing and html markup
-*	Preg replace, preg_match_all, reg expressions, htmlspecialchars
 *Improve comments display for google crawling
-*Display owner next to comments, add ratomgs for comments
+*Display owner next to comments, add ratemgs for comments
 *Ajax everytthing
 *	Make sure all errors are grabbed from php and shown through javascript (might need backend change for this)
 *Voting for both comments and files
@@ -56,6 +48,13 @@ Mostly just a TODO list for now:
 *Improve session management 
 *Redo email verification; add age verification based on certain things like trying to upload a ton or email looks fake, not just for everyone after registering
 *   Also maybe make it so if you didn't verify email you can still do things like read posts but not upload?
+*BUG: Fix session expiration, new potential cause: if you do something (logout, click a file) while view.php is still loading...
+*		Looks like this is caused by sessions overloaded by the file listing or by the pictures being too slow to compress via php
+*		Paginate/Ajax loading
+*		Save compressed version of file
+*		USE DELAYS WHEN LOADING FILES?
+*		LOOK AT HOW THE THUMBNAILS ARE GENERATED AND IMPROVE? CACHE?
+*		Occurs when clicking/going back while loading files.php
 */
 
 RANDOM TODO NOTES

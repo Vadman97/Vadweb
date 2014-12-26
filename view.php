@@ -42,7 +42,7 @@
                         echo '<div class="col-md-10">';
                             echo '<form role="form" method="post" class="replyForm" enctype="multipart/form-data" action="submitComment.php" hidden autocomplete="off">
                               <div class="form-group"> 
-                                <input type="text" id="comment" name="comment" class="form-control" placeholder="Reply">
+                                <input type="text" id="comment" name="comment" class="form-control" placeholder="Reply" autocomplete="off">
                               </div>
                               <input type="text" id="filename" name="filename" hidden="hidden" value="' . $_GET["name"] . '">
                               <input type="text" id="subCommentOf" name="subCommentOf" hidden="hidden" value="' . $commentAsReplyForCommentID . '">

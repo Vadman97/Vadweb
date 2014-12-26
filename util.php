@@ -531,6 +531,20 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         $result = $sql->sQuery("SELECT File_ID FROM Files ORDER BY File_ID DESC")->fetch();
         return $result["File_ID"];
     }    
+    function thumbnailCached($fileID)
+    {
+        $sql = SQLCon::getSQL();
+        $result = $sql->sQuery("SELECT ThumbnailCached FROM Files WHERE File_ID='$fileID'")->fetch();
+        if ($result[0] == 0)
+            return false;
+        else if ($result[0] == 1)
+            return true;
+    }
+    function setThumbnailCached($fileID)
+    {
+        $sql = SQLCon::getSQL();
+        $sql->sQuery("UPDATE Files SET ThumbnailCached=1 WHERE File_ID='$fileID'");
+    }
     function userExists($username, $email)
     {
         $sql = SQLCon::getSQL();
