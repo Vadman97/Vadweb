@@ -12,6 +12,8 @@ Mostly just a TODO list for now:
 *FEATURE: Email me when there is an issue in file uploads or something; just implement emailing for errors
 *IMPORTANT: Make it so the upload titles are all the same length, eg they are packed into a tighter box (css frontend mostly)
 *Make the files.php ajax loading slower
+BUG make file.js load more not necessarily on scroll, but just check if screen below a limit without scrolling
+Improve: how vadweb handles email verification, signing terms. Use Ajax and modals
 *
 *NEXT THING TO DO: Paginate views.php
 *	Cache using a session array, which file IDs the user can view (at least for the thumbnails); look at APC_STORE()
