@@ -46,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		{
 			//echo "Printing file data <br>";
 			//print_r($file);
-			$upFile = new UploadedFile($file['name'], $file['tmp_name'], $file['size'], $file['error'], $_POST["perm"], $_POST["otherPermData"], NULL); //here also pass POST[perm]
+			$upFile = new UploadedFile($file['name'], $file['tmp_name'], $file['size'], $file['error'], $_POST["perm"], $_POST["otherPermData"], NULL); //here also pass POST[perm]\
+			//TODO this is broken with permissions and unlisted, sets the same permission for each file...
 			array_push($fileArr, $upFile);
 		}
 	}
@@ -70,6 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		//TODO Actually figure out restrictions, who can do what with uploading
 		//TODO Add captcha
 		$f->validateFileForErrors();
+
+		if (isset($_POST["unlisted"]))
+			$f->setUnlisted();
+
 		$result = $f->storeFile();
 		if ($result !== true)
 			$redirect = false;

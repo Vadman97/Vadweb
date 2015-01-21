@@ -78,7 +78,7 @@ function displayFiles(data)
 	var string = "";
 	for (i = 0; i < files.length; i++) 
 	{
-		if (files[i].length == 6)
+		if ($.inArray("img", files[i]) != -1)
 		{
 			//var noPreview = true; <<proper for thumbnails
 			var noPreview = true;

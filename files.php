@@ -188,31 +188,41 @@
                     <h4 class="modal-title" id="myModalLabel2">Upload a single file</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="post" role="form" enctype="multipart/form-data" action="fileUpload.php" autocomplete="off">
+                    <form method="post" role="form" id="singleUploadForm" enctype="multipart/form-data" action="fileUpload.php" autocomplete="off">
                     <div class="container-fluid form">
                         <h5> This feature works for all registered users. </h5>
                         <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
                         <div class="well row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="form-group">
                                     <label for="fileSingle">Single File:</label><br>
-                                    <input type="file" name="fileSingle" required>
+                                    <input class="form-control" type="file" name="fileSingle" required>
                                 </div> 
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-7">
                                 <div class="form-group">
                                     <label for="fileDesc">File Description / Title:</label><br>
-                                    <input class="form-control" type="text" name="fileDesc" placeholder="Description" maxlength=300 required>
+                                    <textarea class="form-control" form="singleUploadForm" name="fileDesc" placeholder="Description" maxlength=300 required></textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="well row" >
                             <div class="col-sm-6">
-                                <div class="form-group">
-                                    <b><span class="control-label">Who can view?</span></b><br>
-                                    <input type="radio" id="perm" name="perm" value="<?php echo GROUP_NONE; ?>" checked="checked"> Everyone<br>
-                                    <input type="radio" id="perm" name="perm" value="<?php echo GROUP_REGISTERED; ?>"> Registered<br>
-                                    <input type="radio" id="perm" name="perm" value="<?php echo GROUP_FRIENDS; ?>"> VIP Friends<br>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <b><span class="control-label">Who can view?</span></b><br>
+                                            <input type="radio" id="perm" name="perm" value="<?php echo GROUP_NONE; ?>" checked="checked"> Everyone<br>
+                                            <input type="radio" id="perm" name="perm" value="<?php echo GROUP_REGISTERED; ?>"> Registered<br>
+                                            <input type="radio" id="perm" name="perm" value="<?php echo GROUP_FRIENDS; ?>"> VIP Friends<br>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <b><span class="control-label">Unlisted File?</span></b><br>
+                                            <input class="form-control" type="checkbox" name="unlisted" id="unlisted" value="unlisted">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">

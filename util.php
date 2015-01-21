@@ -79,8 +79,13 @@ class UploadedFile extends File
         $this->minGroup = $minGroup;
         $this->otherPerms = $otherPerms;
         $this->description = $description;
+        $this->unlisted = false;
         if (empty($this->description))
             $this->description = $this->nameWithEXT;
+    }
+    public function setUnlisted()
+    {
+        $this->unlisted = true;
     }
     public function isError()
     {
@@ -107,10 +112,10 @@ class UploadedFile extends File
         $userPlusPart = substr($this->permissions, strpos($this->permissions, '|')+1);
         $userMinusPart = "";
         $this->permissions = "+G(".$group.")".$userPlusPart.$userMinusPart;*/
-        if (strpos($this->otherPerms, "-&"))
+        /*if (strpos($this->otherPerms, "-&"))
             $this->unlisted = 1;
         else
-            $this->unlisted = 0;
+            $this->unlisted = 0;*/
     }
     public function prepFile()
     {
