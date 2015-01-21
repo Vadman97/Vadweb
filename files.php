@@ -13,6 +13,20 @@
            <?php
             logGenericPageView("files.php");
            ?>
+           <?php
+                if (isset($_GET["page"]))
+                {
+                    if ($_GET["page"] > 1)
+                    {
+                        echo '<link rel="prev" href="files.php?page=' . ($_GET["page"] - 1) . '">';
+                    }
+                    echo '<link rel="next" href="files.php?page=' . ($_GET["page"] + 1) . '">';
+                }
+                else
+                {
+                    echo '<link rel="next" href="files.php?page=2">';
+                }
+           ?>
        </head>
 
        <body>
@@ -174,27 +188,25 @@
                     <h4 class="modal-title" id="myModalLabel2">Upload a single file</h4>
                 </div>
                 <div class="modal-body">
-                    <h5> This feature works for all registered users. </h5>
-                    <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
-                    <form method="post"  enctype="multipart/form-data" action="fileUpload.php" autocomplete="off">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-12">
+                    <form method="post" role="form" enctype="multipart/form-data" action="fileUpload.php" autocomplete="off">
+                    <div class="container-fluid form">
+                        <h5> This feature works for all registered users. </h5>
+                        <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
+                        <div class="well row">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="fileSingle">Single File:</label><br>
                                     <input type="file" name="fileSingle" required>
                                 </div> 
                             </div>
-                        </div>
-                        <div class="row" >
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="fileDesc">File Description / Title:</label><br>
-                                    <input type="text" name="fileDesc" placeholder="Description" maxlength=300 required>
+                                    <input class="form-control" type="text" name="fileDesc" placeholder="Description" maxlength=300 required>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" >
+                        <div class="well row" >
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <b><span class="control-label">Who can view?</span></b><br>

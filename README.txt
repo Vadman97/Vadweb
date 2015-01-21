@@ -6,12 +6,20 @@ Mostly just a TODO list for now:
 
 
 /*---- Prioritized TODO List -----
+*TURBO URGENT: Session problems seem to come from the file.php or files.php :( need to restructure file.php page first 
+*Very Urgent: Let google load all of the files page in javascript?
+*VERY URGENT: FIGURE OUT HOW TO MAKE THE FILES.JS FILE LOAD ALL OF THE FILES WHEN GOOGLE IS ACCESSING THE PAGE
 *BUG: Figure out something to do with email verification letting you change email: make it so you can't change email to that of other people (other users); double check email verification/account.php
 *IMPORTANT: Viewing comments only for registered users?
 *IMPORTANT: Go through my code and look for random todos cuz some of them are actually strangely important
 *FEATURE: Email me when there is an issue in file uploads or something; just implement emailing for errors
 *IMPORTANT: Make it so the upload titles are all the same length, eg they are packed into a tighter box (css frontend mostly)
 *Make the files.php ajax loading slower
+*PDFs look bad on view.php
+*BUG File names with # should be illegal
+http://www.vadweb.us/view.php?name=image_33.jpg
+Copy paste pictures right into the upload field
+Group id 6 picture was listed but could not be seen.
 *
 *NEXT THING TO DO: Paginate views.php
 *	Cache using a session array, which file IDs the user can view (at least for the thumbnails); look at APC_STORE()
@@ -56,6 +64,7 @@ Mostly just a TODO list for now:
 *		USE DELAYS WHEN LOADING FILES?
 *		LOOK AT HOW THE THUMBNAILS ARE GENERATED AND IMPROVE? CACHE?
 *		Occurs when clicking/going back while loading files.php
+*http://php.net/manual/en/function.shell-exec.php
 */
 
 RANDOM TODO NOTES

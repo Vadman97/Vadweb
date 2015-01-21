@@ -1,13 +1,17 @@
 <?php
 	require_once "util.php";
 	ob_clean();
+	if (is_session_started() === FALSE) 
+		session_start();
+	//incrementPerfCount(session_status());
 	$fileName = $_GET["name"];
 
 	if (!canViewFileByName($fileName, VIEWING_MODE)) {
 		//echo "<h1 style='color: red; font-family: Comic Sans MS;'> major h4x0r </h1>";
 		exit();
 	}
-	
+	session_write_close();
+
 	$sql = SQLCon::getSQL();
 	$stmt = $sql->prepStmt("SELECT FilePath, File_ID, Type FROM Files WHERE FilePath = :file");
  	$sql->bindParam($stmt, ":file", $fileName);
@@ -33,13 +37,20 @@
 			$specialCompress = false;
 		if (filesize($completeFilePath) < 1000000)
 			$specialCompress = false;
+		if ($imageinfo[0] == 0 || $imageinfo[1] == 0)
+		{
+			$specialCompress = false;
+			$resize = false;
+		}
 
 		if ($resize) //for thumbnails
 		{
-			$completeCachedThumbnailPath = DEFAULT_FILE_STORAGE_PATH . "/thumbnails/" . $result[0]["FilePath"];
+			$completeCachedThumbnailPath = DEFAULT_FILE_STORAGE_PATH . "thumbnails/" . $result[0]["FilePath"];
 			if (thumbnailCached($result[0]["File_ID"]))
 			{
 				$thumb = imagecreatefromjpeg($completeCachedThumbnailPath); 
+				if ($thumb === false)
+					exit();
 				imagejpeg($thumb, NULL, 100);
 				imagedestroy($thumb);
 				exit();
@@ -117,7 +128,10 @@
 	}
 	if ($result[0]["Type"] == File::$types["AUDIO"]) //AMBIGUOUS NEEDS CLARIFICATION
 	{
-		header("Content-Type: audio/mpeg");
+		if ($extension == "wav")
+			header("Content-Type: audio/vnd.wave");
+		else
+			header("Content-Type: audio/mpeg");
 	}
 	if ($result[0]["Type"] == File::$types["MOVIE"]) //AMBIGUOUS NEEDS CLARIFICATION
 	{
@@ -160,5 +174,6 @@
 	header("Content-Length: ".filesize($completeFilePath));
 	header('filename="' . $result[0]["FilePath"] . '"');
 	fpassthru($fp);
+
 	exit();
 ?>

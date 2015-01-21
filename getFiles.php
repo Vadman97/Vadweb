@@ -1,7 +1,6 @@
 <?php
     $time_start = microtime(true); 
 	require_once("util.php");
-	header("Content-Type: application/javascript");
 
 	if (!isset($_GET["page"]) || (isset($_GET["page"]) && $_GET["page"] == 1))
 		$page = 0;
@@ -13,15 +12,18 @@
     $sql = SQLCon::getSQL();
     //$userGroup = currentLogin();
     $userGroup = currentLogin();
+    $currentUserID = getCurrentUserID();
 
     if ($page == -1)
-    	$result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 ORDER BY File_ID DESC")->fetchAll();
+    	$result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description 
+        FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 OR User_ID = '$currentUserID' ORDER BY File_ID DESC")->fetchAll();
     else
     	$result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description 
-    	FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 ORDER BY File_ID DESC LIMIT " . $offset . "," . $numFiles)->fetchAll();
+    	FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 OR User_ID = '$currentUserID' ORDER BY File_ID DESC LIMIT " . $offset . "," . $numFiles)->fetchAll();
     if (count($result) == 0)
     {
     	ob_clean();
+        header("HTTP/1.0 404 Not Found");
     	echo "-1";
     	exit();
     }
@@ -62,6 +64,8 @@
                     array_push($file, $result[$i][4]);
 
         }   
+        if ($result[$i][6] == "1")
+            array_push($file, "unlisted");
     	array_push($files, $file);
     }
     $time_end = microtime(true);
@@ -70,5 +74,6 @@
 
     $json = json_encode($files, JSON_PRETTY_PRINT);
     ob_clean();
+    header("Content-Type: application/javascript");
     echo $json;
 ?>

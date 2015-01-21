@@ -208,6 +208,13 @@
                               <p>You need flash to view this file</p>
                             </object>";
                 }
+                else if ($result[0]["Type"] == File::$types["AUDIO"])
+                {
+                    echo    '<audio controls style="width=100%;">
+                              <source src="file.php?name='.$filename.'" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>';
+                }
                 else
                 {
                     if ($extension == "txt")
