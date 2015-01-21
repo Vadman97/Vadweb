@@ -22,6 +22,18 @@ Copy paste pictures right into the upload field
 Group id 6 picture was listed but could not be seen.
 BUG make file.js load more not necessarily on scroll, but just check if screen below a limit without scrolling
 Improve: how vadweb handles email verification, signing terms. Use Ajax and modals
+
+-*PDFs look bad on view.php
+-*BUG File names with # should be illegal
+-http://www.vadweb.us/view.php?name=image_33.jpg
+-Copy paste pictures right into the upload field
+-Group id 6 picture was listed but could not be seen.
+-BUG make file.js load more not necessarily on scroll, but just check if screen below a limit without scrolling
+-Improve: how vadweb handles email verification, signing terms. Use Ajax and modals
+
+FEATURE: Hide your unlisted files by default (or only hide previews)? via JS
+FEATURE: Make account settings a modal?
+FEATURE: Email all members
 *
 *NEXT THING TO DO: Paginate views.php
 *	Cache using a session array, which file IDs the user can view (at least for the thumbnails); look at APC_STORE()
