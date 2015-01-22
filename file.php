@@ -35,8 +35,8 @@
 			$resize = true;
 		if (isset($_GET["r"]))
 			$specialCompress = false;
-		//if (filesize($completeFilePath) < 1000000)
-		//	$specialCompress = false;
+		if (filesize($completeFilePath) < 100000)
+			$specialCompress = false;
 		if ($imageinfo[0] == 0 || $imageinfo[1] == 0)
 		{
 			$specialCompress = false;
@@ -82,10 +82,24 @@
 					$newWidth = $width;
 					$newHeight = $height;
 				}
-				$newImg = imagecreatetruecolor($newWidth, $newHeight);
+
+				$w = $width;
+				$h = $height;
+				$ratio = max($desiredRes/$w, $desiredRes/$h);
+			    $h = $desiredRes / $ratio;
+			    $x = ($w - $desiredRes / $ratio) / 2;
+			    $w = $desiredRes / $ratio;
+
+				$newImg = imagecreatetruecolor($desiredRes, $desiredRes);
 				imagefill($newImg, 0, 0, imagecolorallocate($newImg, 255, 255, 255));
 				imagealphablending($newImg, true);
-				imagecopyresized($newImg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+				imagecopyresampled($newImg, $img, 0, 0, $x, 0, $desiredRes, $desiredRes, $w, $h);
+
+				/*$newImg = imagecreatetruecolor($newWidth, $newHeight);
+				imagefill($newImg, 0, 0, imagecolorallocate($newImg, 255, 255, 255));
+				imagealphablending($newImg, true);
+				imagecopyresized($newImg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);*/
+
 				imagejpeg($newImg, $completeCachedThumbnailPath, 20);
 				imagejpeg($newImg, NULL, 20);
 				imagedestroy($img);

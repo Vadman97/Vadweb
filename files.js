@@ -78,15 +78,13 @@ function displayFiles(data)
 	var string = "";
 	for (i = 0; i < files.length; i++) 
 	{
-		if ($.inArray("img", files[i]) != -1)
+		var noPreview = true;
+		for (k = 0; k < files[i].length; k++)
 		{
-			//var noPreview = true; <<proper for thumbnails
-			var noPreview = true;
-		}
-		else
-		{
-			//var noPreview = false; <<proper for thumbnails
-			var noPreview = false;
+			if (files[i][k].indexOf("img") > -1)
+			{
+				noPreview = false;
+			}
 		}
 
 		if ($.inArray("unlisted", files[i]) != -1)

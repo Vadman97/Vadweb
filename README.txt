@@ -22,6 +22,7 @@ Copy paste pictures right into the upload field
 Group id 6 picture was listed but could not be seen.
 BUG make file.js load more not necessarily on scroll, but just check if screen below a limit without scrolling
 Improve: how vadweb handles email verification, signing terms. Use Ajax and modals
+RESTRUCTURE Files.php table
 
 -*PDFs look bad on view.php
 -*BUG File names with # should be illegal
