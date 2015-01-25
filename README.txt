@@ -1,3 +1,5 @@
+Don't forget to read me!
+
 Welcome to the www.vadweb.us project! Featuring PHP :)
 
 Check out the about page, it has most of the information about this site: www.vadweb.us/about.php
