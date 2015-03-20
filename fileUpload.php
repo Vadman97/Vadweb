@@ -75,6 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		if (isset($_POST["unlisted"]))
 			$f->setUnlisted();
 
+		if ($f->type == File::$types["MOVIE"])
+		{
+			echo "MOVIE!!! MAY TAKE TIME TO CONVERT";
+		}
+
 		$result = $f->storeFile();
 		if ($result !== true)
 			$redirect = false;

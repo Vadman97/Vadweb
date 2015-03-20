@@ -16,10 +16,10 @@
 
     if ($page == -1)
     	$result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description 
-        FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 OR User_ID = '$currentUserID' ORDER BY File_ID DESC")->fetchAll();
+        FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 OR (User_ID = '$currentUserID' && Unlisted = 1) ORDER BY File_ID DESC")->fetchAll();
     else
     	$result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description 
-    	FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 OR User_ID = '$currentUserID' ORDER BY File_ID DESC LIMIT " . $offset . "," . $numFiles)->fetchAll();
+    	FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 OR (User_ID = '$currentUserID' && Unlisted = 1) ORDER BY File_ID DESC LIMIT " . $offset . "," . $numFiles)->fetchAll();
     if (count($result) == 0)
     {
     	ob_clean();

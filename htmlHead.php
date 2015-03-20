@@ -23,6 +23,7 @@
 	    <meta property="og:title" content="Vadweb File Sharing" />
 	    <meta property="og:url" content="http://vadweb.us'. $_SERVER["PHP_SELF"] .'?' . $_SERVER["QUERY_STRING"] .'"/>
 	    <meta property="og:description" content="Vadweb is home to the webs most popular image and video content, curated in real time by a dedicated community through commenting, voting and sharing." />
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    
 	    <meta http-equiv="X-UA-Compatible" content="IE=Edge;"/>
 	    
@@ -50,6 +51,7 @@
 		    <meta property="og:url" content="http://vadweb.us'. $_SERVER["PHP_SELF"] .'?' . $_SERVER["QUERY_STRING"] .'"/>
 		    <meta property="og:description" content="View file '. $sqlFileLookupResult[0]["FilePath"] .'. Vadweb is home to the webs most popular image and video content." />
 		    <meta property="og:image" content="http://vadweb.us/file.php?name='.$sqlFileLookupResult[0]["FilePath"].'" />
+		    <meta name="viewport" content="width=device-width, initial-scale=1">
 		    
 		    <meta http-equiv="X-UA-Compatible" content="IE=Edge;"/>
 		    

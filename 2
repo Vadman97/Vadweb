@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-11">
-                    <div class="well well-lg">
+                    <div class="well well-sm">
         ';
         echoMessage($message, $commentID, $userID);
     }
@@ -253,7 +253,7 @@
                 <?php
                     echo "<h1>" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . "</h1>";
                     echo "<h2>" . $filename . "</h2>";
-                    echo "<div class='well well-lg'>Uploaded by: " . getUsername($uploadedBy) . "</div>";
+                    echo "<div class='well well-sm'>Uploaded by: " . getUsername($uploadedBy) . "</div>";
                     echo "<h3>Views: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
                     echo "<p><a href='file.php?name=".$filename."&r'>Click here for direct link to file " . $filename . ".</a></p><br>";
 

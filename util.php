@@ -100,11 +100,11 @@ class UploadedFile extends File
         if ($this->size == 0)
             $this->uploadError = 22;
         if (strlen($this->name) > 100 || sizeof(explode(".", $this->name)) > 2 || sizeof(explode("'", $this->name)) > 1)
-            $this->nameNoEXT = generateRandomLetterString(8);
+            $this->nameNoEXT = generateRandomLetterString(10);
         if (strlen($this->description) > 300)
             $this->uploadError = 23;
         if (strlen($this->description) < 3)
-            $this->uploadError = 24;
+            $this->description = $this->nameNoEXT;
     }
     public function evaluatePerms()
     {
@@ -128,6 +128,36 @@ class UploadedFile extends File
         }
 
         return 0;
+    }
+    public function convertVideo()
+    {
+        if ($this->type == File::$types["MOVIE"])
+        {
+            echo "STARTING VIDEO PROCESSING <br>";
+
+            /*$suffix = "_conv_ogg";
+            $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
+            $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".ogg";
+            echo shell_exec("avconv -i " . $inputFileName . " -c:v libtheora -qscale:v 7 -c:a libvorbis -qscale:a 8 " . $outputFileName);*/
+
+            $suffix = "_conv_acc";
+            $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
+            $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
+            echo shell_exec("avconv -i " . $inputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $outputFileName);
+
+            /*$suffix = "_conv_ipad";
+            $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
+            $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
+            echo shell_exec("avconv -i " . $inputFileName . "  -c:v libx264 -profile:v baseline -level:v 32 -s 1024x768 -crf 30 -crf_max 40 -c:a libvo_aacenc -preset ultrafast -movflags +faststart " . $outputFileName);*/
+
+            $suffix = "_conv";
+            $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
+            $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
+            echo shell_exec("avconv -i " . $inputFileName . "  -c:v libx264 -profile:v main -crf 25 -crf_max 35 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart " . $outputFileName);
+
+            //$this->nameNoEXT = $this->nameNoEXT . $suffix;
+            $this->extension = "mp4";
+        }
     }
     public function writeToMySQL()
     {
@@ -157,10 +187,23 @@ class UploadedFile extends File
             }
             $counter ++;
         }
-        if (!$this->writeToMySQL())
-            return -3;
         if (move_uploaded_file($this->tmpUploadName, $fullPathForSaving))
+        {
+            $this->convertVideo();       
+            if ($this->type == File::$types["MOVIE"])
+            {
+                if (!mysqlFileWrite($this->absPath, $this->nameNoEXT . "_conv", $this->extension, $this->type, $this->minGroup, $this->unlisted, $this->otherPerms, $this->description, getCurrentUsername())) //main file in db
+                    return -3;
+                if (!mysqlFileWrite($this->absPath, $this->nameNoEXT . "_conv_ipad", $this->extension, $this->type, $this->minGroup, 2, $this->otherPerms, $this->description, getCurrentUsername())) //second format for ffox or IE
+                    return -3;
+                if (!mysqlFileWrite($this->absPath, $this->nameNoEXT . "_conv_acc", $this->extension, $this->type, $this->minGroup, 2, $this->otherPerms, $this->description, getCurrentUsername())) //second format for ffox or IE
+                    return -3;
+                return true;
+            }     
+            if (!$this->writeToMySQL())
+                return -3;
             return true;
+        }
 
         return -4;
     }

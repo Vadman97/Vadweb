@@ -1,6 +1,11 @@
 var filesList = "";
 var page = 1;
 
+function loading()
+{
+	$("#loading").removeAttr("hidden");
+}
+
 function filesGet(page)
 {
 	var ajax = $.ajax(
@@ -82,6 +87,10 @@ function displayFiles(data)
 		for (k = 0; k < files[i].length; k++)
 		{
 			if (files[i][k].indexOf("img") > -1)
+			{
+				noPreview = false;
+			}
+			if (files[i][k].indexOf("Sp00ky") > -1)
 			{
 				noPreview = false;
 			}

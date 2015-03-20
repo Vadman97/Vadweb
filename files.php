@@ -188,7 +188,7 @@
                     <h4 class="modal-title" id="myModalLabel2">Upload a single file</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="post" role="form" id="singleUploadForm" enctype="multipart/form-data" action="fileUpload.php" autocomplete="off">
+                    <form method="post" role="form" id="singleUploadForm" enctype="multipart/form-data" action="fileUpload.php" onsubmit="loading()" autocomplete="off">
                     <div class="container-fluid form">
                         <h5> This feature works for all registered users. </h5>
                         <h5> Maximum file size is <?php echo FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
@@ -202,7 +202,7 @@
                             <div class="col-sm-7">
                                 <div class="form-group">
                                     <label for="fileDesc">File Description / Title:</label><br>
-                                    <textarea class="form-control" form="singleUploadForm" name="fileDesc" placeholder="Description" maxlength=300 required></textarea>
+                                    <textarea class="form-control" form="singleUploadForm" name="fileDesc" placeholder="Description" maxlength=300></textarea>
                                 </div>
                             </div>
                         </div>
@@ -241,6 +241,9 @@
                                   </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="loading" id="loading" name="loading" hidden><b>Loading...     </b><img src="/images/loading.gif" alt="Loading..." /></div>
                         </div>
                         <div class="form-group">
                             <label for="upload-submit"></label><br><br><br>

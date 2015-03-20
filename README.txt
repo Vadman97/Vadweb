@@ -23,6 +23,7 @@ Group id 6 picture was listed but could not be seen.
 BUG make file.js load more not necessarily on scroll, but just check if screen below a limit without scrolling
 Improve: how vadweb handles email verification, signing terms. Use Ajax and modals
 RESTRUCTURE Files.php table
+EASY QUICK FEATURE - if file description is left blank, file description = file name
 
 -*PDFs look bad on view.php
 -*BUG File names with # should be illegal
@@ -128,3 +129,5 @@ RANDOM TODO NOTES
 //avconv -i MVI_2563.mov  -c:v libx264 -profile:v main -crf 30 -c:a aac -strict experimental -preset ultrafast -movflags +faststart MVI_2563.mp4
 //avconv -i <input.mov> -c:v libtheora -qscale:v 7 -c:a libvorbis -qscale:a 8 <output.ogg>
 //ffmpeg -i video.flv -ss 0 -vframes 1 shot.png
+
+//avconv -i <input.mov>  -c:v libx264 -i_qfactor 0.71 -qcomp 0.6 -qmin 10 -qmax 64 -qdiff 4 -trellis 0 -s 1280x720 -b:v 56k -ar 22050 <output.mp4>
