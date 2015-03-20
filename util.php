@@ -209,14 +209,10 @@ class UploadedFile extends File
     }
 }
 
-function emailAnyString($str, $subj)
+function emailAnyString($str, $subj, $email)
 {
     $sql = SQLCon::getSQL();
-    if (!isLoggedIn())
-        return;
-    $id = getCurrentUserID();
-    $user = $sql->sQuery("SELECT * FROM UserData WHERE ID='$id'")->fetchAll();
-    $to      = $user[0][1] . '<' . $user[0][2] . '>';
+    $to      = $email . '<' . $email . '>';
     $subject = 'Vadweb - ' . $subj;
     $message = $str;
 
@@ -237,7 +233,7 @@ function emailString($str)
     $user = $sql->sQuery("SELECT * FROM UserData WHERE ID='$id'")->fetchAll();
     $to      = $user[0][1] . '<' . $user[0][2] . '>';
     $subject = 'Vadweb - Email Verification for your User Registration';
-    $message = 'Hello ' . $user[0][1] . ', ' . "please click this link to verify your email: http://www.vadweb.us/emailVerify.php?c=" . $str;
+    $message = 'Hello ' . $user[0][1] . ', ' . "please click this link to verify your email: http://www.vadweb.us/emailVerify.php?c=" . $str . "&em=" . $user[0]["Email"];
     //$message = wordwrap($message, 70, "\r\n");
 
     $headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -379,13 +375,10 @@ function emailVerified()
         return true;
     return false;
 }
-function verifyEmail()
+function verifyEmail($em)
 {
     $sql = SQLCon::getSQL();
-    if (!isLoggedIn())
-        return -1;
-    $id = getCurrentUserID();
-    return $sql->sQuery("UPDATE UserData SET Verified=1 WHERE ID='$id'");
+    return $sql->sQuery("UPDATE UserData SET Verified=1 WHERE Email='$em'");
 }
 function getUserInfo()
 {

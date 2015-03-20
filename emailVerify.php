@@ -60,21 +60,21 @@ require_once("util.php");
         header("Refresh:3; URL=http://www.vadweb.us/");
         exit();
       }
-      if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_SESSION["emailCode"]))
+      if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET["c"]))
       {
         $code = $_GET["c"];
         if ($code == $_SESSION['emailCode'])
         {
           echo "<p><h1> Success: you have successfully validated your email. You will now be redirected.</h1></p>";
           header("Refresh:3; URL=http://www.vadweb.us/");
-          verifyEmail();
+          verifyEmail($_GET["em"]);
           exit();
         }
       }
       if (!isLoggedIn())
       {
-        echo "<h1>ERROR: You are not logged in... </h1>";
-        exit();
+        //echo "<h1>ERROR: You are not logged in... </h1>";
+        //exit();
       }
       if (!isset($_SESSION['emailCode']))
       {
