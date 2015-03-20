@@ -209,6 +209,25 @@ class UploadedFile extends File
     }
 }
 
+function emailAnyString($str, $subj)
+{
+    $sql = SQLCon::getSQL();
+    if (!isLoggedIn())
+        return;
+    $id = getCurrentUserID();
+    $user = $sql->sQuery("SELECT * FROM UserData WHERE ID='$id'")->fetchAll();
+    $to      = $user[0][1] . '<' . $user[0][2] . '>';
+    $subject = 'Vadweb - ' . $subj;
+    $message = $str;
+
+    $headers  = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $headers .= 'From: Vadweb Noreply Registration <vadwebnoreply@gmail.com>' . "\r\n";
+    $headers .= 'X-Mailer: PHP/' . phpversion();
+
+    mail($to, $subject, $message, $headers);
+}
+
 function emailString($str)
 {
     $sql = SQLCon::getSQL();

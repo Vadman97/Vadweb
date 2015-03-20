@@ -2,6 +2,29 @@
   require_once("util.php");
   if ($_SERVER['REQUEST_METHOD'] == "POST")
   {
+    if (isset($_POST["recEmail"]))
+    {
+	$requestingRecoveryEmail = $_POST["recEmail"];
+	$result = $sql->sQuery("SELECT * FROM UserData WHERE Email='$result'"))
+	if ($result)
+	{
+		emailSendaroni:
+		if (!isset($_SESSION["recoverySent"]))
+		{
+			$message = "Dear " . $result["Username"] . ", \n You have requested to reset your password. If you did this intentionally, please click the link to create a new password.";
+			emailAnyString($message,"Password Recovery");
+			$_SESSION["recoverySent"] = time();
+		}
+		else
+		{
+			if (time() > ($_SESSION["recoverySent"] + 180))
+          		{
+          		  unset($_SESSION["recoverySent"]);
+          		  goto emailSendaroni;
+         		}
+		}
+	}
+    }
     if (!isLoggedIn())
     {
       header("Location: " . $_SERVER["HTTP_REFERER"]);
@@ -72,7 +95,13 @@
       <div class="starter-template" >
         <h1>Account Settings</h1>
         <p class="lead" style="overflow:auto; overflow-style:marquee-block">Modify your account settings here.</p><br><br><br>
-      	<h1 style='color:red; font-family: Comic Sans MS;'> much troll lolol no account settings yet sorry </h1>
+	Recover your email:
+      	 <form class='navbar-form' role='form' action='/account.php' method='post'>
+              <div class='form-group'>
+                <input type='text' placeholder=‘Your email’ id='recEmail' name='recEmail' class='form-control'>
+              </div>
+              <button type='submit' class='btn btn-success'>Change Email</button>
+            </form>
       </div>
 
     </div><!-- /.container -->
