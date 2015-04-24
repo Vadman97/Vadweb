@@ -5,4 +5,4 @@
 /downloads/*
 /xcache/*
 /resource/*
-/dbcon.php
+#/dbcon.php
