@@ -44,7 +44,7 @@ $sql->configTables();
         <li><a style="color:#FFF" href="/account.php">Account Settings</a></li>
       </ul>
       
-      <?php printNavBarForms(); ?>
+      <?php printNavBarForms("files.php"); ?>
       
       </div>
     </div><!--/.navbar-collapse -->
