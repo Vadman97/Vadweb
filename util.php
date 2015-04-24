@@ -99,7 +99,7 @@ class UploadedFile extends File
             $this->uploadError = 21;
         if ($this->size == 0)
             $this->uploadError = 22;
-        if (strlen($this->name) > 100 || sizeof(explode(".", $this->name)) > 2 || sizeof(explode("'", $this->name)) > 1)
+        if (strlen($this->name) > 100 || sizeof(explode(".", $this->name)) > 2 || sizeof(explode("'", $this->name)) > 1 || sizeof(explode("&", $this->name)) > 1 || sizeof(explode("?", $this->name)) > 1)
             $this->nameNoEXT = generateRandomLetterString(10);
         if (strlen($this->description) > 300)
             $this->uploadError = 23;
@@ -143,17 +143,23 @@ class UploadedFile extends File
             $suffix = "_conv_acc";
             $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
             $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
-            echo shell_exec("avconv -i " . $inputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $outputFileName);
+            $escapedInputFileName = str_replace(" ", "\ ", $inputFileName);
+            $escapedOutputFileName = str_replace(" ", "\ ", $outputFileName);
+
+            //echo "<br>avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName . "<br>";
+
+            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName);
 
             /*$suffix = "_conv_ipad";
             $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
             $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
-            echo shell_exec("avconv -i " . $inputFileName . "  -c:v libx264 -profile:v baseline -level:v 32 -s 1024x768 -crf 30 -crf_max 40 -c:a libvo_aacenc -preset ultrafast -movflags +faststart " . $outputFileName);*/
-
+            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v baseline -level:v 32 -s 1024x768 -crf 30 -crf_max 40 -c:a libvo_aacenc -preset ultrafast -movflags +faststart " . $escapedOutputFileName);*/
             $suffix = "_conv";
             $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
             $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
-            echo shell_exec("avconv -i " . $inputFileName . "  -c:v libx264 -profile:v main -crf 25 -crf_max 35 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart " . $outputFileName);
+            $escapedInputFileName = str_replace(" ", "\ ", $inputFileName);
+            $escapedOutputFileName = str_replace(" ", "\ ", $outputFileName);
+            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -crf 25 -crf_max 35 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart " . $escapedOutputFileName);
 
             //$this->nameNoEXT = $this->nameNoEXT . $suffix;
             $this->extension = "mp4";

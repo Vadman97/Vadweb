@@ -14,7 +14,7 @@ Mostly just a TODO list for now:
 *BUG: Figure out something to do with email verification letting you change email: make it so you can't change email to that of other people (other users); double check email verification/account.php
 *IMPORTANT: Viewing comments only for registered users?
 *IMPORTANT: Go through my code and look for random todos cuz some of them are actually strangely important
-*FEATURE: Email me when there is an issue in file uploads or something; just implement emailing for errors
+*FEATURE: Email me when there is an issue in file uploads or something; just implement emailing for errors <<EG EMAIL THE ERROR CODE PROVIDED BY FILE UPLOAD ERROR
 *IMPORTANT: Make it so the upload titles are all the same length, eg they are packed into a tighter box (css frontend mostly)
 *Make the files.php ajax loading slower
 *PDFs look bad on view.php
@@ -26,9 +26,11 @@ BUG make file.js load more not necessarily on scroll, but just check if screen b
 Improve: how vadweb handles email verification, signing terms. Use Ajax and modals
 RESTRUCTURE Files.php table
 EASY QUICK FEATURE - if file description is left blank, file description = file name
+Commenting notifications -> notification system
+Messaging
 
 -*PDFs look bad on view.php
--*BUG File names with # should be illegal
+-*BUG File names with #, & should be illegal
 -http://www.vadweb.us/view.php?name=image_33.jpg
 -Copy paste pictures right into the upload field
 -Group id 6 picture was listed but could not be seen.

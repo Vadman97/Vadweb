@@ -11,10 +11,12 @@ for ($i = 0; $i < 10; $i++)
     $headers .= 'From: Sir Isaac Nooton  <vadwebnoreply@gmail.com>' . "\r\n";
     $headers .= 'X-Mailer: PHP/' . phpversion();
 
-    mail($to, $subject, $message, $headers);
+    /*mail($to, $subject, $message, $headers);
     echo $to . "<br>";
     echo $headers . "<br>";
     echo $subject . "<br>";
     echo "Sent!<br><br>";
+    */
+    echo "GET REKT THIS DOESNT WORK ANYMORE L3L"
 }
 ?>

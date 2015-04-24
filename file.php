@@ -147,24 +147,6 @@
 		else
 			header("Content-Type: audio/mpeg");
 	}
-	if ($result[0]["Type"] == File::$types["MOVIE"]) //AMBIGUOUS NEEDS CLARIFICATION
-	{
-		if (isset($_GET["t"]))
-			$thumbnail = true;
-		
-		if ($extension == "mov")
-			header("Content-Type: video/quicktime");
-		else if ($extension == "ogg" || $extension == "ogv")
-			header("Content-Type: video/ogg");
-		else if ($extension == "mpeg")
-			header("Content-Type: video/mpeg");
-		else if ($extension == "avi")
-			header("Content-Type: video/avi");
-		else if ($extension == "webm")
-			header("Content-Type: video/webm");
-		else
-			header("Content-Type: video/mp4");
-	}
 	if ($result[0]["Type"] == File::$types["PDF"])
 	{
 		header("Content-Type: application/pdf");
@@ -183,9 +165,53 @@
 			header('Content-Disposition: attachment; filename="' . $result[0]["FilePath"] . '"');
 		}
 	}
+
 	logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP); //for everything BUT thumbnails
+	$filesize = filesize($completeFilePath);
 	$fp = fopen($completeFilePath, 'rb');
-	header("Content-Length: ".filesize($completeFilePath));
+
+	if ($result[0]["Type"] == File::$types["MOVIE"]) //AMBIGUOUS NEEDS CLARIFICATION
+		{
+			if (empty($_SERVER["HTTP_RANGE"])) {
+			    if (isset($_GET["t"]))
+					$thumbnail = true;
+				
+				if ($extension == "mov")
+					header("Content-Type: video/quicktime");
+				else if ($extension == "ogg" || $extension == "ogv")
+					header("Content-Type: video/ogg");
+				else if ($extension == "mpeg")
+					header("Content-Type: video/mpeg");
+				else if ($extension == "avi")
+					header("Content-Type: video/avi");
+				else if ($extension == "webm")
+					header("Content-Type: video/webm");
+				else
+					header("Content-Type: video/mp4");
+			}
+			else 
+			{ //violes rfc2616, which requires ignoring  the header if it's invalid
+			    preg_match("/^bytes=(\d+)-/i",$_SERVER["HTTP_RANGE"], $matches);
+			    $offset = (int) $matches[1];
+			    if ($offset < $filesize && $offset >= 0) {
+			        if (@fseek($fp, $offset, SEEK_SET) != 0)
+			            die("err");
+			        header("HTTP/1.1 206 Partial Content");
+			        header("Content-Range: bytes $offset-".($filesize - 1)."/$filesize");
+			    }
+			    else {
+			        header("HTTP/1.1 416 Requested Range Not Satisfiable");
+			        die();
+			    }
+			        //fread in loop here
+			}
+		}
+	
+	header('Content-Description: File Transfer');
+	header("Content-Length: ".$filesize);
+	header('Expires: 0');
+	header('Cache-Control: must-revalidate');
+	header('Pragma: public');
 	header('filename="' . $result[0]["FilePath"] . '"');
 	fpassthru($fp);
 

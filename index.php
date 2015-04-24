@@ -75,7 +75,7 @@ require_once("util.php");
   <div class="row">
     <div class="col-md-4">
       <h2>Vadweb 2.0, now hundreds of times faster</h2>
-      <p>Using the latest technologies delivered by MySQL and PHP 5.5.x, Vadweb loads files at blazing speeds, even when calculating and sorting through complex permission settings.  </p>
+      <p>Using the latest technologies delivered by MySQL 5.5.41+ and PHP 5.6.7+, Vadweb loads files at blazing speeds, even when calculating and sorting through complex permission settings.  </p>
       <p><a class="btn btn-default" href="/about.php" role="button">View details »</a></p>
     </div>
     <div class="col-md-4">
