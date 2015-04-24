@@ -27,7 +27,7 @@
 				$loc = $loc . "?logC=f";
 		}
 		
-		header("Location: " . $_SERVER["HTTP_REFERER"]);
+		header("Location: " . $loc);
 		exit();
 	}
 ?>
