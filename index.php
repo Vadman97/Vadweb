@@ -2,7 +2,13 @@
 require_once("htmlHead.php");
 require_once("dbcon.php");
 require_once("util.php");
+    
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
+$sql = SQLCon::getSQL();
+$sql->configTables();
 ?>
+
 <head>
   <title>Vadweb File Sharing Home Page</title>
   <meta name="robots" content="index"/>
@@ -52,16 +58,7 @@ require_once("util.php");
     <h2>Quick, easy, secure file sharing.</h2><br><br><br>
 
     
-    <?php
-    
-    ini_set('display_errors', 'On');
-    error_reporting(E_ALL);
-    $sql = SQLCon::getSQL();
-    $sql->configTables();
-    //echo fibonacci(30) / fibonacci(29);
-    //emailString(generateRandomLetterString(20));
-    ?>
-    
+   
     <p>Need an account? Make one to upload files and improve your viewing experience!</p>
     <p><a class="btn btn-primary btn-lg" role="button" href="/register.php">Click here to register! »</a><a type="button" href="/about.php" class="btn btn-lg btn-success" style="margin-left:5em">About this project</a></p>
     <br>

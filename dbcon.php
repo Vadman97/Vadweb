@@ -33,7 +33,7 @@
 	    $sessionStuffTimerEnd = microtime(true); 
 	    $_SESSION["sessionConfigTime"] = $sessionStuffTimerEnd - $sessionStuffTimerStart;*/
 
-	    incrementPerfCount("Session Initialized");
+	        incrementPerfCount("Session Initialized");
 		//setcookie(session_name(),session_id(),time()+$lifetime);*/
 
 		/*sec_session_start();
@@ -79,8 +79,8 @@
 
 	class SQLCon
 	{
-		private $user = "vadim";
-		private $pass = "PASSWORD_HERE";
+		private $user = $_ENV["DB_USER"];
+		private $pass = $_ENV["DB_PASS"];
 		public $dbc = NULL;
 		private static $sqlPointer = NULL;
 		private function __construct()
@@ -261,7 +261,14 @@
 							COLLATE='utf8mb4_general_ci'
 							ENGINE=InnoDB;";
 
-			$this->transaction($UserData, $LoginAttempts, $GeneralViews, $Files, $FileViews);
+			$PerformanceDebug = "CREATE TABLE IF NOT EXISTS `PerformanceDebug` (
+  								`Type` tinytext COLLATE utf8mb4_unicode_ci NOT NULL,
+  								`Value` bigint(20) NOT NULL
+							) 
+							ENGINE=InnoDB 
+							COLLATE=utf8mb4_unicode_ci;";
+
+			$this->transaction($PerformanceDebug, $UserData, $LoginAttempts, $GeneralViews, $Files, $FileViews, $PerformanceDebug);
         }
 	}
 
