@@ -10,4 +10,8 @@
 		//echo shell_exec("ls -lsah");
 		echo "DONE PULLING";
 	}
+	else if ($_SERVER['REQUEST_METHOD'] == "GET")
+	{
+		print_r($_GET);
+	}
 ?>
