@@ -79,12 +79,14 @@
 
 	class SQLCon
 	{
-		private $user = $_ENV["DB_USER"];
-		private $pass = $_ENV["DB_PASS"];
+		private $user;
+		private $pass;
 		public $dbc = NULL;
 		private static $sqlPointer = NULL;
 		private function __construct()
 		{
+			$this->user = getenv("DB_USER");
+			$this->pass = getenv("DB_PASS");
 			try 
 			{
 				$this->dbc = new PDO('mysql:host=localhost;dbname=vadweb;charset=utf8', $this->user, $this->pass);
@@ -97,12 +99,12 @@
 		}
 		public static function getSQL()
 		{
-			if (SQLCon::$sqlPointer == NULL)
+			//if (SQLCon::$sqlPointer == NULL)
 			{
 				SQLCon::$sqlPointer = new SQLCon();
-				apc_store("newSQLPointer", apc_fetch("newSQLPointer") + 1);
+				//apc_store("newSQLPointer", apc_fetch("newSQLPointer") + 1);
 			}
-			apc_store("cachedSQLPointer", apc_fetch("cachedSQLPointer") + 1);
+			//apc_store("cachedSQLPointer", apc_fetch("cachedSQLPointer") + 1);
 			return SQLCon::$sqlPointer;
 		}
 		function transaction()
