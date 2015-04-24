@@ -10,6 +10,7 @@ Mostly just a TODO list for now:
 /*---- Prioritized TODO List -----
 TODO MOVED TO GITHUB ISSUES 
 https://github.com/Vadman97/Vadweb/issues
+The following TODOs have not been moved yet.
 
 *
 *NEXT THING TO DO: Paginate views.php
