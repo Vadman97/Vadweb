@@ -1,12 +1,12 @@
-$layout = "test_template";
+<?php
+$layout = "base";
 ob_start();
-
+?>
 <body>
         <h1> WOWOWOW BODY OF TEMPLATE </h1>
 </body>
-
+<?php
 $content = ob_get_clean();
 
-require_once($layout . ".php");
-
-
+("base.php");
+?>
