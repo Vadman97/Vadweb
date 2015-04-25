@@ -26,6 +26,10 @@
 			else
 				$loc = $loc . "?logC=f";
 		}
+		if (parse_url($_SERVER["HTTP_REFERER"], PHP_URL_PATH) != "/") {
+			header("Location: " . $_SERVER["HTTP_REFERER"]);
+			exit;
+		}
 		
 		header("Location: " . $loc);
 		exit();
