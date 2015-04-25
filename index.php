@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 
 require_once("dbcon.php");
 require_once("util.php");
-    
+
 $sql = SQLCon::getSQL();
 $sql->configTables();
 
@@ -60,7 +60,7 @@ require("navbar.php");
             <h2>Featuring more AWESOME</h2>
             <p>Finer user account control, profile pictures, and an advanced commenting/voting system permit you to have a pinnacle experience as you interact with others.</p>
             <p><?php echo count($sql->sQuery("select * from UserData")->fetchAll());?> users registered.</p>
-            <p>User group: <?php echo currentLogin()?>.</p>
+            <p>User group: <?php echo currentLogin(); ?>.</p>
             <p><a class="btn btn-default" href="/about.php" role="button">View details »</a></p>
         </div>
     </div>
