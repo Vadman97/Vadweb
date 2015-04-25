@@ -6,3 +6,5 @@
 /xcache/*
 /resource/*
 #/dbcon.php
+
+.DS_Store
