@@ -841,19 +841,19 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         $result = $sql->sQuery("select Username, GroupVal from UserData where Username='$user_check'")->fetchAll(); //todo fix< bad //WHAT IS THIS COMMENT I LEFT?!?!?! WHY IS IT BAD
         //incrementPerfCount("CurrentLogin");
         if (!isset($result) or empty($result))
-            return GROUP_ADMIN;
+            return constant('GROUP_NONE');
         
         $login_session_username = $result[0]["Username"]; //this is the username that we looked up.
         
         if (empty($login_session_username) or !isset($login_session_username))
-            return GROUP_NONE;
+            return constant('GROUP_NONE');
         else
         {
             $_SESSION['cachedUserGroup'] = $result[0]["GroupVal"];
             $_SESSION['userGroupCachingTime'] = time();
             return $_SESSION['cachedUserGroup'];
         }
-        return GROUP_NONE;
+        return constant('GROUP_NONE');
     }
 
     function isLoggedIn()
