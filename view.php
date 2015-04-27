@@ -170,6 +170,9 @@
                 <?php
                 if (!canViewFileByName($filename, VIEWING_MODE)) 
                 {
+                    echo "test:";
+                    echo GROUP_NONE;
+                    echo GROUP_REGISTERED;
                     echo "<h1 style='color:red; font-family: Comic Sans MS'>WARNING NO PERMISSION TO VIEW </h1><br>";
                     if (!isLoggedIn())
                         echo "<h1 style='color:red; font-family: Comic Sans MS'>YOU ARE NOT SIGNED IN </h1><br>";

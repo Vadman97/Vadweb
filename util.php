@@ -6,7 +6,7 @@ define("FILE_SIZE_LIMIT", getUserUploadSizeLimit());
 define("LISTING_MODE", 1);
 define("VIEWING_MODE", 2);
 
-define("GROUP_NONE", 1);
+define('GROUP_NONE', 0);
 define("GROUP_REGISTERED", 1);
 define("GROUP_FRIENDS", 2);
 define("GROUP_ADMIN", 4);
@@ -841,19 +841,19 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         $result = $sql->sQuery("select Username, GroupVal from UserData where Username='$user_check'")->fetchAll(); //todo fix< bad //WHAT IS THIS COMMENT I LEFT?!?!?! WHY IS IT BAD
         //incrementPerfCount("CurrentLogin");
         if (!isset($result) or empty($result))
-            return constant('GROUP_NONE');
+            return GROUP_NONE;
         
         $login_session_username = $result[0]["Username"]; //this is the username that we looked up.
         
         if (empty($login_session_username) or !isset($login_session_username))
-            return constant('GROUP_NONE');
+            return GROUP_NONE;
         else
         {
             $_SESSION['cachedUserGroup'] = $result[0]["GroupVal"];
             $_SESSION['userGroupCachingTime'] = time();
             return $_SESSION['cachedUserGroup'];
         }
-        return constant('GROUP_NONE');
+        return GROUP_NONE;
     }
 
     function isLoggedIn()
