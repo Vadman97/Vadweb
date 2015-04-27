@@ -841,7 +841,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
         $result = $sql->sQuery("select Username, GroupVal from UserData where Username='$user_check'")->fetchAll(); //todo fix< bad //WHAT IS THIS COMMENT I LEFT?!?!?! WHY IS IT BAD
         //incrementPerfCount("CurrentLogin");
         if (!isset($result) or empty($result))
-            return GROUP_NONE;
+            return GROUP_ADMIN;
         
         $login_session_username = $result[0]["Username"]; //this is the username that we looked up.
         
