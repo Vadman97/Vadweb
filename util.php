@@ -6,7 +6,7 @@ define("FILE_SIZE_LIMIT", getUserUploadSizeLimit());
 define("LISTING_MODE", 1);
 define("VIEWING_MODE", 2);
 
-define("GROUP_NONE", -1);
+define("GROUP_NONE", 1);
 define("GROUP_REGISTERED", 1);
 define("GROUP_FRIENDS", 2);
 define("GROUP_ADMIN", 4);
