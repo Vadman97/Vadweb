@@ -204,8 +204,8 @@
                 else if ($result[0]["Type"] == File::$types["MOVIE"])
                 {
                     echo '<video id="movie" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="720px" data-setup="{}">';
-                    echo '<source src="file.php?name='.$filename.'" type="video/mp4">';
-                    echo '<source src="file.php?name='.$nameArray[0] .'_acc.mp4" type="video/mp4">';
+                    echo '<source src="file.php?name='.$filename.'" type=\'video/mp4; codecs="vorbis, mp4a.40.2"\'>';
+                    echo '<source src="file.php?name='.$nameArray[0] .'_acc.mp4" type=\'video/mp4; codecs="avc1.4D401E, mp4a.40.2"\'>';
                     echo '<source src="file.php?name='.$nameArray[0] .'_ipad.mp4" type="video/mp4">';
                     //echo '<source src="file.php?name='. $nameArray[0] .'_ogg.ogg" type="video/ogg">';
                     echo '<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>';
