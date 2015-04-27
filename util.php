@@ -834,7 +834,6 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     function currentLogin()
     {
         $leGroupNone = GROUP_NONE;
-        echo $leGroupNone;
         if (isset($_SESSION['cachedUserGroup']) and !empty($_SESSION['cachedUserGroup']))
             return $_SESSION['cachedUserGroup'];
         incrementPerfCount("Need to cache current login value");
