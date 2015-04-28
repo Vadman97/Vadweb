@@ -60,6 +60,7 @@
     <span style='color:red; font-family: Comic Sans MS' hidden> Notice: You may experience issues with logging in. Vadweb is currently being modified with a major fix for the issue. <br> Thank you for your patience and understanding!</span>
     </p>
     <span style='color:red; font-family: Comic Sans MS'> Notification system and messaging coming soon :) </span>
+    <h5> Maximum file size is <?php echo Constants::FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
     </p>
     <?php
         //echo apc_fetch("newSQLPointer") . "<br>";
