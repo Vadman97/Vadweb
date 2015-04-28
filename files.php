@@ -60,7 +60,6 @@
     <span style='color:red; font-family: Comic Sans MS' hidden> Notice: You may experience issues with logging in. Vadweb is currently being modified with a major fix for the issue. <br> Thank you for your patience and understanding!</span>
     </p>
     <span style='color:red; font-family: Comic Sans MS'> Notification system and messaging coming soon :) </span>
-    <h5> Maximum file size is <?php echo Constants::FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
     </p>
     <?php
         //echo apc_fetch("newSQLPointer") . "<br>";
@@ -194,7 +193,7 @@
                     <form method="post" role="form" id="singleUploadForm" enctype="multipart/form-data" action="fileUpload.php" onsubmit="loading()" autocomplete="off">
                     <div class="container-fluid form">
                         <h5> This feature works for all registered users. </h5>
-                        <h5> Maximum file size is <?php echo Constants::FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
+                        <h5> Maximum file size is <?php echo getUserUploadSizeLimit()/1000/1000/1000; ?> GB. </h5>
                         <div class="well row">
                             <div class="col-sm-5">
                                 <div class="form-group">
@@ -274,7 +273,7 @@
                     <h5> This feature is only accessible to admins.</h5>
                     <h5> You may only upload <?php echo Constants::MULTI_FILE_UPLOAD_NUM_LIMIT; ?> files at a time.</h5>
                     <h5> Just use CTRL or drag with mouse to select multiple files in the selection box. </h5>
-                    <h5> Maximum file size is <?php echo Constants::FILE_SIZE_LIMIT/1000/1000/1000; ?> GB. </h5>
+                    <h5> Maximum file size is <?php echo getUserUploadSizeLimit()/1000/1000/1000; ?> GB. </h5>
                     <h5> Coming soon... </h5>
 
                     <form method="post"  enctype="multipart/form-data" action="fileUpload.php" autocomplete="off">
