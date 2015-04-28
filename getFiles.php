@@ -53,7 +53,7 @@
                     array_push($file, $result[$i][3]);
                 else if ($j == 5)
                 {
-                    $completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[$i]["FilePath"];
+                    $completeFilePath = Constants::DEFAULT_FILE_STORAGE_PATH . $result[$i]["FilePath"];
                     $bytes = filesize($completeFilePath);
                     $decimals = 2;
                     $sz = 'BKMGTP';

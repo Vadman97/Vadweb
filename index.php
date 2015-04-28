@@ -66,7 +66,7 @@ require("navbar.php");
     </div>
 
     <?php
-    if (currentLogin() >= GROUP_ADMIN) {
+    if (currentLogin() >= Constants::GROUP_ADMIN) {
     ?>
 
     <div class="container">

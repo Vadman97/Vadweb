@@ -6,7 +6,7 @@
 	//incrementPerfCount(session_status());
 	$fileName = $_GET["name"];
 
-	if (!canViewFileByName($fileName, VIEWING_MODE)) {
+	if (!canViewFileByName($fileName, Constants::VIEWING_MODE)) {
 		//echo "<h1 style='color: red; font-family: Comic Sans MS;'> major h4x0r </h1>";
 		exit();
 	}
@@ -20,7 +20,7 @@
 		exit();
   	$result = $result->fetchAll();
     
-	$completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[0]["FilePath"];
+	$completeFilePath = Constants::DEFAULT_FILE_STORAGE_PATH . $result[0]["FilePath"];
     $extension = getExtension($result[0]["FilePath"]); 
 
 	if ($result[0]["Type"] == File::$types["PICTURE"])
@@ -45,7 +45,7 @@
 
 		if ($resize) //for thumbnails
 		{
-			$completeCachedThumbnailPath = DEFAULT_FILE_STORAGE_PATH . "thumbnails/" . $result[0]["FilePath"];
+			$completeCachedThumbnailPath = Constants::DEFAULT_FILE_STORAGE_PATH . "thumbnails/" . $result[0]["FilePath"];
 			if (thumbnailCached($result[0]["File_ID"]))
 			{
 				$thumb = imagecreatefromjpeg($completeCachedThumbnailPath); 
@@ -132,7 +132,7 @@
 			imagejpeg($bg, NULL, 30); //passes to stream
 			imagedestroy($img);
 			imagedestroy($bg);
-			logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP);
+			logFileView($result[0]["File_ID"], NULL, NULL, Constants::FILE_PHP);
 			exit();
 		}
 	}
@@ -166,7 +166,7 @@
 		}
 	}
 
-	logFileView($result[0]["File_ID"], NULL, NULL, FILE_PHP); //for everything BUT thumbnails
+	logFileView($result[0]["File_ID"], NULL, NULL, Constants::FILE_PHP); //for everything BUT thumbnails
 	$filesize = filesize($completeFilePath);
 	$fp = fopen($completeFilePath, 'rb');
 

@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		array_push($fileArr, $upFile);
 	}
 
-	if (count($fileArr) > MULTI_FILE_UPLOAD_NUM_LIMIT)
+	if (count($fileArr) > Constants::MULTI_FILE_UPLOAD_NUM_LIMIT)
 	{
 		echo "E:NUM_FILES";
 		return false;
