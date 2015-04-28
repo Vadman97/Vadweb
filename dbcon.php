@@ -81,7 +81,6 @@
     {
     	const DEFAULT_FILE_STORAGE_PATH = "/home/vadwebData/";
 		const MULTI_FILE_UPLOAD_NUM_LIMIT = 10;
-		const FILE_SIZE_LIMIT = getUserUploadSizeLimit();
 		const LISTING_MODE = 1;
 		const VIEWING_MODE = 2;
 
@@ -92,14 +91,6 @@
 
 		const FILE_PHP = 1;
 		const VIEW_PHP = 2;
-
-		function getUserUploadSizeLimit()
-	    {
-	        if (currentLogin() >= 2)
-	            return 5000000000;
-	        else
-	            return 100000000;
-	    }
     }
 
 	class SQLCon

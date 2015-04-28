@@ -82,7 +82,7 @@ class UploadedFile extends File
     }
     public function validateFileForErrors()
     {
-        if ($this->size > Constants::FILE_SIZE_LIMIT)
+        if ($this->size > getUserUploadSizeLimit())
             $this->uploadError = 21;
         if ($this->size == 0)
             $this->uploadError = 22;
@@ -850,6 +850,14 @@ function canViewFileByName($filename = NULL, $action = Constants::VIEWING_MODE)
         if (currentLogin() >= Constants::GROUP_ADMIN)
             return true;
         return false;
+    }
+
+    function getUserUploadSizeLimit()
+    {
+        if (currentLogin() >= 2)
+            return 5000000000;
+        else
+            return 100000000;
     }
     
     function getCurrentUsername()
