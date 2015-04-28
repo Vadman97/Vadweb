@@ -1,18 +1,5 @@
 <?php
 require_once("dbcon.php");
-define("DEFAULT_FILE_STORAGE_PATH", "/home/vadwebData/");
-define("MULTI_FILE_UPLOAD_NUM_LIMIT", 10);
-define("FILE_SIZE_LIMIT", getUserUploadSizeLimit());
-define("LISTING_MODE", 1);
-define("VIEWING_MODE", 2);
-
-define('GROUP_NONE', 0);
-define("GROUP_REGISTERED", 1);
-define("GROUP_FRIENDS", 2);
-define("GROUP_ADMIN", 4);
-
-define("FILE_PHP", 1);
-define("VIEW_PHP", 2);
 
 class File
 {
@@ -95,7 +82,7 @@ class UploadedFile extends File
     }
     public function validateFileForErrors()
     {
-        if ($this->size > FILE_SIZE_LIMIT)
+        if ($this->size > Constants::FILE_SIZE_LIMIT)
             $this->uploadError = 21;
         if ($this->size == 0)
             $this->uploadError = 22;
@@ -136,13 +123,13 @@ class UploadedFile extends File
             echo "STARTING VIDEO PROCESSING <br>";
 
             /*$suffix = "_conv_ogg";
-            $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
-            $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".ogg";
+            $inputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
+            $outputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".ogg";
             echo shell_exec("avconv -i " . $inputFileName . " -c:v libtheora -qscale:v 7 -c:a libvorbis -qscale:a 8 " . $outputFileName);*/
 
             $suffix = "_conv_acc";
-            $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
-            $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
+            $inputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
+            $outputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
             $escapedInputFileName = str_replace(" ", "\ ", $inputFileName);
             $escapedOutputFileName = str_replace(" ", "\ ", $outputFileName);
 
@@ -151,12 +138,12 @@ class UploadedFile extends File
             echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName);
 
             /*$suffix = "_conv_ipad";
-            $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
-            $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
+            $inputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
+            $outputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
             echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v baseline -level:v 32 -s 1024x768 -crf 30 -crf_max 40 -c:a libvo_aacenc -preset ultrafast -movflags +faststart " . $escapedOutputFileName);*/
             $suffix = "_conv";
-            $inputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
-            $outputFileName = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
+            $inputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
+            $outputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
             $escapedInputFileName = str_replace(" ", "\ ", $inputFileName);
             $escapedOutputFileName = str_replace(" ", "\ ", $outputFileName);
             echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -crf 25 -crf_max 35 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart " . $escapedOutputFileName);
@@ -180,11 +167,11 @@ class UploadedFile extends File
             return true;
 
         $this->name = $this->nameNoEXT . "." . $this->extension;
-        $fullPathForSaving = DEFAULT_FILE_STORAGE_PATH . $this->name;
+        $fullPathForSaving = Constants::DEFAULT_FILE_STORAGE_PATH . $this->name;
         $counter = 1;
         while (file_exists($fullPathForSaving))
         {
-            $fullPathForSaving = DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "_" . $counter . "." . $this->extension;
+            $fullPathForSaving = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "_" . $counter . "." . $this->extension;
             if (!file_exists($fullPathForSaving))
             {
                 $this->nameNoEXT = $this->nameNoEXT . "_" . $counter;
@@ -416,7 +403,7 @@ function verifyCaptcha($gresponse)
         return true;
     return false;
 }
-function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
+function canViewFileByName($filename = NULL, $action = Constants::VIEWING_MODE)
 {
     /*if (!isLoggedIn())
         return false;
@@ -437,7 +424,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     $minGroup = substr($perm, strpos($perm, "+G(") + 3, 1);
     $unlisted = strpos($perm, "-&");*/
 
-    /*if ($action == LISTING_MODE)
+    /*if ($action == Constants::LISTING_MODE)
     {
         if ($unlisted == true)
             return false;
@@ -447,7 +434,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 
     return false;*/
 
-    if ($action == LISTING_MODE)
+    if ($action == Constants::LISTING_MODE)
     {
         if ($result["Unlisted"] == true)
             return false;
@@ -562,13 +549,6 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
                     break;
             }
         }
-    }
-    function getUserUploadSizeLimit()
-    {
-        if (currentLogin() >= 2)
-            return 5000000000;
-        else
-            return 100000000;
     }
     function uploadingCooldown()
     {
@@ -815,14 +795,14 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 
     function canComment()
     {
-        if (currentLogin() >= GROUP_REGISTERED)
+        if (currentLogin() >= Constants::GROUP_REGISTERED)
             return true;
         return false;
     }
 
     function canUpload()
     {
-        if (currentLogin() >= GROUP_REGISTERED)
+        if (currentLogin() >= Constants::GROUP_REGISTERED)
             return true;
         return false;
     }
@@ -833,7 +813,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     */
     function currentLogin()
     {
-        $leGroupNone = GROUP_NONE;
+        $leGroupNone = Constants::GROUP_NONE;
         if (isset($_SESSION['cachedUserGroup']) and !empty($_SESSION['cachedUserGroup']))
             return $_SESSION['cachedUserGroup'];
         incrementPerfCount("Need to cache current login value");
@@ -859,7 +839,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
 
     function isLoggedIn()
     {
-        if (currentLogin() == GROUP_NONE)
+        if (currentLogin() == Constants::GROUP_NONE)
             return false;
         else
             return true;
@@ -867,7 +847,7 @@ function canViewFileByName($filename = NULL, $action = VIEWING_MODE)
     
     function isAdmin()
     {
-        if (currentLogin() >= GROUP_ADMIN)
+        if (currentLogin() >= Constants::GROUP_ADMIN)
             return true;
         return false;
     }

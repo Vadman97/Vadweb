@@ -77,6 +77,31 @@
         $sql->sQuery("UPDATE PerformanceDebug SET Value=Value+1 WHERE  Type='$name'");
     }
 
+    class Constants
+    {
+    	const DEFAULT_FILE_STORAGE_PATH = "/home/vadwebData/";
+		const MULTI_FILE_UPLOAD_NUM_LIMIT = 10;
+		const FILE_SIZE_LIMIT = getUserUploadSizeLimit();
+		const LISTING_MODE = 1;
+		const VIEWING_MODE = 2;
+
+		const GROUP_NONE = 0;
+		const GROUP_REGISTERED = 1;
+		const GROUP_FRIENDS = 2;
+		const GROUP_ADMIN = 4;
+
+		const FILE_PHP = 1;
+		const VIEW_PHP = 2;
+
+		function getUserUploadSizeLimit()
+	    {
+	        if (currentLogin() >= 2)
+	            return 5000000000;
+	        else
+	            return 100000000;
+	    }
+    }
+
 	class SQLCon
 	{
 		private $user;
