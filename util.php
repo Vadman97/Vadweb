@@ -878,6 +878,8 @@ function canViewFileByName($filename = NULL, $action = Constants::VIEWING_MODE)
 
     function getUsername($id)
     {
+        if ($id == NULL || empty($id))
+            return "User Deleted";
         $sql = SQLCon::getSQL();
         $stmt="SELECT Username FROM UserData WHERE ID='$id'";
         $result=$sql->sQuery($stmt)->fetchAll();
