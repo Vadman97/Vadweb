@@ -56,7 +56,7 @@ require_once("util.php");
     			<div class="container">
     				<div class="carousel-caption">
     					<h1>The author.</h1>
-    					<p>Hello! Thanks for stopping by to read this blurb about me, Vadim. I'm just a high school student with a passion for computer science, from robots to website building.</p>
+    					<p>Hello! Thanks for stopping by to read this blurb about me! I'm just a high school student with a passion for computer science, from robots to website building.</p>
     					<p>This project is my start in webdesign, as I found robotics interesting in tangible electrical engineering and programming experience, but wanted a more theoretical programming project that could be used by many other than myself.</p>
 
     				</div>
