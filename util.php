@@ -407,6 +407,11 @@ function getUserInfo()
     $id = getCurrentUserID();
     return $sql->sQuery("SELECT * FROM UserData WHERE ID='$id'")->fetchAll()[0];
 }
+function getFileInfo($fileid = NULL)
+{
+    $sql = SQLCon::getSQL();
+    return $sql->sQuery("SELECT * FROM Files WHERE File_ID='$fileid'")->fetchAll()[0];
+}
 function getFileID($filename = NULL)
 {
     $sql = SQLCon::getSQL();

@@ -19,13 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		return false;
 	}
 	
-	$f = new UploadedFile($_FILES["fileSingle"]['name'], $_FILES["fileSingle"]['tmp_name'], $_FILES["fileSingle"]["size"], $_FILES["fileSingle"]['error'], $_POST["perm"], $_POST["otherPermData"], $_POST["fileDesc"]);
-	if (!isFileOwner($_POST["fileID"])) //write this
+	if (!isFileOwner($_POST["fileID"])) 
 	{
 		echo "E:NOT_OWNER<br>";
 		echo "YOU CAN'T MODIFY FILES THAT AREN'T YOURS!";
 		return false;
 	}
+
+	$fileData = getFileInfo($_POST["fileID"]);
+
+	$f = new UploadedFile($fileData["FilePath"], $_FILES["fileSingle"]['tmp_name'], $_FILES["fileSingle"]["size"], $_FILES["fileSingle"]['error'], NULL, NULL, NULL);
 	
 	$redirect = true;
 	
@@ -40,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 	}
 
 	$result = $f->storeFile(true);
-	updateFile($_POST["fileID"]); //write this
+	updateFile($_POST["fileID"]); //TODO Make way to change file name
 
 	if ($result !== true)
 		$redirect = false;
