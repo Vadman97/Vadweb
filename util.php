@@ -208,7 +208,7 @@ function updateFile($id)
 {
     $sql = SQLCon::getSQL();
     $stmt = $sql->prepStmt("UPDATE Files SET CreatedTime= WHERE File_ID=:id");
-    $sql->prepStmt($stmt, ":id", $id);
+    $sql->bindParam($stmt, ":id", $id);
     return $sql->execute($stmt);
 }
 
@@ -216,7 +216,7 @@ function isFileOwner($id)
 {
     $sql = SQLCon::getSQL();
     $stmt = $sql->prepStmt("SELECT File_ID FROM Files WHERE File_ID=:id");
-    $sql->prepStmt($stmt, ":id", $id);
+    $sql->bindParam($stmt, ":id", $id);
     $result = $sql->execute($stmt)->fetch();
     if (count($result) == 1)
         return true;
