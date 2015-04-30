@@ -206,7 +206,21 @@ class UploadedFile extends File
 
 function updateFile($id)
 {
-    //INSERT INTO Files (User_ID, FilePath, MinGroup, Unlisted, OtherPerms, Type, Description) VALUES (:user_id, :filePath, :minGroup, :unlisted, :otherPerms, :type, :description)
+    $sql = SQLCon::getSQL();
+    $stmt = $sql->prepStmt("UPDATE Files SET CreatedTime= WHERE File_ID=:id");
+    $sql->prepStmt($stmt, ":id", $id);
+    return $sql->execute($stmt);
+}
+
+function isFileOwner($id)
+{
+    $sql = SQLCon::getSQL();
+    $stmt = $sql->prepStmt("SELECT File_ID FROM Files WHERE File_ID=:id");
+    $sql->prepStmt($stmt, ":id", $id);
+    $result = $sql->execute($stmt)->fetch();
+    if (count($result) == 1)
+        return true;
+    return false;
 }
 
 function emailAnyString($str, $subj, $email)
