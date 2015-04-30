@@ -282,13 +282,9 @@
                     echo 
                     '<div class="col-md-12" style="padding-left:0px;">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-left:0px;">
-                                Upload
-                                <span class="caret"></span>
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#file-update" style="margin-left:0px;">
+                                Update File
                             </button>
-                            <ul class="dropdown-menu" style="margin-left:0px;" data-toggle="modal">
-                                <li><a href="#" data-toggle="modal" data-target="#file-update">Update This File</a></li>
-                            </ul>
                         </div>
                     </div>';
                 }
