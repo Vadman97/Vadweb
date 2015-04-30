@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		echo "MOVIE!!! MAY TAKE TIME TO CONVERT";
 	}
 
-	$result = $f->storeFile();
+	$result = $f->storeFile(true);
 	updateFile($_POST["fileID"]); //write this
 
 	if ($result !== true)
