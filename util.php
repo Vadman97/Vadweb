@@ -156,7 +156,7 @@ class UploadedFile extends File
     {
         return mysqlFileWrite($this->absPath, $this->nameNoEXT, $this->extension, $this->type, $this->minGroup, $this->unlisted, $this->otherPerms, $this->description, getCurrentUsername());
     }
-    public function storeFile()
+    public function storeFile($modifying = false)
     {
         if ($this->isError())
             return -1;
@@ -169,7 +169,7 @@ class UploadedFile extends File
         $this->name = $this->nameNoEXT . "." . $this->extension;
         $fullPathForSaving = Constants::DEFAULT_FILE_STORAGE_PATH . $this->name;
         $counter = 1;
-        while (file_exists($fullPathForSaving))
+        while (file_exists($fullPathForSaving) && $modifying == false)
         {
             $fullPathForSaving = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "_" . $counter . "." . $this->extension;
             if (!file_exists($fullPathForSaving))
@@ -192,7 +192,9 @@ class UploadedFile extends File
                 if (!mysqlFileWrite($this->absPath, $this->nameNoEXT . "_conv_acc", $this->extension, $this->type, $this->minGroup, 2, $this->otherPerms, $this->description, getCurrentUsername())) //second format for ffox or IE
                     return -3;
                 return true;
-            }     
+            }
+            if ($modifying)
+                return true;
             if (!$this->writeToMySQL())
                 return -3;
             return true;
@@ -200,6 +202,11 @@ class UploadedFile extends File
 
         return -4;
     }
+}
+
+function updateFile($id)
+{
+    //INSERT INTO Files (User_ID, FilePath, MinGroup, Unlisted, OtherPerms, Type, Description) VALUES (:user_id, :filePath, :minGroup, :unlisted, :otherPerms, :type, :description)
 }
 
 function emailAnyString($str, $subj, $email)
