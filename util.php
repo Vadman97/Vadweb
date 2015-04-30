@@ -207,6 +207,7 @@ class UploadedFile extends File
 function updateFile($id)
 {
     $sql = SQLCon::getSQL();
+    setThumbnailUncached($id);
     $stmt = $sql->prepStmt("UPDATE Files SET CreatedTime= WHERE File_ID=:id");
     $sql->bindParam($stmt, ":id", $id);
     return $sql->execute($stmt);
@@ -623,6 +624,11 @@ function canViewFileByName($filename = NULL, $action = Constants::VIEWING_MODE)
     {
         $sql = SQLCon::getSQL();
         $sql->sQuery("UPDATE Files SET ThumbnailCached=1 WHERE File_ID='$fileID'");
+    }
+    function setThumbnailUncached($fileID)
+    {
+        $sql = SQLCon::getSQL();
+        $sql->sQuery("UPDATE Files SET ThumbnailCached=0 WHERE File_ID='$fileID'");
     }
     function userExists($username, $email)
     {
