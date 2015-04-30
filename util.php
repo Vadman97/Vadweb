@@ -218,6 +218,7 @@ function isFileOwner($id)
     $stmt = $sql->prepStmt("SELECT File_ID FROM Files WHERE File_ID=:id");
     $sql->bindParam($stmt, ":id", $id);
     $result = $sql->execute($stmt)->fetch();
+    print_r($result);
     if (count($result) == 1)
         return true;
     return false;
