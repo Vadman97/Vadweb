@@ -277,7 +277,21 @@
                     gc_enable();
                 echo '<p><b>Total Execution Time:</b> '.$execution_time.' Sec</p><br><br>';
                 if (isFileOwner($fileid))
+                {
                     echo '<p>This is your file. </p><br><br>';
+                    echo 
+                    '<div class="col-md-12" style="padding-left:0px;">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" style="margin-left:0px;">
+                                Upload
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" style="margin-left:0px;" data-toggle="modal">
+                                <li><a href="#" data-toggle="modal" data-target="#file-update">Update This File</a></li>
+                            </ul>
+                        </div>
+                    </div>';
+                }
                 ?>
 
 
@@ -303,6 +317,39 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="file-update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel2">Update File</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" role="form" id="singleUploadForm" enctype="multipart/form-data" action="fileUpload.php" onsubmit="loading()" autocomplete="off">
+                    <div class="container-fluid form">
+                        <h5> Reupload your file here! </h5>
+                        <h5> Maximum file size is <?php echo getUserUploadSizeLimit()/1000/1000/1000; ?> GB. </h5>
+                        <div class="well row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="fileSingle">Single File:</label><br>
+                                    <input class="form-control" type="file" name="fileSingle" required>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="upload-submit"></label><br><br><br>
+                            <input id="upload-submit" class="btn btn-default" type="submit" value="Submit File" style="margin-top:5px;"> 
+                        </div>
+                    </div>
+                    </form>                        
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal fade -->
     <script src="/resource/jquery/jquery-2.1.1.min.js"></script>
     <script src="/resource/bootstrap/js/bootstrap.js"></script>
     <script src="view.js"></script>
