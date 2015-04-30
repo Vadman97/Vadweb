@@ -321,7 +321,7 @@
                     <h4 class="modal-title" id="myModalLabel2">Update File</h4>
                 </div>
                 <div class="modal-body">
-                    <form method="post" role="form" id="singleUploadForm" enctype="multipart/form-data" action="fileUpload.php" onsubmit="loading()" autocomplete="off">
+                    <form method="post" role="form" id="singleUploadForm" enctype="multipart/form-data" action="reuploadFile.php" autocomplete="off">
                     <div class="container-fluid form">
                         <h5> Reupload your file here! </h5>
                         <h5> Maximum file size is <?php echo getUserUploadSizeLimit()/1000/1000/1000; ?> GB. </h5>
@@ -335,6 +335,7 @@
                         </div>
                         <div class="form-group">
                             <label for="upload-submit"></label><br><br><br>
+                            <input type="text" name="fileID" value=<?php echo '"' . $fileid . '"';?>>
                             <input id="upload-submit" class="btn btn-default" type="submit" value="Submit File" style="margin-top:5px;"> 
                         </div>
                     </div>
