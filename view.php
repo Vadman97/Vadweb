@@ -335,7 +335,7 @@
                         </div>
                         <div class="form-group">
                             <label for="upload-submit"></label><br><br><br>
-                            <input type="text" name="fileID" value=<?php echo '"' . $fileid . '"';?>>
+                            <input hidden="hidden" type="text" name="fileID" value=<?php echo '"' . $fileid . '"';?>>
                             <input id="upload-submit" class="btn btn-default" type="submit" value="Submit File" style="margin-top:5px;"> 
                         </div>
                     </div>
