@@ -18,7 +18,13 @@ require_once("util.php");
         
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                <?php
+                    if (!isLoggedIn()) {
+                ?>
                 <li><a style="color:#FFF" href="/register.php">Register</a></li>
+                <?php
+                    }
+                ?>
                 <li><a style="color:#FFF" href="/files.php">File Uploads</a></li>
                 <li><a style="color:#FFF" href="/account.php">Account Settings</a></li>
             </ul>
