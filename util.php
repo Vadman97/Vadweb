@@ -218,16 +218,14 @@ function isFileOwner($id)
     $stmt = $sql->prepStmt("SELECT User_ID FROM Files WHERE File_ID=:id");
     $sql->bindParam($stmt, ":id", $id);
     $result = $sql->execute($stmt)->fetchAll();
-    echo $result[0][0];
-    echo getCurrentUserID();
     if ($result[0][0] == getCurrentUserID())
     {
-        echo "same user";
+        //echo "same user";
         return true;
     }
     else
     {
-        echo "not the same user";
+        //echo "not the same user";
         return false;
     }
 }

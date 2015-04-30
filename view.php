@@ -276,7 +276,8 @@
                     $execution_time = ($time_end - $time_start);
                     gc_enable();
                 echo '<p><b>Total Execution Time:</b> '.$execution_time.' Sec</p><br><br>';
-                echo '<p>Your file: ' . isFileOwner($fileid)?"yes":"no" . ' </p><br><br>';
+                if (isFileOwner($fileid))
+                    echo '<p>This is your file. </p><br><br>';
                 ?>
 
 
