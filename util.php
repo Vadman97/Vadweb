@@ -221,9 +221,15 @@ function isFileOwner($id)
     echo $result[0][0];
     echo getCurrentUserID();
     if ($result[0][0] == getCurrentUserID())
+    {
+        echo "same user";
         return true;
+    }
     else
+    {
+        echo "not the same user";
         return false;
+    }
 }
 
 function emailAnyString($str, $subj, $email)
