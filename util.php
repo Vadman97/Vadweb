@@ -215,7 +215,7 @@ function updateFile($id)
 function isFileOwner($id)
 {
     $sql = SQLCon::getSQL();
-    $stmt = $sql->prepStmt("SELECT File_ID FROM Files WHERE File_ID=:id");
+    $stmt = $sql->prepStmt("SELECT User_ID FROM Files WHERE File_ID=:id");
     $sql->bindParam($stmt, ":id", $id);
     $result = $sql->execute($stmt)->fetchAll();
     print_r($result);
