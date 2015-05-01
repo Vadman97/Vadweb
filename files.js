@@ -160,3 +160,23 @@ $(window).scroll(function() {
 	loadMore();	    
     }
 });
+
+
+Paster.prototype.handlePaste = function(paster, e) {
+
+ //don't do this twice
+ if (paster.processing) {
+  return;
+ }
+
+ //loop through all clipBoardData items and upload it if it's a file.
+ for (var i = 0; i < e.clipboardData.items.length; i++) {
+  var item = e.clipboardData.items[i];
+  if (item.kind === "file") {
+  	console.log(item);
+   paster.processing = true;
+   e.preventDefault();
+   //paster.uploadFile(paster, item.getAsFile());
+  }
+ }
+};
