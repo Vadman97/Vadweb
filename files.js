@@ -219,12 +219,3 @@ $(window).scroll(function() {
     });
   };
 })(jQuery);
-
-
-$("html").pasteImageReader(function(results) 
-{
-  var dataURL, filename;
-  return filename = results.filename, dataURL = results.dataURL, results;
-});
-
-console.log(dataURL);
