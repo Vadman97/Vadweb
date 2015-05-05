@@ -192,9 +192,9 @@
                         echo "<a href='file.php?name=".$filename."&r'>";
 
                     if (isset($_GET["r"]))
-                        echo "<img src='file.php?name=".$filename."&r' style='width: 100%;' alt='" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . " image upload creation user " . htmlspecialchars(getUsername($result[0]["User_ID"]), ENT_QUOTES) . " quality'></img>"; 
+                        echo "<img src='file.php?name=".$filename."&r' alt='" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . " image upload creation user " . htmlspecialchars(getUsername($result[0]["User_ID"]), ENT_QUOTES) . " quality'></img>"; 
                     else
-                        echo "<img src='file.php?name=".$filename."' style='width: 100%;' alt='" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . " image upload creation user " . htmlspecialchars(getUsername($result[0]["User_ID"]), ENT_QUOTES) . " quality'></img>"; 
+                        echo "<img src='file.php?name=".$filename."' alt='" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . " image upload creation user " . htmlspecialchars(getUsername($result[0]["User_ID"]), ENT_QUOTES) . " quality'></img>"; 
                     echo "</a>";
                 }
         		else if ($result[0]["Type"] == File::$types["PDF"])
