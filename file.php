@@ -35,7 +35,7 @@
 			$resize = true;
 		if (isset($_GET["r"]))
 			$specialCompress = false;
-		if (filesize($completeFilePath) < 100000)
+		if (filesize($completeFilePath) < 500000)
 			$specialCompress = false;
 		if ($imageinfo[0] == 0 || $imageinfo[1] == 0)
 		{
