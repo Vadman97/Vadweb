@@ -264,7 +264,7 @@ require("navbar.php");
 /* End body */
 $content = ob_get_clean();
 
-//$footer = "<script src=\"files.js\"></script>";
+$footer = "<script src=\"files.js\"></script>";
 require($layout . ".php");
 
 ?>
