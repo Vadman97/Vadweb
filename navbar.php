@@ -13,7 +13,7 @@ require_once("util.php");
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Vadweb</a>
+            <a class="navbar-brand" href="/">Vadweb</a>
         </div>        
         
         <div class="navbar-collapse collapse">
