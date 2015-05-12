@@ -1,8 +1,13 @@
 <html>
     <head>
-        <title> Vadweb </title>
-    </head>
-    <head>
+        <?php
+            if (isset($title)) {
+                $title = "- " . $title;
+            } else {
+                $title = "";
+            }
+        ?>
+        <title> Vadweb <?php echo $title; ?> </title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="format-detection" content="telephone=no">
         <meta name="keywords" content="files, images, funny pictures, image host, image upload, image sharing, image resize, file host, file upload, file sharing">
@@ -17,18 +22,35 @@
 
         <link rel="shortcut icon" href="images/vmg.ico">
         <link href="/resource/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet"> -->
 
-        <link href="/resource/bootstrap/css/simpleTemp.css" rel="stylesheet"><title>Vadweb: File Uploads and Viewing</title><link rel="next" href="files.php?page=2">
+        <link href="/resource/bootstrap/css/simpleTemp.css" rel="stylesheet">
         <script src="https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.en.Po66YgTsIB4.O/m=gapi_iframes,gapi_iframes_style_common/rt=j/sv=1/d=1/ed=1/am=IQ/rs=AGLTcCMwzc7OePYK-UA9m-jQ8XGArpmA5Q/t=zcms/cb=gapi.loaded_0" async=""></script><script type="text/javascript" charset="UTF-8" src="https://apis.google.com/js/api.js" gapi_processed="true"></script>
+    
+        <?php 
+            if (isset($header)) {
+                echo $header; 
+            }    
+        ?> 
     </head>
     <body>
 
-<?php echo $content; ?>
+        <?php
+            if (isset($content)) { 
+                echo $content; 
+            }
+        ?>
 
         <script type="text/javascript" async="" src="https://www.gstatic.com/recaptcha/api2/r20150414130317/recaptcha__en.js"></script>
         <script src="/resource/jquery/jquery-2.1.1.min.js"></script>
-        <script src="/resource/bootstrap/js/bootstrap.js"></script>
+        <!-- <script src="/resource/bootstrap/js/bootstrap.min.js"></script> -->
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <script src="https://www.google.com/recaptcha/api.js"></script>
+        <?php
+            if (isset($footer)) {
+                echo $footer;
+            }
+        ?>
     </body>
 
 </html>

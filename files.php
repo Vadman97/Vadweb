@@ -1,15 +1,15 @@
 <?php
-        require_once("htmlHead.php");
-        require_once("util.php");
-            /*if (!isLoggedIn()) {
-                    header("Refresh: 1; url= http://www.vadweb.us");
-                    echo "Please sign in. Redirecting to home page...";
-                    exit;
-                }*/
-                ?>
-        <head>
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
+
+require_once("util.php");
+
+$layout = "base";
+$title = "File Viewing";
+ob_start();
+/* Begin supplementary header */
+?>
            <link href="/resource/bootstrap/css/simpleTemp.css" rel="stylesheet">
-           <title>Vadweb: File Uploads and Viewing</title>
            <?php
             logGenericPageView("files.php");
            ?>
@@ -26,32 +26,21 @@
                 {
                     echo '<link rel="next" href="files.php?page=2">';
                 }
-           ?>
-       </head>
+            ?>
+<?php
+/* End supplementary header */
+$header = ob_get_clean();
 
-       <body>
-        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Vadweb</a>
-            </div>
-            <div class="collapse navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li><a style="color:#FFF" href="/register.php">Register</a></li>
-                <li class="active"><a style="color:#FFF" href="/files.php">File Uploads</a></li>
-                <li><a style="color:#FFF" href="/account.php">Account Settings</a></li>
-              </ul>
-              <?php printNavBarForms("files.php"); ?>
-            </div><!--/.nav-collapse -->
-          </div>
-        </div>
-  
+ob_start();
+/* Begin body */
+?>
+
+<?php
+
+require("navbar.php");
+
+?>
+ 
 <div class="container-fluid">
 
   <div class="starter-template" >
@@ -60,7 +49,6 @@
     <span style='color:red; font-family: Comic Sans MS' hidden> Notice: You may experience issues with logging in. Vadweb is currently being modified with a major fix for the issue. <br> Thank you for your patience and understanding!</span>
     </p>
     <span style='color:red; font-family: Comic Sans MS'> Notification system and messaging coming soon :) </span>
-    </p>
     <?php
         //echo apc_fetch("newSQLPointer") . "<br>";
         //echo apc_fetch("cachedSQLPointer") . "<br>";
@@ -123,60 +111,13 @@
 					<tr><td><b>
 						Loading...
 					</b></td></tr>
-                    <?php
-                        /*$time_start = microtime(true); 
-                        $sql = SQLCon::getSQL();
-                        //$userGroup = currentLogin();
-                        $userGroup = currentLogin();
-                        $result = $sql->sQuery("SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 ORDER BY File_ID DESC")->fetchAll();
-                        for ($i = 0; $i <= count($result) - 1; $i++)
-                        {
-                            echo "<tr>\n";
-                            for ($j = 0; $j < 7; $j++) //j here is less than 5 because 5 column, 5 details from mysql 
-                            {
-                                $refOpen = "<a href='/view.php?name=".$result[$i][1]."'>";
-                                $refClose = "</a>";
-
-                                echo "\t\t\t<td>";
-                                    if ($j == 0)
-                                        echo $result[$i][0];
-                                    else if ($j == 1)
-                                        echo $refOpen . $result[$i][9] . $refClose;
-                                    else if ($j == 2)
-                                    {
-                                        if (in_array(getExtension($result[$i][1]), File::$pictureEXTs) && $result[$i][8] != 1)
-                                            echo $refOpen . "<img src='file.php?name=".htmlspecialchars($result[$i][1], ENT_QUOTES)."&amp;t' style='max-width:128px' alt='".htmlspecialchars($result[$i][9], ENT_QUOTES)." thumbnail'/>" . $refClose;
-                                        else if ($result[$i][8] == 1)
-                                            echo "Sp00ky NSFW";
-                                    }
-                                    else if ($j == 3) //this is to replace User_ID with the username from ID <<TODO FIND BETTER WAY TO DO THIS
-                                        echo getUsername($result[$i][2]);
-                                    else if ($j == 4)
-                                        echo $result[$i][3];
-                                    else if ($j == 5)
-                                    {
-                                        $completeFilePath = DEFAULT_FILE_STORAGE_PATH . $result[$i]["FilePath"];
-                                        $bytes = filesize($completeFilePath);
-                                        $decimals = 2;
-                                        $sz = 'BKMGTP';
-                                        $factor = floor((strlen($bytes) - 1) / 3);
-                                        echo sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
-                                    }
-                                    else if ($j == 6)
-                                        echo $result[$i][4];
-
-                                echo "</td>\n";
-                            }   
-                            echo "\t\t</tr>\n";
-                        }
-                        $time_end = microtime(true);
-                        $execution_time = ($time_end - $time_start);*/
-                    ?>
                 </tbody>
             </table>
         </div>
         <?php 
-            echo '<p id="execTime"><b>Total Execution Time:</b> '.$execution_time.'</p>';
+            if (isset($execution_time)) {
+                echo '<p id="execTime"><b>Total Execution Time:</b> '.$execution_time.'</p>';
+            }
         ?>
         <p>Interested in how this page loads? Click here: <a href="getFiles.php?page=0" > http://vadweb.us/getFiles.php?page=0 </a></p>
     </div>
@@ -319,13 +260,11 @@
 
 </div><!-- /.container -->
 
+<?php
+/* End body */
+$content = ob_get_clean();
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/resource/jquery/jquery-2.1.1.min.js"></script>
-    <script src="/resource/bootstrap/js/bootstrap.js"></script>
-    <script src="files.js"></script>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-</body>
-</html>
+//$footer = "<script src=\"files.js\"></script>";
+require($layout . ".php");
+
+?>
