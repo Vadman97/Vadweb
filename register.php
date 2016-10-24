@@ -2,7 +2,7 @@
 require_once("htmlHead.php");
 require_once("util.php");
 
-error_reporting(~E_ALL);
+//error_reporting(~E_ALL);
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
   $username = $_POST['username'];
   $email = $_POST['email'];
   $yob = $_POST['yob'];
-  
+
   $encPassData1 = base64_decode($_POST['password']);
   $encPassData2 = base64_decode($_POST['password2']);
   $iv = base64_decode($_POST['iv']);
@@ -202,8 +202,8 @@ exit();
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/resource/jquery/jquery-2.1.1.min.js"></script>
     <script src="/resource/bootstrap/js/bootstrap.js"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/pbkdf2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/pbkdf2.js"></script>
     <script src="register.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
     

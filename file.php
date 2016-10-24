@@ -31,6 +31,7 @@
 		header("Content-Type: image/jpeg");
 		$imageinfo = getimagesize($completeFilePath);
 		$specialCompress = true;
+		$resize = false;
 		if (isset($_GET["t"]))
 			$resize = true;
 		if (isset($_GET["r"]))

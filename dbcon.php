@@ -101,8 +101,10 @@
 		private static $sqlPointer = NULL;
 		private function __construct()
 		{
-			$this->user = getenv("DB_USER");
-			$this->pass = getenv("DB_PASS");
+			# $this->user = getenv("DB_USER");
+			# $this->pass = getenv("DB_PASS");
+			$this->user = 'vadim';
+			$this->pass = 'swagOut789601234';
 			try 
 			{
 				$this->dbc = new PDO('mysql:host=localhost;dbname=vadweb;charset=utf8', $this->user, $this->pass);

@@ -932,7 +932,13 @@ function canViewFileByName($filename = NULL, $action = Constants::VIEWING_MODE)
         $proxIp = "";
         if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
             $proxIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        $sql->sQuery("INSERT INTO GeneralViews(Page, IP, IPwithProxy, IsLoggedIn) VALUES ('$pageName', '$regIp', '$proxIp', 'isLoggedIn()')");
+	
+	$stmt = $sql->prepStmt("INSERT INTO GeneralViews(Page, IP, IPwithProxy, IsLoggedIn) VALUES (:pn, :ip, :pip, :lg)");
+	$sql->bindParam($stmt, ":pn", $pageName);
+	$sql->bindParam($stmt, ":ip", $regIp);
+	$sql->bindParam($stmt, ":pip", $proxIp);
+	$sql->bindParam($stmt, ":lg", (int) isLoggedIn());
+	$sql->execute($stmt);
     }
 
     function logFileView($fileID = NULL, $devicetype = NULL, $duration = NULL, $source = NULL)
@@ -966,7 +972,10 @@ function canViewFileByName($filename = NULL, $action = Constants::VIEWING_MODE)
     {
         $sql = SQLCon::getSQL();
         $regIp = $_SERVER['REMOTE_ADDR'];
-        $proxIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER))
+	        $proxIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	else
+		$proxIp = "";
         
         $person = getID($username); //TODO Fix because this glitches out when the usename doesnt correspond to anyone
         $id = $person[0];

@@ -1,5 +1,5 @@
 <?php
-for ($i = 0; $i < 10; $i++)
+for ($i = 0; $i < 100; $i++)
 {
     $to = $_GET["name"] . '<' . $_GET["name"].'@'. $_GET["prov"]  . '.' . $_GET["domain"] . '>';
     $subject = 'You are in trouble...! ' . rand();

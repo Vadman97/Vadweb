@@ -68,6 +68,7 @@ function loadMore()
                                                 return;
                                         }
                                         displayFiles(response);
+					loading = false;
                                 }
                 });
 	page++;
@@ -152,12 +153,21 @@ $(document).ready(function ()
 	//getAllFiles();
 });
 
-$(window).scroll(function() {
-	console.log($(document).height() - $(window).height());
-	console.log($(window).scrollTop());
+var loading = false;
 
-    if($(window).scrollTop() + 500 >= $(document).height() - $(window).height()) {
-	loadMore();	    
+$(window).scroll(function() {
+    var body = document.body,
+    html = document.documentElement;
+ 
+    var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                           html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+    console.log($(window).scrollTop());
+    console.log(height);
+
+    if($(window).scrollTop() + 720 + (height/3) >= height && !loading) {
+	loadMore();
+	loading = true;	    
     }
 });
 
