@@ -19,7 +19,7 @@
 	    <meta name="format-detection" content="telephone=no"/>
 	    <meta name="keywords" content="files, images, funny pictures, image host, image upload, image sharing, image resize, file host, file upload, file sharing"/>
 	    <meta name="description" content="Vadweb is home to the webs most popular image and video content, curated in real time by a dedicated community through commenting, voting and sharing."/>
-	    <meta name="copyright" content="Copyright 2014 Vadweb, SWAG."/>
+	    <meta name="copyright" content="Copyright 2016 Vadweb, SWAG."/>
 	    <meta property="og:title" content="Vadweb File Sharing" />
 	    <meta property="og:url" content="http://vadweb.us'. $_SERVER["PHP_SELF"] .'?' . $_SERVER["QUERY_STRING"] .'"/>
 	    <meta property="og:description" content="Vadweb is home to the webs most popular image and video content, curated in real time by a dedicated community through commenting, voting and sharing." />
