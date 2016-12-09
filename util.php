@@ -364,6 +364,8 @@ function mysqlFileWrite($absPath = NULL, $nameNoEXT = NULL, $ext = NULL, $type =
     $sql = SQLCon::getSQL();
     if ($otherPerms == NULL)
         $otherPerms = "";
+    if ($unlisted == NULL)
+	$unlisted = 0;
     //return $sql->sQuery("INSERT INTO Files (User_ID, FilePath, MinGroup, Unlisted, OtherPerms, Type, Description) VALUES ('$user_id', '$nameNoEXT.$ext', '$minGroup', '$unlisted', '$otherPerms', '$type', '$description')");
     $stmt = $sql->prepStmt("INSERT INTO Files (User_ID, FilePath, MinGroup, Unlisted, OtherPerms, Type, Description) VALUES (:user_id, :filePath, :minGroup, :unlisted, :otherPerms, :type, :description)");
     $sql->bindParam($stmt, ":user_id", $user_id);

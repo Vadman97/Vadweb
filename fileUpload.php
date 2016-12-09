@@ -81,9 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 		}
 
 		$result = $f->storeFile();
-		if ($result !== true)
+		if ($result !== true) {
 			$redirect = false;
-
+		}
 		//header("Refresh:30; URL=http://www.vadweb.us/files.php");
 		echo $result."<br>";
 		echo "<h1> ERROR!!! </h1>";	

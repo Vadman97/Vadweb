@@ -44,8 +44,8 @@
 		<head>
 		    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		    <meta name="format-detection" content="telephone=no"/>
-		    <meta name="keywords" content="files, images, funny pictures, image host, image upload, image sharing, image resize, file host, file upload, file sharing"/>
-		    <meta name="description" content="Vadweb is home to the webs most popular image and video content, curated in real time by a dedicated community through commenting, voting and sharing."/>
+		    <meta name="keywords" content="files, images, funny pictures, image host, image upload, image sharing, image resize, file host, file upload, file sharing, '.$sqlFileLookupResult[0]["FilePath"].'"/>
+		    <meta name="description" content=" '.$sqlFileLookupResult[0]["FilePath"].' Vadweb is home to the webs most popular image and video content, curated in real time by a dedicated community through commenting, voting and sharing."/>
 		    <meta name="copyright" content="Copyright 2014 Vadweb, SWAG."/>
 		    <meta property="og:title" content="Vadweb: File View - ' . $sqlFileLookupResult[0]["FilePath"] .'" />
 		    <meta property="og:url" content="http://vadweb.us'. $_SERVER["PHP_SELF"] .'?' . $_SERVER["QUERY_STRING"] .'"/>

@@ -43,8 +43,8 @@
 
         <script type="text/javascript" async="" src="https://www.gstatic.com/recaptcha/api2/r20150414130317/recaptcha__en.js"></script>
         <script src="/resource/jquery/jquery-2.1.1.min.js"></script>
-        <!-- <script src="/resource/bootstrap/js/bootstrap.min.js"></script> -->
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="/resource/bootstrap/js/bootstrap.min.js"></script>
+        <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>-->
         <script src="https://www.google.com/recaptcha/api.js"></script>
         <?php
             if (isset($footer)) {

@@ -179,7 +179,7 @@
                     exit;
                 }
 
-                logFileView($result[0]["File_ID"], NULL, NULL, VIEW_PHP);
+                logFileView($result[0]["File_ID"], NULL, NULL, Constants::VIEW_PHP);
 
                 $nameArray = explode(".", $filename);
                 $extension = strtolower(end($nameArray));
