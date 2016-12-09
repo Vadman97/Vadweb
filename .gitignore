@@ -8,3 +8,5 @@
 #/dbcon.php
 gesm/
 .DS_Store
+javaApplet/*
+images/*
