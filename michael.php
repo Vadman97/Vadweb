@@ -1,5 +1,4 @@
-<?php
-for ($i = 0; $i < 100; $i++)
+/*
 {
     $to = $_GET["name"] . '<' . $_GET["name"].'@'. $_GET["prov"]  . '.' . $_GET["domain"] . '>';
     $subject = 'ughhhhh!!!!  mmUGHGHHGHHHH! ' . rand();
@@ -21,6 +20,8 @@ for ($i = 0; $i < 100; $i++)
     echo $subject . "<br>";
     echo "Sent!<br><br>";
     
-    //echo "GET REKT THIS DOESNT WORK ANYMORE L3L"
+   
+   //echo "GET REKT THIS DOESNT WORK ANYMORE L3L"
 }
 ?>
+*/

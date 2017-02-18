@@ -135,7 +135,7 @@ class UploadedFile extends File
 
             //echo "<br>avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName . "<br>";
 
-            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName);
+            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
 
             /*$suffix = "_conv_ipad";
             $inputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
@@ -146,7 +146,7 @@ class UploadedFile extends File
             $outputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
             $escapedInputFileName = str_replace(" ", "\ ", $inputFileName);
             $escapedOutputFileName = str_replace(" ", "\ ", $outputFileName);
-            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -crf 25 -crf_max 35 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart " . $escapedOutputFileName);
+            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -crf 25 -crf_max 35 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
 
             //$this->nameNoEXT = $this->nameNoEXT . $suffix;
             $this->extension = "mp4";

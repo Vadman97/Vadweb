@@ -9,3 +9,4 @@
 gesm/
 .DS_Store
 javaApplet/*
+slackToken.php
