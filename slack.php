@@ -1,4 +1,6 @@
 <?php
+require_once('slackToken.php');
+
 class Slack {
     
     public static function messageChannel($channel, $text) {

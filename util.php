@@ -135,7 +135,7 @@ class UploadedFile extends File
 
             //echo "<br>avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName . "<br>";
 
-            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
+            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 15 -crf_max 25 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
 
             /*$suffix = "_conv_ipad";
             $inputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
@@ -146,7 +146,7 @@ class UploadedFile extends File
             $outputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
             $escapedInputFileName = str_replace(" ", "\ ", $inputFileName);
             $escapedOutputFileName = str_replace(" ", "\ ", $outputFileName);
-            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -crf 25 -crf_max 35 -c:a libvorbis -qscale:a 8 -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
+            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -crf 15 -crf_max 25 -c:a libvorbis -qscale:a 10 -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
 
             //$this->nameNoEXT = $this->nameNoEXT . $suffix;
             $this->extension = "mp4";
@@ -893,12 +893,33 @@ function canViewFileByName($filename = NULL, $action = Constants::VIEWING_MODE)
         return false;
     }
 
+    function return_bytes($val) {
+        $val = trim($val);
+        $last = strtolower($val[strlen($val)-1]);
+        switch($last) 
+        {
+            case 'g':
+            $val *= 1024;
+            case 'm':
+            $val *= 1024;
+            case 'k':
+            $val *= 1024;
+        }
+        return $val;
+    }
+
     function getUserUploadSizeLimit()
     {
+        $max_upload = return_bytes(ini_get('upload_max_filesize'));
+        $max_post = return_bytes(ini_get('post_max_size'));
+        $memory_limit = return_bytes(ini_get('memory_limit'));
+        
         if (currentLogin() >= 2)
-            return 5000000000;
+            $limit = 12000000000;
         else
-            return 100000000;
+            $limit = 100000000;
+    
+        return min($limit, $max_upload, $max_post, $memory_limit);
     }
     
     function getCurrentUsername()
