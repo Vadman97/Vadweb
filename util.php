@@ -17,7 +17,7 @@ class File
     public static $pictureEXTs = array("tiff", "tif", "jpeg", "jpg", "gif", "png");
     public static $flashEXTs = array("swf");
     public static $audioEXTs = array("mp3", "wav");
-    public static $movieEXTs = array("mov", "mp4", "avi");
+    public static $movieEXTs = array("mov", "mp4", "avi", "mkv");
     public static $pdfEXTs = array("pdf");
     
     public function setAbsPath($absPath)
@@ -135,7 +135,7 @@ class UploadedFile extends File
 
             //echo "<br>avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 25 -crf_max 35 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName . "<br>";
 
-            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level:v 41 -crf 15 -crf_max 25 -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
+            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level 41 -pix_fmt yuv420p -crf 22 -maxrate 2M -bufsize 4M -preset medium -tune film -c:a aac -strict experimental -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
 
             /*$suffix = "_conv_ipad";
             $inputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . "." . $this->extension;
@@ -146,7 +146,7 @@ class UploadedFile extends File
             $outputFileName = Constants::DEFAULT_FILE_STORAGE_PATH . $this->nameNoEXT . $suffix . ".mp4";
             $escapedInputFileName = str_replace(" ", "\ ", $inputFileName);
             $escapedOutputFileName = str_replace(" ", "\ ", $outputFileName);
-            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -crf 15 -crf_max 25 -c:a libvorbis -qscale:a 10 -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
+            echo shell_exec("avconv -i " . $escapedInputFileName . "  -c:v libx264 -profile:v main -level 31 -pix_fmt yuv420p -crf 22 -maxrate 2M -bufsize 4M -preset medium -tune film -c:a libvorbis -qscale:a 9 -preset ultrafast -movflags +faststart " . $escapedOutputFileName . " > /dev/null 2>/dev/null &");
 
             //$this->nameNoEXT = $this->nameNoEXT . $suffix;
             $this->extension = "mp4";
@@ -187,8 +187,8 @@ class UploadedFile extends File
             {
                 if (!mysqlFileWrite($this->absPath, $this->nameNoEXT . "_conv", $this->extension, $this->type, $this->minGroup, $this->unlisted, $this->otherPerms, $this->description, getCurrentUsername())) //main file in db
                     return -3;
-                if (!mysqlFileWrite($this->absPath, $this->nameNoEXT . "_conv_ipad", $this->extension, $this->type, $this->minGroup, 2, $this->otherPerms, $this->description, getCurrentUsername())) //second format for ffox or IE
-                    return -3;
+                /*if (!mysqlFileWrite($this->absPath, $this->nameNoEXT . "_conv_ipad", $this->extension, $this->type, $this->minGroup, 2, $this->otherPerms, $this->description, getCurrentUsername())) //second format for ffox or IE
+                    return -3;*/
                 if (!mysqlFileWrite($this->absPath, $this->nameNoEXT . "_conv_acc", $this->extension, $this->type, $this->minGroup, 2, $this->otherPerms, $this->description, getCurrentUsername())) //second format for ffox or IE
                     return -3;
                 return true;

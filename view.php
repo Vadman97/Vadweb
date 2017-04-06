@@ -184,6 +184,8 @@
                 $nameArray = explode(".", $filename);
                 $extension = strtolower(end($nameArray));
                 $fileid = getFileID($filename);
+                $vid_file_id_1 = $fileid + 1;
+                $vid_file_id_2 = $fileid + 2;
                 if ($result[0]["Type"] == File::$types["PICTURE"])
                 {
                     if (isset($_GET["r"]))
@@ -206,7 +208,7 @@
                     echo '<video id="movie" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="720px" data-setup="{}">';
                     echo '<source src="file.php?name='.$filename.'" type=\'video/mp4; codecs="vorbis, mp4a.40.2"\'>';
                     echo '<source src="file.php?name='.$nameArray[0] .'_acc.mp4" type=\'video/mp4; codecs="avc1.4D401E, mp4a.40.2"\'>';
-                    echo '<source src="file.php?name='.$nameArray[0] .'_ipad.mp4" type="video/mp4">';
+                    //echo '<source src="file.php?name='.$nameArray[0] .'_ipad.mp4" type="video/mp4">';
                     //echo '<source src="file.php?name='. $nameArray[0] .'_ogg.ogg" type="video/ogg">';
                     echo '<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>';
                     echo '</video>';
@@ -257,7 +259,10 @@
                     echo "<h1>" . htmlspecialchars($result[0]["Description"], ENT_QUOTES) . "</h1>";
                     echo "<h2>" . $filename . "</h2>";
                     echo "<div class='well well-lg'>Uploaded by: " . getUsername($uploadedBy) . "</div>";
-                    echo "<h3>Views: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
+                    if ($result[0]["Type"] == File::$types["MOVIE"])
+                        echo "<h3>Views: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE (File_ID = '$vid_file_id_1' OR File_ID = '$vid_file_id_2') AND ViewSource=1")->fetchAll()) . "</h3>";
+                    else
+                        echo "<h3>Views: " . count($sql->sQuery("SELECT View_ID FROM FileViews WHERE File_ID = '$fileid' AND ViewSource=1")->fetchAll()) . "</h3>";
                     echo "<p><a href='file.php?name=".$filename."&r'>Click here for direct link to file " . $filename . ".</a></p><br>";
 
                     $result = $sql->sQuery("SELECT * FROM Comments WHERE File_ID = '$fileid' && SubCommentOf IS NULL")->fetchAll();
