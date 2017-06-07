@@ -32,9 +32,9 @@
 		$imageinfo = getimagesize($completeFilePath);
 		$specialCompress = true;
 		$resize = false;
-		if (isset($_GET["t"]))
+		if (isset($_GET["t"]) && $extension != "gif")
 			$resize = true;
-		if (isset($_GET["r"]))
+		if (isset($_GET["r"]) || $extension == "gif")
 			$specialCompress = false;
 		if (filesize($completeFilePath) < 500000)
 			$specialCompress = false;
