@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 	if (isset($_GET["id"]) && validateID($_GET["id"])) {
         recordView($_GET["id"]);
     }
-    $path = "/home/vadwebData/go.jpg";
+    $path = "/home/vadwebData/white_pic.jpg";
     $filesize = filesize($path);
     ob_clean();
     header("Content-Type: image/jpeg");
