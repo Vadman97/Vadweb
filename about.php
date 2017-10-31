@@ -109,6 +109,7 @@ require_once("util.php");
                 <img class="img-circle" src="file.php?name=1926055_788629631165459_1938656591_o.jpg" alt="vadim photo" style="width: 150px; height: 140px;">
     			<h2>A Project in Progress</h2>
     			<p>Unfortunately, because I decided to recently redesign the website from scratch, many of the features available in the previous version are still in development. However, I am working my hardest to present those features in a timely fashion by the end of 2014.</p>
+                <a href="http://keyhero.com/profile/vadman/?ba" title="vadman's typing test profile"><img src="https://www.keyhero.com/static//badges/702/typing-test-210792.png" alt="vadman's typing test WPM" style="vertical-align:middle"></a>
     		</div><!-- /.col-lg-4 -->
     		<div class="col-lg-4">
     			<img class="img-circle" src="images/php.png" alt="Generic placeholder image" style="width: 140px; height: 140px;">
