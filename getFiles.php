@@ -15,7 +15,7 @@
     $currentUserID = getCurrentUserID();
 
     $queryString = "SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description 
-                    FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 OR (User_ID = '$currentUserID' && Unlisted = 1)";
+                    FROM Files WHERE MinGroup <= '$userGroup' AND (Unlisted = 0 OR (User_ID = '$currentUserID' && Unlisted = 1))";
 
     if ($currentUserID == 80) {
         $queryString .= " AND User_ID != 99";
