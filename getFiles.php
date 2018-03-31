@@ -23,9 +23,9 @@
 
     if ($page != -1) {
         $queryString .= "LIMIT " . $offset . "," . $numFiles;
-    } else {
-        $queryString .= "ORDER BY File_ID DESC";
     }
+
+    $queryString .= "ORDER BY File_ID DESC";
 
     $result = $sql->sQuery($queryString)->fetchAll();
 
