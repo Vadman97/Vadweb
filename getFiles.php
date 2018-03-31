@@ -14,8 +14,9 @@
     $userGroup = currentLogin();
     $currentUserID = getCurrentUserID();
 
-    $queryString = "SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description 
-                    FROM Files WHERE MinGroup <= '$userGroup' AND (Unlisted = 0 OR (User_ID = '$currentUserID' && Unlisted = 1))";
+    $queryString = "SELECT File_ID, FilePath, User_ID, Type, CreatedTime, MinGroup, Unlisted, OtherPerms, NSFW, Description, t.Username 
+                    FROM Files JOIN UserData t on Files.User_ID = t.ID
+                    WHERE MinGroup <= '$userGroup' AND (Unlisted = 0 OR (User_ID = '$currentUserID' && Unlisted = 1))";
 
     if ($currentUserID == 80) {
         $queryString .= " AND User_ID != 99";
@@ -56,8 +57,8 @@
                     else if ($result[$i][8] == 1)
                         array_push($file, "Sp00ky NSFW");
                 }
-                else if ($j == 3) //this is to replace User_ID with the username from ID <<TODO FIND BETTER WAY TO DO THIS
-                    array_push($file, getUsername($result[$i][2]));
+                else if ($j == 3)
+                    array_push($file, $result[$i][10]);
                 else if ($j == 4)
                     array_push($file, $result[$i][3]);
                 else if ($j == 5)
