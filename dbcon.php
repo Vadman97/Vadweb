@@ -117,7 +117,7 @@
 		}
 		public static function getSQL()
 		{
-			//if (SQLCon::$sqlPointer == NULL)
+			if (SQLCon::$sqlPointer == NULL)
 			{
 				SQLCon::$sqlPointer = new SQLCon();
 				//apc_store("newSQLPointer", apc_fetch("newSQLPointer") + 1);
