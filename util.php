@@ -17,7 +17,7 @@ class File
     public static $pictureEXTs = array("tiff", "tif", "jpeg", "jpg", "gif", "png");
     public static $flashEXTs = array("swf");
     public static $audioEXTs = array("mp3", "wav");
-    public static $movieEXTs = array("mov", "mp4", "avi", "mkv");
+    public static $movieEXTs = array("mov", "mp4", "avi", "mkv", "wmv");
     public static $pdfEXTs = array("pdf");
     
     public function setAbsPath($absPath)

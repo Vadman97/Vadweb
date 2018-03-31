@@ -14,6 +14,7 @@
 		if (!isset($_SESSION["recoverySent"]))
 		{
 			echo "SWAAGGG";
+            // TODO check email was valid, otherwise don't send email
 			$message = "Dear " . $result[1] . ", \n You have requested to reset your password. If you did this intentionally, please click the link to create a new password.";
 			emailAnyString($message,"Password Recovery",$_POST["recEmail"]);
 			$_SESSION["recoverySent"] = time();

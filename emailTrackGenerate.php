@@ -32,6 +32,13 @@ function getViews($id) {
     return $result;
 }
 
+function getTrackers() {
+    $sql = SQLCon::getSQL();
+    $stmt = $sql->prepStmt("SELECT * FROM EmailTracking ORDER BY timestamp DESC");
+    $result = $sql->execute($stmt)->fetchAll();
+    return $result;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
 	if (isset($_GET["to"])) {
@@ -55,6 +62,19 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
         foreach($views as $view) {
             printf("<tr> <td>%s</td> <td>%s</td> <td>%s</td> </tr>", $view[2], $view[3], $view[4]);
         }
+        echo '</table>';
+    } else if (isset($_GET["view"])) {
+        $trackers = getTrackers();
+        echo '<table style="width: 100%"';
+        echo '<tr>
+                <th> Timestamp </th>
+                <th> Sent To </th>
+                <th> Link </th>
+              </tr>';
+        foreach($trackers as $view) {
+            printf("<tr> <td>%s</td> <td>%s</td> <td><a href=emailTrackGenerate.php?check=%s>Check</a></td> </tr>", $view[2], $view[1], $view[0]);
+        }
+        echo '</table>';
     } else {
         echo "Error!";
     }

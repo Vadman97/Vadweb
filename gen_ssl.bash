@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # certbot certonly --rsa-key-size 4096 --webroot -w /var/vadweb -d vadweb.us -d www.vadweb.us
-certbot renew --rsa-key-size 4096 --pre-hook "/bin/run-parts /etc/letsencrypt/pre-hook.d/; service nginx stop;" --post-hook "/bin/run-parts /etc/letsencrypt/post-hook.d/; service nginx start; /home/vadim/docker_registry/renew.sh" --renew-hook "/bin/run-parts /etc/letsencrypt/renew-hook.d/"
+certbot renew --rsa-key-size 4096 --pre-hook "service nginx stop" --post-hook "service nginx start; /home/vadim/docker_registry/renew.sh"
