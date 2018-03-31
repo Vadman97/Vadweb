@@ -21,11 +21,11 @@
         $queryString .= " AND User_ID != 99";
     }
 
+    $queryString .= " ORDER BY File_ID DESC";
+
     if ($page != -1) {
         $queryString .= " LIMIT " . $offset . "," . $numFiles;
     }
-
-    $queryString .= " ORDER BY File_ID DESC";
 
     $result = $sql->sQuery($queryString)->fetchAll();
 
