@@ -18,14 +18,14 @@
                     FROM Files WHERE MinGroup <= '$userGroup' AND Unlisted = 0 OR (User_ID = '$currentUserID' && Unlisted = 1)";
 
     if ($currentUserID == 80) {
-        $queryString .= "AND User_ID != 99";
+        $queryString .= " AND User_ID != 99";
     }
 
     if ($page != -1) {
-        $queryString .= "LIMIT " . $offset . "," . $numFiles;
+        $queryString .= " LIMIT " . $offset . "," . $numFiles;
     }
 
-    $queryString .= "ORDER BY File_ID DESC";
+    $queryString .= " ORDER BY File_ID DESC";
 
     $result = $sql->sQuery($queryString)->fetchAll();
 
