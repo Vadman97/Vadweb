@@ -88,10 +88,10 @@ class Slack {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
+if ($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET["react"]) and $_GET["react"] == "nice")
 {
-    $targetRealName = "kishan";
-    $targetRealChannel = "general";
+    $targetRealName = "benelliott";
+    $targetRealChannel = "bots";
 
     $targetUser = null;
     foreach (Slack::getUsers()["members"] as $user) {
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
             echo $channel["id"] . "\n<br>";
             foreach (Slack::getChannelMessages($channel["id"]) as $message) {
                 if ($message["user"] == $targetUser) {
-                    Slack::addMsgReaction($channel["id"], $message["ts"], "thumbsup");
+                    Slack::addMsgReaction($channel["id"], $message["ts"], "banana");
                     Slack::addMsgReaction($channel["id"], $message["ts"], "nash");
                     Slack::addMsgReaction($channel["id"], $message["ts"], "kishan");
                     Slack::addMsgReaction($channel["id"], $message["ts"], "kissing_heart");
