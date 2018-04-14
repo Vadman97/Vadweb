@@ -11,7 +11,7 @@ class Slack {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
+        
         // $output contains the output string
         $output = curl_exec($ch);
         curl_close($ch);
@@ -69,9 +69,26 @@ class Slack {
     }
 
     public static function getChannels() {
+        // both private and public channels
         $data = array('exclude_archived' => true);
+        $ret = self::apiCall("https://slack.com/api/channels.list", $data)["channels"];
+        return array_merge($ret, self::apiCall("https://slack.com/api/groups.list", $data)["groups"]);
+    }
 
-        return self::apiCall("https://slack.com/api/channels.list", $data);
+    public static function channelInvite($channelID, $userID) {
+        $data = array(
+            'channel' => $channelID,
+            'user' => $userID,
+        );
+        return self::apiCall("https://slack.com/api/channels.invite", $data, $token=SlackToken::$USER_TOKEN);
+    }
+
+    public static function groupInvite($channelID, $userID) {
+        $data = array(
+            'channel' => $channelID,
+            'user' => $userID,
+        );
+        return self::apiCall("https://slack.com/api/groups.invite", $data, $token=SlackToken::$USER_TOKEN);
     }
 
     public static function getUsers() {
@@ -91,7 +108,9 @@ class Slack {
 if ($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET["react"]) and $_GET["react"] == "nice")
 {
     $targetRealName = "benelliott";
-    $targetRealChannel = "bots";
+    $targetRealChannel = "botextensive";
+
+    $benBotUserID = "loopdloop";
 
     $targetUser = null;
     foreach (Slack::getUsers()["members"] as $user) {
@@ -99,21 +118,30 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET["react"]) and $_GET["rea
             $targetUser = $user["id"];
             echo $targetUser . " " . $user["name"] . "\n<br>";
         }
+        if ($user["name"] == $benBotUserID) {
+            $benBotUserID = $user["id"];
+        }
+        if ($user["name"] == "widespread_nazareth") {
+            echo "widespread_nazareth " . $user["id"] . "\n<br>";
+        }
     }
-    foreach (Slack::getChannels()["channels"] as $channel) {
+    foreach (Slack::getChannels() as $channel) {
+        print_r($channel["name"]); echo "\n<br>";
         if ($channel["name"] == $targetRealChannel) {
             echo $channel["name"] . "\n<br>";
             echo $channel["id"] . "\n<br>";
+            echo $benBotUserID . "\n<br>";
+            print_r(Slack::groupInvite($channel["id"], $benBotUserID));
             foreach (Slack::getChannelMessages($channel["id"]) as $message) {
                 if ($message["user"] == $targetUser) {
-                    Slack::addMsgReaction($channel["id"], $message["ts"], "banana");
-                    Slack::addMsgReaction($channel["id"], $message["ts"], "nash");
-                    Slack::addMsgReaction($channel["id"], $message["ts"], "kishan");
-                    Slack::addMsgReaction($channel["id"], $message["ts"], "kissing_heart");
-                    Slack::addMsgReaction($channel["id"], $message["ts"], "eggplant");
-                    Slack::addMsgReaction($channel["id"], $message["ts"], "peach");
-                    Slack::addMsgReaction($channel["id"], $message["ts"], "heart");
-                    print_r($message);
+//                    Slack::addMsgReaction($channel["id"], $message["ts"], "banana");
+//                    Slack::addMsgReaction($channel["id"], $message["ts"], "nash");
+//                    Slack::addMsgReaction($channel["id"], $message["ts"], "kishan");
+//                    Slack::addMsgReaction($channel["id"], $message["ts"], "kissing_heart");
+//                    Slack::addMsgReaction($channel["id"], $message["ts"], "eggplant");
+//                    Slack::addMsgReaction($channel["id"], $message["ts"], "peach");
+//                    Slack::addMsgReaction($channel["id"], $message["ts"], "heart");
+//                    print_r($message);
                 }
             }
         }
