@@ -107,7 +107,7 @@
 			$this->pass = 'swagOut789601234';
 			try 
 			{
-				$this->dbc = new PDO('mysql:host=localhost;dbname=vadweb;charset=utf8', $this->user, $this->pass);
+				$this->dbc = new PDO('mysql:host=localhost;dbname=vadweb;charset=utf8', $this->user, $this->pass, array(PDO::ATTR_PERSISTENT => true));
 				$this->dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			} catch (PDOException $e) 
 			{
